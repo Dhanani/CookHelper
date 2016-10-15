@@ -12,7 +12,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:orientation="vertical"
@@ -33,23 +36,30 @@
                 android:text="Choose Ingredients:"
                 android:id="@+id/choose_ingredients_label" />
 
-            <CheckBox
-                android:text="Milk"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/milk_checkbox" />
+                android:layout_height="match_parent"
+                android:id="@+id/ingredients_layout">
 
-            <CheckBox
-                android:text="Onion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/onion_check_box" />
+                <CheckBox
+                    android:text="Onion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/onion_check_box" />
 
-            <CheckBox
-                android:text="Butter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/butter_check_box" />
+                <CheckBox
+                    android:text="Milk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/milk_checkbox" />
+
+                <CheckBox
+                    android:text="Butter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/butter_check_box" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -62,7 +72,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/add_ingredient_editText"
                     android:layout_weight="1"
-                    android:hint="Name of Ingredient" />
+                    android:hint="Name of Ingredient"
+                    android:textAllCaps="false"
+                    android:inputType="textCapSentences" />
 
                 <Button
                     android:layout_width="match_parent"
