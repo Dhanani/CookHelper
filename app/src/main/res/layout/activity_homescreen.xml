@@ -29,32 +29,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Recipe"
-            android:id="@+id/btn_add_recipe" />
+            android:id="@+id/btn_add_recipe"
+            android:onClick="OnAddRecipe" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Search Recipe"
-            android:id="@+id/btn_search_recipe" />
+            android:id="@+id/btn_search_recipe"
+            android:onClick="OnSearchRecipe" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="All Recipes"
-            android:id="@+id/btn_all_recipes" />
+            android:id="@+id/btn_all_recipes"
+            android:onClick="OnAllRecipes" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Help"
-            android:id="@+id/btn_help" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </LinearLayout>
+            android:id="@+id/btn_help"
+            android:onClick="OnHelp" />
 
     </LinearLayout>
 
