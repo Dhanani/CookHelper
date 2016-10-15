@@ -3,13 +3,19 @@ package com.uottawa.keenan.cookhelper;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
 
 public class AddRecipe extends AppCompatActivity {
+
+
+    private ArrayList<String> steps = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,16 @@ public class AddRecipe extends AppCompatActivity {
         ingredient_text.setText(null);
         // Add ingredient to database
 
+    }
+
+    public void OnAddStep(View view) {
+        EditText step_text = (EditText) findViewById(R.id.enter_step_editText);
+        steps.add(step_text.getText().toString());
+        TextView tv = new TextView(this);
+        tv.setText(steps.size() + ". " + step_text.getText());
+        LinearLayout recipe_steps_layout = (LinearLayout) findViewById(R.id.recipe_steps_layout);
+        recipe_steps_layout.addView(tv);
+        step_text.setText(null);
     }
 
 

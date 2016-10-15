@@ -92,6 +92,12 @@
                 android:text="Enter steps:"
                 android:id="@+id/enter_steps_label" />
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recipe_steps_layout"></LinearLayout>
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +108,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Add Step"
-                android:id="@+id/add_recipe_step_btn" />
+                android:id="@+id/add_recipe_step_btn"
+                android:onClick="OnAddStep" />
 
             <TextView
                 android:layout_width="match_parent"
