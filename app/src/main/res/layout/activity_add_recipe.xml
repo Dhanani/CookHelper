@@ -10,88 +10,87 @@
     tools:context="com.uottawa.keenan.cookhelper.AddRecipe"
     android:isScrollContainer="false">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Add a Recipe"
-            android:id="@+id/add_a_recipe_label"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choose Ingredients:"
-            android:id="@+id/choose_ingredients_label" />
-
-        <CheckBox
-            android:text="Milk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/milk_checkbox" />
-
-        <CheckBox
-            android:text="Onion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/onion_check_box" />
-
-        <CheckBox
-            android:text="Butter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/butter_check_box" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/add_ingredient_editText"
-                android:layout_weight="1"
-                android:hint="Name of Ingredient" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Ingredient"
-                android:id="@+id/add_ingredient_btn"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enter steps:"
-            android:id="@+id/enter_steps_label" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/enter_step_editText"
-            android:hint="Enter step" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Step"
-            android:id="@+id/add_recipe_step_btn" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Add a Recipe"
+                android:id="@+id/add_a_recipe_label"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Ingredients:"
+                android:id="@+id/choose_ingredients_label" />
+
+            <CheckBox
+                android:text="Milk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/milk_checkbox" />
+
+            <CheckBox
+                android:text="Onion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/onion_check_box" />
+
+            <CheckBox
+                android:text="Butter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/butter_check_box" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/add_ingredient_editText"
+                    android:layout_weight="1"
+                    android:hint="Name of Ingredient" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Ingredient"
+                    android:id="@+id/add_ingredient_btn"
+                    android:layout_weight="1"
+                    android:onClick="OnAddIngredient" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter steps:"
+                android:id="@+id/enter_steps_label" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/enter_step_editText"
+                android:hint="Enter step" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Step"
+                android:id="@+id/add_recipe_step_btn" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -112,29 +111,28 @@
                 android:id="@+id/type_spinner"
                 android:layout_weight="1" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <Button
-                android:text="Add Recipe"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/add_current_recipe_btn"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <Button
-                android:text="Edit Recipe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edit_current_recipe_button"
-                android:layout_weight="1" />
+                <Button
+                    android:text="Add Recipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/add_current_recipe_btn"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:text="Edit Recipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_current_recipe_button"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
         </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
