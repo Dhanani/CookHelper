@@ -83,16 +83,50 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Category and Type:"
+                android:id="@+id/category_and_type_label"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/category_spinner"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/type_spinner"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:text="Add Recipe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Category and Type"
-                android:id="@+id/category_and_type_label" />
+                android:id="@+id/add_current_recipe_btn"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Edit Recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_current_recipe_button"
+                android:layout_weight="1" />
         </LinearLayout>
 
     </LinearLayout>
