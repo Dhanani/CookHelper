@@ -118,17 +118,44 @@
                 android:id="@+id/category_and_type_label"
                 android:layout_weight="1" />
 
-            <Spinner
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/category_spinner"
-                android:layout_weight="1" />
+                android:layout_height="match_parent">
 
-            <Spinner
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:id="@+id/category_spinner"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/type_spinner"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/type_spinner"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:text="Add Category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/add_category_btn"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:text="Add Type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/add_type_btn"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

@@ -1,0 +1,8 @@
+Appetizer
+Main Meal
+Side Meal
+Dessert
+Non Alcoholic Drink
+Alcoholic
+Dressing
+Sauce
