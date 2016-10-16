@@ -95,11 +95,11 @@ public class AddRecipe extends AppCompatActivity {
     public void OnAddStep(View view) {
         EditText step_text = (EditText) findViewById(R.id.enter_step_editText);
         steps.add(step_text.getText().toString());
-        EditText et = new EditText(this);
-        et.setText(steps.size() + ". " + step_text.getText());
-        et.setTextSize(22);
+        TextView tv = new TextView(this);
+        tv.setText(steps.size() + ". " + step_text.getText());
+        tv.setTextSize(22);
         LinearLayout recipe_steps_layout = (LinearLayout) findViewById(R.id.recipe_steps_layout);
-        recipe_steps_layout.addView(et);
+        recipe_steps_layout.addView(tv);
         step_text.setText(null);
     }
 
