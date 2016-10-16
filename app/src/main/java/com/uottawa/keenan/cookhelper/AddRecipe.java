@@ -40,6 +40,7 @@ public class AddRecipe extends AppCompatActivity {
         steps.add(step_text.getText().toString());
         TextView tv = new TextView(this);
         tv.setText(steps.size() + ". " + step_text.getText());
+        tv.setTextSize(24);
         LinearLayout recipe_steps_layout = (LinearLayout) findViewById(R.id.recipe_steps_layout);
         recipe_steps_layout.addView(tv);
         step_text.setText(null);
