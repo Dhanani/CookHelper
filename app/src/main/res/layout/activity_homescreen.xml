@@ -25,33 +25,51 @@
             android:longClickable="false"
             android:maxHeight="200dp" />
 
-        <Button
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Recipe"
-            android:id="@+id/add_recipe_btn"
-            android:onClick="OnAddRecipe" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Search Recipe"
-            android:id="@+id/search_recipe_btn"
-            android:onClick="OnSearchRecipe" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Add Recipe"
+                android:id="@+id/add_recipe_btn"
+                android:onClick="OnAddRecipe"
+                android:layout_weight="1" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="All Recipes"
-            android:id="@+id/all_recipes_btn"
-            android:onClick="OnAllRecipes" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Search Recipe"
+                android:id="@+id/search_recipe_btn"
+                android:onClick="OnSearchRecipe"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <Button
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Help"
-            android:id="@+id/help_btn"
-            android:onClick="OnHelp" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="All Recipes"
+                android:id="@+id/all_recipes_btn"
+                android:onClick="OnAllRecipes"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Help"
+                android:id="@+id/help_btn"
+                android:onClick="OnHelp"
+                android:layout_weight="1" />
+        </LinearLayout>
 
     </LinearLayout>
 
