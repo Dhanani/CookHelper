@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">CookHelper</string>
+    <string name="app_name">CookHelper
+    </string>
+
+    <string name="harrison">Harrison Reay
+    </string>
+
+    <string name="karim">Karim Chukfeh
+    </string>
+
+    <string name="keenan">Keenan Dhanani
+    </string>
+
+    <string name="aly">Aly Abdelrahman
+    </string>
+
+    <string name="hasnain">Hasnain Syed
+    </string>
+
+    <string name="help">Help
+    </string>
+
 </resources>
