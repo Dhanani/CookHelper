@@ -16,6 +16,5 @@ public class Homescreen extends AppCompatActivity {
     public void OnAddRecipe(View view) {
         Intent intent = new Intent(getApplicationContext(), AddRecipe.class);
         startActivityForResult (intent,0);
-
     }
 }

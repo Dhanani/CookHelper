@@ -20,7 +20,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/main_vertical_layout">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,12 +105,25 @@
                 android:id="@+id/enter_step_editText"
                 android:hint="Enter step" />
 
-            <Button
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Step"
-                android:id="@+id/add_recipe_step_btn"
-                android:onClick="OnAddStep" />
+                android:layout_height="match_parent"
+                android:id="@+id/recipe_save_step_btn_layout"></LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recipe_add_step_btn_layout">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Step"
+                    android:id="@+id/add_recipe_step_btn"
+                    android:onClick="OnAddStep" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -134,7 +148,17 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/type_spinner"
                     android:layout_weight="1" />
+
             </LinearLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/category_or_type_editText"
+                android:layout_weight="1"
+                android:hint="Category / Type" />
 
             <LinearLayout
                 android:orientation="horizontal"
