@@ -121,6 +121,7 @@ public class AddRecipe extends AppCompatActivity {
         tv.setOnClickListener(new TextView.OnClickListener() {
             public void onClick(View v) {
                 if (getVisibleChildCount(recipe_save_step_btn_layout) == 0)  {
+                    step_text.setVisibility(View.GONE);
                     tv.setVisibility(View.GONE);
                     et.setVisibility(View.VISIBLE);
                     et.setFocusableInTouchMode(true);
@@ -133,8 +134,6 @@ public class AddRecipe extends AppCompatActivity {
 
                     save_recipe_step_btn.setOnClickListener(new Button.OnClickListener() {
                         public void onClick(View v) {
-
-
                             String new_text = et.getText().toString();
                             tv.setText(index + ". " +new_text);
                             RecipeStep new_rs = new RecipeStep(tv.getText().toString());
@@ -143,6 +142,8 @@ public class AddRecipe extends AppCompatActivity {
                             add_recipe_step_btn.setVisibility(View.VISIBLE);
                             et.setVisibility(View.GONE);
                             tv.setVisibility(View.VISIBLE);
+
+                            step_text.setVisibility(View.VISIBLE);
                             step_text.setFocusableInTouchMode(true);
                             step_text.requestFocus();
 
@@ -154,6 +155,7 @@ public class AddRecipe extends AppCompatActivity {
 
 
             }
+
         });
 
 
