@@ -17,8 +17,6 @@ import java.util.ArrayList;
 
 
 public class AddRecipe extends AppCompatActivity {
-
-
     private ArrayList<RecipeStep> steps = new ArrayList<RecipeStep>();
     private ArrayList<String> category_entries = new ArrayList<String>();
     private ArrayList<String> type_entries = new ArrayList<String>();
@@ -52,8 +50,6 @@ public class AddRecipe extends AppCompatActivity {
 
         dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_spinner.setAdapter(dataAdapterCategory);
-
-
     }
 
     public void setupTypeSpinner() {
@@ -70,7 +66,6 @@ public class AddRecipe extends AppCompatActivity {
 
         dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type_spinner.setAdapter(dataAdapterType);
-
     }
 
     public void OnAddIngredient(View view) {
@@ -96,9 +91,8 @@ public class AddRecipe extends AppCompatActivity {
 
 
     public void setOnClicks(final TextView tv, final EditText et, final RecipeStep current_step) {
-
-        LinearLayout delete_step_btn_layout = (LinearLayout) findViewById(R.id.delete_step_btn_layout);
         final LinearLayout recipe_save_step_btn_layout = (LinearLayout) findViewById(R.id.recipe_save_step_btn_layout);
+        LinearLayout delete_step_btn_layout = (LinearLayout) findViewById(R.id.delete_step_btn_layout);
 
         final Button save_recipe_step_btn = new Button(this);
         save_recipe_step_btn.setText("Save");
@@ -118,14 +112,11 @@ public class AddRecipe extends AppCompatActivity {
 
                 if (getVisibleChildCount(recipe_save_step_btn_layout) == 0)  {
                     step_text.setVisibility(View.GONE);
-
                     tv.setVisibility(View.GONE);
                     et.setVisibility(View.VISIBLE);
                     et.setFocusableInTouchMode(true);
                     et.requestFocus();
                     et.setSelection(et.getText().length());
-
-
                     add_recipe_step_btn.setVisibility(View.GONE);
                     save_recipe_step_btn.setVisibility(View.VISIBLE);
                     delete_step_btn.setVisibility(View.VISIBLE);
@@ -148,20 +139,16 @@ public class AddRecipe extends AppCompatActivity {
                         public void onClick(View v) {
                             int index = steps.indexOf(current_step);
                             steps.set(index, new RecipeStep(et.getText().toString()));
-
                             delete_step_btn.setVisibility(View.GONE);
                             save_recipe_step_btn.setVisibility(View.GONE);
                             et.setVisibility(View.GONE);
                             tv.setVisibility(View.VISIBLE);
                             add_recipe_step_btn.setVisibility(View.VISIBLE);
-
                             step_text.setVisibility(View.VISIBLE);
                             step_text.setFocusableInTouchMode(true);
                             step_text.requestFocus();
 
-
                             updateSteps();
-
                         }
                     });
                 }
@@ -170,27 +157,20 @@ public class AddRecipe extends AppCompatActivity {
     }
 
     public void updateSteps() {
-        Button add_current_recipe_btn = (Button) findViewById(R.id.add_current_recipe_btn);
         LinearLayout recipe_steps_layout = (LinearLayout) findViewById(R.id.recipe_steps_layout);
-
         recipe_steps_layout.removeAllViewsInLayout();
         recipe_steps_layout.requestLayout();
-
 
         for (int i = 0; i < steps.size(); i ++) {
             TextView tv = new TextView(this);
             tv.setText(i + 1 + ". " + steps.get(i).getStep());
             tv.setTextSize(22);
             recipe_steps_layout.addView(tv);
-
-
             EditText et = new EditText(this);
             et.setText(steps.get(i).getStep());
             recipe_steps_layout.addView(et);
             et.setVisibility(View.GONE);
-
             setOnClicks(tv, et, steps.get(i));
-
         }
 
     }
@@ -200,124 +180,12 @@ public class AddRecipe extends AppCompatActivity {
     }
 
     public void OnAddStep(View view) {
-        final EditText step_text = (EditText) findViewById(R.id.enter_step_editText);
-        final LinearLayout recipe_steps_layout = (LinearLayout) findViewById(R.id.recipe_steps_layout);
-        final LinearLayout recipe_step_btn_layout = (LinearLayout) findViewById(R.id.recipe_add_step_btn_layout);
-        final LinearLayout recipe_save_step_btn_layout = (LinearLayout) findViewById(R.id.recipe_save_step_btn_layout);
-
-
-        final LinearLayout delete_step_btn_layout = (LinearLayout) findViewById(R.id.delete_step_btn_layout);
-
+        EditText step_text = (EditText) findViewById(R.id.enter_step_editText);
         RecipeStep rs = new RecipeStep(step_text.getText().toString());
         steps.add(rs);
         updateSteps();
         step_text.setText(null);
         step_text.setVisibility(View.VISIBLE);
-//        final int index = steps.indexOf(rs) + 1;
-//        final TextView tv = new TextView(this);
-//        tv.setText(steps.size() + ". " + step_text.getText());
-//        tv.setTextSize(22);
-//
-//        final EditText et = new EditText(this);
-//        et.setText(step_text.getText());
-//        recipe_steps_layout.addView(et);
-//        et.setVisibility(View.GONE);
-//
-//        final Button save_recipe_step_btn = new Button(this);
-//        save_recipe_step_btn.setText("Save");
-//        recipe_save_step_btn_layout.addView(save_recipe_step_btn);
-//        save_recipe_step_btn.setVisibility(View.GONE);
-//
-//        final Button delete_step_btn = new Button(this);
-//        delete_step_btn.setText("Delete");
-//        delete_step_btn_layout.addView(delete_step_btn);
-//        delete_step_btn.setVisibility(View.GONE);
-//
-//        recipe_steps_layout.addView(tv);
 
-
-//        tv.setOnClickListener(new TextView.OnClickListener() {
-//            public void onClick(View v) {
-//                if (getVisibleChildCount(recipe_save_step_btn_layout) == 0)  {
-
-//                    step_text.setVisibility(View.GONE);
-//                    tv.setVisibility(View.GONE);
-//                    et.setVisibility(View.VISIBLE);
-//                    et.setFocusableInTouchMode(true);
-//                    et.requestFocus();
-//                    et.setSelection(et.getText().length());
-//
-//                    final Button add_recipe_step_btn = (Button) findViewById(R.id.add_recipe_step_btn);
-//                    add_recipe_step_btn.setVisibility(View.GONE);
-//                    save_recipe_step_btn.setVisibility(View.VISIBLE);
-//                    delete_step_btn.setVisibility(View.VISIBLE);
-
-//                    delete_step_btn.setOnClickListener(new Button.OnClickListener() {
-//                        public void onClick(View v) {
-//                            String step_to_ignore = tv.getText().toString();
-//                            recipe_steps_layout.removeView(tv);
-//                            recipe_steps_layout.removeView(et);
-//
-//                            for (RecipeStep rs : steps) {
-//                                if (rs.getStep() == step_to_ignore) {
-//                                    steps.remove(rs);
-//                                }
-//                            }
-//                            for (int i = 0; i < recipe_steps_layout.getChildCount(); i ++) {
-//                                if (recipe_steps_layout.getChildAt(i) instanceof )
-                            }
-
-//                            tv.setText("EKIJUfhEIUHFUKJ");
-//                            et.setText("EKIJUfhEIUHFUKJ");
-
-//                            recipe_steps_layout.removeAllViewsInLayout();
-//                            recipe_steps_layout.requestLayout();
-
-//                            int i = 1;
-//                            for (RecipeStep rs : steps) {
-//                                if (!(rs.getStep() == step_to_ignore)) {
-//                                    TextView new_step = new TextView(getApplicationContext());
-//                                    new_step.setText(i + ". " + rs.getStep());
-//                                    new_step.setTextSize(22);
-//                                    i++;
-//                                } else {
-//                                    steps.remove(rs);
-//                                }
-//                            }
-
-
-//                        }
-//                    });
-
-//                    save_recipe_step_btn.setOnClickListener(new Button.OnClickListener() {
-//                        public void onClick(View v) {
-//                            delete_step_btn.setVisibility(View.GONE);
-//                            String new_text = et.getText().toString();
-//                            tv.setText(index + ". " +new_text);
-//                            RecipeStep new_rs = new RecipeStep(tv.getText().toString());
-//                            steps.set(index-1, new_rs);
-//                            save_recipe_step_btn.setVisibility(View.GONE);
-////                            add_recipe_step_btn.setVisibility(View.VISIBLE);
-//                            et.setVisibility(View.GONE);
-//                            tv.setVisibility(View.VISIBLE);
-//
-//                            step_text.setVisibility(View.VISIBLE);
-//                            step_text.setFocusableInTouchMode(true);
-//                            step_text.requestFocus();
-//
-//
-//                        }
-//                    });
-//                }
-//
-//
-//
-//            }
-//
-//        });
-
-
-
-//    }
-//
+    }
 }
