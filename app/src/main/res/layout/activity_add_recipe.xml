@@ -115,6 +115,12 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/delete_step_btn_layout"></LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/recipe_add_step_btn_layout">
 
                 <Button
@@ -192,7 +198,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_current_recipe_btn"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:onClick="on_add_current_recipe_btn" />
 
                 <Button
                     android:text="Edit Recipe"
