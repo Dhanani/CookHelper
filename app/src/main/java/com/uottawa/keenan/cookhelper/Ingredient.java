@@ -7,15 +7,19 @@ package com.uottawa.keenan.cookhelper;
 public class Ingredient {
     String ingredient;
 
-    public Ingredient(String step) {
-        this.ingredient = step;
+    public Ingredient(String ingredient) {
+        this.ingredient = ingredient;
     }
 
     public String getIngredient() {
         return this.ingredient;
     }
 
-    public void setIngredient(String step) {
-        this.ingredient = step;
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public boolean equals(Ingredient other) {
+        return (this.ingredient.equals(other.ingredient) );
     }
 }

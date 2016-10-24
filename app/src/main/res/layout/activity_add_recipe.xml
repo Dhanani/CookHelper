@@ -43,23 +43,6 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ingredients_layout">
 
-                <CheckBox
-                    android:text="Onion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/onion_check_box" />
-
-                <CheckBox
-                    android:text="Milk"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/milk_checkbox" />
-
-                <CheckBox
-                    android:text="Butter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/butter_check_box" />
             </LinearLayout>
 
             <LinearLayout

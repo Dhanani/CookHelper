@@ -2,9 +2,12 @@ package com.uottawa.keenan.cookhelper;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,6 +16,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
@@ -20,7 +25,7 @@ public class AddRecipe extends AppCompatActivity {
     private ArrayList<RecipeStep> steps = new ArrayList<RecipeStep>();
     private ArrayList<String> category_entries = new ArrayList<String>();
     private ArrayList<String> type_entries = new ArrayList<String>();
-    private ArrayList<String> ingredients = new ArrayList<String>();
+    private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
     public String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Database";
 
@@ -30,6 +35,28 @@ public class AddRecipe extends AppCompatActivity {
         setContentView(R.layout.activity_add_recipe);
         setupCategorySpinner();
         setupTypeSpinner();
+        setupIngredients();
+    }
+
+    public void setupIngredients() {
+        Ingredient milk = new Ingredient("Milk");
+        Ingredient butter = new Ingredient("Butter");
+        Ingredient onion = new Ingredient("Onion");
+        ingredients.add(milk);
+        ingredients.add(butter);
+        ingredients.add(onion);
+        updateIngredients(milk);
+        updateIngredients(butter);
+        updateIngredients(onion);
+    }
+
+    public boolean isDuplicateIngredient(Ingredient new_ingredient) {
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.equals(new_ingredient)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setupCategorySpinner() {
@@ -70,13 +97,19 @@ public class AddRecipe extends AppCompatActivity {
 
     public void OnAddIngredient(View view) {
         EditText ingredient_text = (EditText) findViewById(R.id.add_ingredient_editText);
-        CheckBox cb = new CheckBox(this);
-        cb.setText(ingredient_text.getText());
-        cb.setTextColor(Color.BLACK);
-        LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
-        ingredients_layout.addView(cb);
-        ingredients.add(ingredient_text.getText().toString());
-        ingredient_text.setText(null);
+        Ingredient new_ingredient = new Ingredient(ingredient_text.getText().toString());
+
+        if (isDuplicateIngredient(new_ingredient)) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, new_ingredient.getIngredient() + " is already available!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.show();
+        } else {
+            ingredients.add(new_ingredient);
+            updateIngredients(new_ingredient);
+//        ingredient_text.setText(null);
+        }
     }
 
     private int getVisibleChildCount(LinearLayout layout) {
@@ -186,6 +219,15 @@ public class AddRecipe extends AppCompatActivity {
         updateSteps();
         step_text.setText(null);
         step_text.setVisibility(View.VISIBLE);
+    }
+
+    public void updateIngredients(Ingredient ingredient) {
+        LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+        CheckBox cb = new CheckBox(this);
+        cb.setText(ingredient.getIngredient());
+        cb.setTextColor(Color.BLACK);
+        ingredients_layout.addView(cb);
+        }
 
     }
-}
+
