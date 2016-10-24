@@ -49,7 +49,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:id="@+id/ingredient_elements_layout">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -153,7 +154,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:id="@+id/add_type_category_layout">
 
                 <Button
                     android:text="Add Category"
@@ -189,7 +191,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/edit_current_recipe_button"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:onClick="OnEditCurrentRecipe" />
             </LinearLayout>
 
         </LinearLayout>

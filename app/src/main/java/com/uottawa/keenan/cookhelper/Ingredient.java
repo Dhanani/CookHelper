@@ -8,7 +8,7 @@ public class Ingredient {
     String ingredient;
 
     public Ingredient(String ingredient) {
-        this.ingredient = ingredient.toLowerCase();
+        this.ingredient = ingredient.trim().toLowerCase();
 
     }
 

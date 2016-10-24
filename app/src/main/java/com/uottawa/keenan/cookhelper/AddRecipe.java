@@ -98,19 +98,31 @@ public class AddRecipe extends AppCompatActivity {
 
     public void OnAddIngredient(View view) {
         EditText ingredient_text = (EditText) findViewById(R.id.add_ingredient_editText);
-        Ingredient new_ingredient = new Ingredient(ingredient_text.getText().toString());
 
-        if (isDuplicateIngredient(new_ingredient)) {
+
+        if (ingredient_text.getText().toString().trim().isEmpty()) {
             int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, new_ingredient.getIngredient() + " is already available!", duration);
+            Toast toast = Toast.makeText(this, "Name your Ingredient first!", duration);
 
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
             toast.show();
-        } else {
-            ingredients.add(new_ingredient);
-            updateIngredients(new_ingredient);
-            ingredient_text.setText(null);
+        }  else {
+            Ingredient new_ingredient = new Ingredient(ingredient_text.getText().toString());
+
+            if (isDuplicateIngredient(new_ingredient)) {
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, new_ingredient.getIngredient() + " is already available!", duration);
+
+                toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+                toast.show();
+            } else {
+                ingredients.add(new_ingredient);
+                updateIngredients(new_ingredient);
+                ingredient_text.setText(null);
+            }
         }
+
+
     }
 
     private int getVisibleChildCount(LinearLayout layout) {
@@ -229,6 +241,43 @@ public class AddRecipe extends AppCompatActivity {
         cb.setText(ingredient.getIngredient());
         cb.setTextColor(Color.BLACK);
         ingredients_layout.addView(cb);
+    }
+
+    public Ingredient findWithString(String s) {
+        for (int i = 0; i < ingredients.size(); i ++ ) {
+            if (ingredients.get(i).getIngredient().equals(s)) {
+                return ingredients.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void OnEditCurrentRecipe(View view) {
+        LinearLayout ingredient_elements_layout = (LinearLayout) findViewById(R.id.ingredient_elements_layout);
+        Button add_ingredient_btn = (Button) findViewById(R.id.add_ingredient_btn);
+        add_ingredient_btn.setVisibility(View.GONE);
+
+        Button delete_ingredient_btn = new Button(this);
+        delete_ingredient_btn.setText("Delete Ingredients");
+        ingredient_elements_layout.addView(delete_ingredient_btn);
+        delete_ingredient_btn.setVisibility(View.VISIBLE);
+
+        delete_ingredient_btn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+                for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+                    if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked()) {
+                        String checkbox_string = ((CheckBox)ingredients_layout.getChildAt(i)).getText().toString();
+                        if (findWithString(checkbox_string) != null) {
+                            ingredients.remove(findWithString(checkbox_string));
+                            ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+            }
+        });
+
     }
 
 }
