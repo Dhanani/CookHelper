@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -108,7 +109,7 @@ public class AddRecipe extends AppCompatActivity {
         } else {
             ingredients.add(new_ingredient);
             updateIngredients(new_ingredient);
-//        ingredient_text.setText(null);
+            ingredient_text.setText(null);
         }
     }
 
@@ -224,10 +225,11 @@ public class AddRecipe extends AppCompatActivity {
     public void updateIngredients(Ingredient ingredient) {
         LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
         CheckBox cb = new CheckBox(this);
+
         cb.setText(ingredient.getIngredient());
         cb.setTextColor(Color.BLACK);
         ingredients_layout.addView(cb);
-        }
-
     }
+
+}
 
