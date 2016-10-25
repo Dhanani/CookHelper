@@ -176,7 +176,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:id="@+id/add_edit_recipe_layout">
 
                 <Button
                     android:text="Add Recipe"

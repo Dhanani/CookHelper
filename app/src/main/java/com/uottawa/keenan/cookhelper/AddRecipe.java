@@ -10,6 +10,7 @@ import android.text.InputType;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -254,13 +255,38 @@ public class AddRecipe extends AppCompatActivity {
 
     public void OnEditCurrentRecipe(View view) {
         LinearLayout ingredient_elements_layout = (LinearLayout) findViewById(R.id.ingredient_elements_layout);
-        Button add_ingredient_btn = (Button) findViewById(R.id.add_ingredient_btn);
-        add_ingredient_btn.setVisibility(View.GONE);
+        LinearLayout add_edit_recipe_layout = (LinearLayout) findViewById(R.id.add_edit_recipe_layout);
 
-        Button delete_ingredient_btn = new Button(this);
+        final Button add_ingredient_btn = (Button) findViewById(R.id.add_ingredient_btn);
+        final Button edit_current_recipe_button = (Button) findViewById(R.id.edit_current_recipe_button);
+        final Button add_current_recipe_btn = (Button) findViewById(R.id.add_current_recipe_btn);
+
+        add_ingredient_btn.setVisibility(View.GONE);
+        add_current_recipe_btn.setVisibility(View.GONE);
+        edit_current_recipe_button.setVisibility(View.GONE);
+
+
+        final Button delete_ingredient_btn = new Button(this);
         delete_ingredient_btn.setText("Delete Ingredients");
         ingredient_elements_layout.addView(delete_ingredient_btn);
         delete_ingredient_btn.setVisibility(View.VISIBLE);
+
+        final Button done_btn = new Button(this);
+        done_btn.setText("Done");
+        done_btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        add_edit_recipe_layout.addView(done_btn);
+        done_btn.setVisibility(View.VISIBLE);
+
+        done_btn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                add_ingredient_btn.setVisibility(View.VISIBLE);
+                add_current_recipe_btn.setVisibility(View.VISIBLE);
+                edit_current_recipe_button.setVisibility(View.VISIBLE);
+                delete_ingredient_btn.setVisibility(View.GONE);
+                done_btn.setVisibility(View.GONE);
+
+            }
+        });
 
         delete_ingredient_btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -271,6 +297,7 @@ public class AddRecipe extends AppCompatActivity {
                         if (findWithString(checkbox_string) != null) {
                             ingredients.remove(findWithString(checkbox_string));
                             ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
+
                         }
                     }
                 }
