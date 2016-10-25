@@ -29,6 +29,7 @@ public class AddRecipe extends AppCompatActivity {
     private ArrayList<String> type_entries = new ArrayList<>();
     private ArrayList<Ingredient> ingredients = new ArrayList<>();
     private ArrayList<RecipeCategory> recipe_categories = new ArrayList<>();
+    private ArrayList<RecipeType> recipe_types = new ArrayList<>();
 
     public String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Database";
 
@@ -38,7 +39,8 @@ public class AddRecipe extends AppCompatActivity {
         setContentView(R.layout.activity_add_recipe);
         setupCategories();
         updateCategorySpinner();
-        setupTypeSpinner();
+        setupTypes();
+        updateTypeSpinner();
         setupIngredients();
     }
 
@@ -51,6 +53,15 @@ public class AddRecipe extends AppCompatActivity {
         recipe_categories.add(new RecipeCategory("Sauce"));
         recipe_categories.add(new RecipeCategory("Dressing"));
         recipe_categories.add(new RecipeCategory("Alcoholic Drink"));
+    }
+
+    public void setupTypes() {
+        recipe_types.add(new RecipeType("Italian"));
+        recipe_types.add(new RecipeType("Greek"));
+        recipe_types.add(new RecipeType("Chinese"));
+        recipe_types.add(new RecipeType("Colombian"));
+        recipe_types.add(new RecipeType("Indian"));
+        recipe_types.add(new RecipeType("Korean"));
     }
 
     public void setupIngredients() {
@@ -94,20 +105,24 @@ public class AddRecipe extends AppCompatActivity {
         category_spinner.setSelection(spinnerPosition);
     }
 
-    public void setupTypeSpinner() {
+    public void updateTypeSpinner() {
         Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+
+        type_entries.clear();
+        type_spinner.setAdapter(null);
+
         ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, type_entries);
 
-        type_entries.add("Italian");
-        type_entries.add("Greek");
-        type_entries.add("Chinese");
-        type_entries.add("Colombian");
-        type_entries.add("Indian");
-        type_entries.add("Korean");
+        for (RecipeType rt : recipe_types) {
+            type_entries.add(rt.getRecipeType());
+        }
 
         dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type_spinner.setAdapter(dataAdapterType);
+
+        int spinnerPosition = dataAdapterType.getPosition(type_entries.get(type_entries.size()-1));
+        type_spinner.setSelection(spinnerPosition);
     }
 
     public void OnAddIngredient(View view) {
@@ -275,6 +290,15 @@ public class AddRecipe extends AppCompatActivity {
         return false;
     }
 
+    public boolean isDuplicateType(RecipeType other) {
+        for (RecipeType rt : recipe_types) {
+            if (rt.equals(other)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void OnAddCategory(View view) {
         EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
         String category_name = category_or_type_editText.getText().toString().trim().toLowerCase();
@@ -295,6 +319,31 @@ public class AddRecipe extends AppCompatActivity {
         } else {
             recipe_categories.add(new_category);
             updateCategorySpinner();
+            category_or_type_editText.setText(null);
+        }
+
+    }
+
+    public void OnAddType(View view) {
+        EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
+        String type_name = category_or_type_editText.getText().toString().trim().toLowerCase();
+        RecipeType new_type = new RecipeType(type_name);
+
+        if (type_name.isEmpty()) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, "Name your Type first!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.show();
+        } else if (isDuplicateType(new_type)) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, new_type.getRecipeType() + " already exists!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.show();
+        } else {
+            recipe_types.add(new_type);
+            updateTypeSpinner();
             category_or_type_editText.setText(null);
         }
 
