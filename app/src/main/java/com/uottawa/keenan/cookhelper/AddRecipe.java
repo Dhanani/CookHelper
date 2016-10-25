@@ -94,12 +94,14 @@ public class AddRecipe extends AppCompatActivity {
         ArrayAdapter<String> dataAdapterCategory = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, category_entries);
 
+
         for (RecipeCategory rc : recipe_categories) {
             category_entries.add(rc.getRecipeCategory());
         }
 
         dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_spinner.setAdapter(dataAdapterCategory);
+
 
         int spinnerPosition = dataAdapterCategory.getPosition(category_entries.get(category_entries.size()-1));
         category_spinner.setSelection(spinnerPosition);
@@ -124,6 +126,7 @@ public class AddRecipe extends AppCompatActivity {
         int spinnerPosition = dataAdapterType.getPosition(type_entries.get(type_entries.size()-1));
         type_spinner.setSelection(spinnerPosition);
     }
+
 
     public void OnAddIngredient(View view) {
         EditText ingredient_text = (EditText) findViewById(R.id.add_ingredient_editText);
@@ -349,18 +352,84 @@ public class AddRecipe extends AppCompatActivity {
 
     }
 
+
+
     public void OnEditCurrentRecipe(View view) {
         LinearLayout ingredient_elements_layout = (LinearLayout) findViewById(R.id.ingredient_elements_layout);
         LinearLayout add_edit_recipe_layout = (LinearLayout) findViewById(R.id.add_edit_recipe_layout);
+        LinearLayout add_type_category_layout = (LinearLayout) findViewById(R.id.add_type_category_layout);
+
+        final EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
+        category_or_type_editText.setVisibility(View.GONE);
 
         final Button add_ingredient_btn = (Button) findViewById(R.id.add_ingredient_btn);
         final Button edit_current_recipe_button = (Button) findViewById(R.id.edit_current_recipe_button);
         final Button add_current_recipe_btn = (Button) findViewById(R.id.add_current_recipe_btn);
+        final Button add_category_btn = (Button) findViewById(R.id.add_category_btn);
+        final Button add_type_btn = (Button) findViewById(R.id.add_type_btn);
+
+        add_category_btn.setVisibility(View.GONE);
+        add_type_btn.setVisibility(View.GONE);
 
         add_ingredient_btn.setVisibility(View.GONE);
         add_current_recipe_btn.setVisibility(View.GONE);
         edit_current_recipe_button.setVisibility(View.GONE);
 
+        final Button delete_category_btn = new Button(this);
+        delete_category_btn.setText("Delete Category");
+        add_type_category_layout.addView(delete_category_btn);
+        delete_category_btn.setVisibility(View.VISIBLE);
+
+        int duration = Toast.LENGTH_SHORT;
+        final Toast delete_category_toast = Toast.makeText(this, "There's nothing to delete!", duration);
+
+        delete_category_btn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
+
+                if (category_spinner.getSelectedItem() == null) {
+                    delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+                    delete_category_toast.show();
+                } else {
+                    RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
+
+                    ((ArrayAdapter<String>) category_spinner.getAdapter()).remove((String)category_spinner.getSelectedItem());
+                    ((ArrayAdapter<String>) category_spinner.getAdapter()).notifyDataSetChanged();
+                    recipe_categories.clear();
+
+                    for (int i = 0; i < ((ArrayAdapter<String>) category_spinner.getAdapter()).getCount(); i++) {
+                        recipe_categories.add(new RecipeCategory(((ArrayAdapter<String>) category_spinner.getAdapter()).getItem(i).toString()));
+                    }
+                }
+            }
+        });
+
+
+        final Button delete_type_btn = new Button(this);
+        delete_type_btn.setText("Delete Type");
+        add_type_category_layout.addView(delete_type_btn);
+        delete_type_btn.setVisibility(View.VISIBLE);
+
+        delete_type_btn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+
+                if (type_spinner.getSelectedItem() == null) {
+                    delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+                    delete_category_toast.show();
+                } else {
+                    RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
+
+                    ((ArrayAdapter<String>) type_spinner.getAdapter()).remove((String)type_spinner.getSelectedItem());
+                    ((ArrayAdapter<String>) type_spinner.getAdapter()).notifyDataSetChanged();
+
+                    for (int i = 0; i < ((ArrayAdapter<String>) type_spinner.getAdapter()).getCount(); i++) {
+                        recipe_types.add(new RecipeType(((ArrayAdapter<String>) type_spinner.getAdapter()).getItem(i).toString()));
+                    }
+
+                }
+            }
+        });
 
         final Button delete_ingredient_btn = new Button(this);
         delete_ingredient_btn.setText("Delete Ingredients");
@@ -378,6 +447,12 @@ public class AddRecipe extends AppCompatActivity {
                 add_ingredient_btn.setVisibility(View.VISIBLE);
                 add_current_recipe_btn.setVisibility(View.VISIBLE);
                 edit_current_recipe_button.setVisibility(View.VISIBLE);
+                category_or_type_editText.setVisibility(View.VISIBLE);
+                delete_type_btn.setVisibility(View.GONE);
+                delete_category_btn.setVisibility(View.GONE);
+                add_category_btn.setVisibility(View.VISIBLE);
+                add_type_btn.setVisibility(View.VISIBLE);
+
                 delete_ingredient_btn.setVisibility(View.GONE);
                 done_btn.setVisibility(View.GONE);
 
