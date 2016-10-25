@@ -136,7 +136,7 @@ public class AddRecipe extends AppCompatActivity {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, "Name your Ingredient first!", duration);
 
-            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         }  else {
             Ingredient new_ingredient = new Ingredient(ingredient_text.getText().toString());
@@ -145,7 +145,7 @@ public class AddRecipe extends AppCompatActivity {
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(this, new_ingredient.getIngredient() + " already exists!", duration);
 
-                toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+                toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
                 toast.show();
             } else {
                 ingredients.add(new_ingredient);
@@ -311,13 +311,13 @@ public class AddRecipe extends AppCompatActivity {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, "Name your Category first!", duration);
 
-            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else if (isDuplicateCategory(new_category)) {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, new_category.getRecipeCategory() + " already exists!", duration);
 
-            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else {
             recipe_categories.add(new_category);
@@ -336,13 +336,13 @@ public class AddRecipe extends AppCompatActivity {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, "Name your Type first!", duration);
 
-            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else if (isDuplicateType(new_type)) {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, new_type.getRecipeType() + " already exists!", duration);
 
-            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else {
             recipe_types.add(new_type);
@@ -388,7 +388,7 @@ public class AddRecipe extends AppCompatActivity {
                 Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
 
                 if (category_spinner.getSelectedItem() == null) {
-                    delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+                    delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
                     delete_category_toast.show();
                 } else {
                     RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
@@ -415,7 +415,7 @@ public class AddRecipe extends AppCompatActivity {
                 Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
                 if (type_spinner.getSelectedItem() == null) {
-                    delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+                    delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
                     delete_category_toast.show();
                 } else {
                     RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
@@ -476,6 +476,20 @@ public class AddRecipe extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void OnAddRecipe(View view) {
+        EditText recipe_name_edittext = (EditText) findViewById(R.id.recipe_name_edittext);
+        String recipe_name = recipe_name_edittext.getText().toString().trim();
+        if (recipe_name.isEmpty()) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, "Name your Recipe!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+            toast.show();
+        } else {
+            // continue
+        }
     }
 
 }

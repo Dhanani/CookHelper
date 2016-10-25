@@ -32,6 +32,20 @@
                 android:layout_gravity="center_horizontal" />
 
             <TextView
+                android:text="Enter Recipe Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_name_textview" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/recipe_name_edittext"
+                android:hint="Enter Recipe Name" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Choose Ingredients:"
@@ -187,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/add_current_recipe_btn"
                     android:layout_weight="1"
-                    android:onClick="on_add_current_recipe_btn" />
+                    android:onClick="OnAddRecipe" />
 
                 <Button
                     android:text="Edit Recipe"
