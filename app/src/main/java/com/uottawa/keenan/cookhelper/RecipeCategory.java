@@ -21,6 +21,6 @@ public class RecipeCategory {
     }
 
     public boolean equals(RecipeCategory other) {
-        return (this.recipe_category.equals(other.recipe_category) );
+        return (this.recipe_category.equals(other.getRecipeCategory()) );
     }
 }

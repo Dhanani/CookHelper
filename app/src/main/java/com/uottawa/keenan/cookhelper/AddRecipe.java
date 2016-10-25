@@ -89,6 +89,9 @@ public class AddRecipe extends AppCompatActivity {
 
         dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_spinner.setAdapter(dataAdapterCategory);
+
+        int spinnerPosition = dataAdapterCategory.getPosition(category_entries.get(category_entries.size()-1));
+        category_spinner.setSelection(spinnerPosition);
     }
 
     public void setupTypeSpinner() {
