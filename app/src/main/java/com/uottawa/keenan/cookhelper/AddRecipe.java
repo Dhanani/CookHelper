@@ -360,6 +360,8 @@ public class AddRecipe extends AppCompatActivity {
         LinearLayout add_type_category_layout = (LinearLayout) findViewById(R.id.add_type_category_layout);
 
         final EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
+        final EditText add_ingredient_editText = (EditText) findViewById(R.id.add_ingredient_editText);
+        add_ingredient_editText.setVisibility(View.GONE);
         category_or_type_editText.setVisibility(View.GONE);
 
         final Button add_ingredient_btn = (Button) findViewById(R.id.add_ingredient_btn);
@@ -455,7 +457,7 @@ public class AddRecipe extends AppCompatActivity {
 
                 delete_ingredient_btn.setVisibility(View.GONE);
                 done_btn.setVisibility(View.GONE);
-
+                add_ingredient_editText.setVisibility(View.VISIBLE);
             }
         });
 
