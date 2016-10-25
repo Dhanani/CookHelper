@@ -24,10 +24,11 @@ import java.util.ArrayList;
 
 
 public class AddRecipe extends AppCompatActivity {
-    private ArrayList<RecipeStep> steps = new ArrayList<RecipeStep>();
-    private ArrayList<String> category_entries = new ArrayList<String>();
-    private ArrayList<String> type_entries = new ArrayList<String>();
-    private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+    private ArrayList<RecipeStep> steps = new ArrayList<>();
+    private ArrayList<String> category_entries = new ArrayList<>();
+    private ArrayList<String> type_entries = new ArrayList<>();
+    private ArrayList<Ingredient> ingredients = new ArrayList<>();
+    private ArrayList<RecipeCategory> recipe_categories = new ArrayList<>();
 
     public String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Database";
 
@@ -35,9 +36,21 @@ public class AddRecipe extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
-        setupCategorySpinner();
+        setupCategories();
+        updateCategorySpinner();
         setupTypeSpinner();
         setupIngredients();
+    }
+
+    public void setupCategories() {
+        recipe_categories.add(new RecipeCategory("Appetizer"));
+        recipe_categories.add(new RecipeCategory("Main Meal"));
+        recipe_categories.add(new RecipeCategory("Side Meal"));
+        recipe_categories.add(new RecipeCategory("Non Alcoholic Drink"));
+        recipe_categories.add(new RecipeCategory("Dessert"));
+        recipe_categories.add(new RecipeCategory("Sauce"));
+        recipe_categories.add(new RecipeCategory("Dressing"));
+        recipe_categories.add(new RecipeCategory("Alcoholic Drink"));
     }
 
     public void setupIngredients() {
@@ -61,21 +74,18 @@ public class AddRecipe extends AppCompatActivity {
         return false;
     }
 
-    public void setupCategorySpinner() {
+    public void updateCategorySpinner() {
         Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
 
-        ArrayAdapter<String> dataAdapterCategory = new ArrayAdapter<String>(this,
+        category_entries.clear();
+        category_spinner.setAdapter(null);
+
+        ArrayAdapter<String> dataAdapterCategory = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, category_entries);
 
-        category_entries.add("Appetizer");
-        category_entries.add("Main Meal");
-        category_entries.add("Side Meal");
-        category_entries.add("Dessert");
-        category_entries.add("Non Alcoholic Drink");
-        category_entries.add("Sauce");
-        category_entries.add("Dressing");
-        category_entries.add("Non Alcoholic Drink");
-        category_entries.add("Alcoholic Drink");
+        for (RecipeCategory rc : recipe_categories) {
+            category_entries.add(rc.getRecipeCategory());
+        }
 
         dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category_spinner.setAdapter(dataAdapterCategory);
@@ -112,7 +122,7 @@ public class AddRecipe extends AppCompatActivity {
 
             if (isDuplicateIngredient(new_ingredient)) {
                 int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, new_ingredient.getIngredient() + " is already available!", duration);
+                Toast toast = Toast.makeText(this, new_ingredient.getIngredient() + " already exists!", duration);
 
                 toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
                 toast.show();
@@ -251,6 +261,40 @@ public class AddRecipe extends AppCompatActivity {
             }
         }
         return null;
+    }
+
+    public boolean isDuplicateCategory(RecipeCategory other) {
+        for (RecipeCategory rc : recipe_categories) {
+            if (rc.equals(other)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void OnAddCategory(View view) {
+        EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
+        String category_name = category_or_type_editText.getText().toString().trim().toLowerCase();
+        RecipeCategory new_category = new RecipeCategory(category_name);
+
+        if (category_name.isEmpty()) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, "Name your Category first!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.show();
+        } else if (isDuplicateCategory(new_category)) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, new_category.getRecipeCategory() + " already exists!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 420, 300);
+            toast.show();
+        } else {
+            recipe_categories.add(new_category);
+            updateCategorySpinner();
+            category_or_type_editText.setText(null);
+        }
+
     }
 
     public void OnEditCurrentRecipe(View view) {

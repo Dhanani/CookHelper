@@ -162,14 +162,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_category_btn"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:onClick="OnAddCategory" />
 
                 <Button
                     android:text="Add Type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_type_btn"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:onClick="OnAddType" />
             </LinearLayout>
 
             <LinearLayout
