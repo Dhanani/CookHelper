@@ -490,7 +490,9 @@ public class AddRecipe extends AppCompatActivity {
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else {
-            // continue
+//          TO DO:
+//          Make a class Recipe
+//          Save all elements from the recipe window into an object of type Recipe
         }
     }
 

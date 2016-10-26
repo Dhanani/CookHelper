@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_find_recipe"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.uottawa.keenan.cookhelper.FindRecipe">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:text="Find a Recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/find_a_recipe_textView"
+            android:textSize="22sp"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="And"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/AND_btn"
+                android:layout_weight="1"
+                android:onClick="OnAnd" />
+
+            <Button
+                android:text="Or"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/OR_btn"
+                android:layout_weight="1"
+                android:onClick="OnOr" />
+
+            <Button
+                android:text="Not"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/NOT_btn"
+                android:layout_weight="1"
+                android:onClick="OnNot" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/category_textView"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="Type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/type_textView"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/category_spinner"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/type_spinner"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/ingredients_editText"
+            android:hint="Write Ingredients Here" />
+
+        <Button
+            android:text="Search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_btn"
+            android:onClick="OnSearch" />
+
+        <TextView
+            android:text="Results:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/results_textView"
+            android:elevation="1dp" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</RelativeLayout>

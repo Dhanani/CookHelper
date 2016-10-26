@@ -22,4 +22,9 @@ public class Homescreen extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Help.class);
         startActivity(intent);
     }
+
+    public void OnFindRecipe(View view) {
+        Intent intent = new Intent(getApplicationContext(), FindRecipe.class);
+        startActivityForResult (intent,0);
+    }
 }

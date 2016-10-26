@@ -29,7 +29,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Add a Recipe"
                 android:id="@+id/add_a_recipe_label"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="sans-serif" />
 
             <TextView
                 android:text="Enter Recipe Name"

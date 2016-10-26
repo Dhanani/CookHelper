@@ -44,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:text="Search Recipe"
                 android:id="@+id/search_recipe_btn"
-                android:onClick="OnSearchRecipe"
+                android:onClick="OnFindRecipe"
                 android:layout_weight="1" />
         </LinearLayout>
 
