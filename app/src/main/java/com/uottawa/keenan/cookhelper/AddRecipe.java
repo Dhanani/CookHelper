@@ -30,6 +30,7 @@ public class AddRecipe extends AppCompatActivity {
     private ArrayList<Ingredient> ingredients = new ArrayList<>();
     private ArrayList<RecipeCategory> recipe_categories = new ArrayList<>();
     private ArrayList<RecipeType> recipe_types = new ArrayList<>();
+    public ArrayList<Recipe> recipes = new ArrayList<>();
 
     public String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Database";
 
@@ -483,6 +484,8 @@ public class AddRecipe extends AppCompatActivity {
     public void OnAddRecipe(View view) {
         EditText recipe_name_edittext = (EditText) findViewById(R.id.recipe_name_edittext);
         String recipe_name = recipe_name_edittext.getText().toString().trim();
+
+
         if (recipe_name.isEmpty()) {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, "Name your Recipe!", duration);
@@ -490,6 +493,15 @@ public class AddRecipe extends AppCompatActivity {
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else {
+
+            Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+            Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
+
+            recipes.add(new Recipe(ingredients, steps,new RecipeCategory(category_spinner.getSelectedItem().toString()),new RecipeType(type_spinner.getSelectedItem().toString()),recipe_name));
+
+            Intent intent = new Intent(getApplicationContext(), Homescreen.class);
+            startActivity(intent);
+
 //          TO DO:
 //          Make a class Recipe
 //          Save all elements from the recipe window into an object of type Recipe

@@ -15,11 +15,12 @@ public class Recipe {
     private RecipeCategory category;
     private RecipeType type;
 
-    public Recipe(ArrayList<Ingredient> ingredients,ArrayList<RecipeStep> steps, RecipeCategory category, RecipeType type) {
+    public Recipe(ArrayList<Ingredient> ingredients,ArrayList<RecipeStep> steps, RecipeCategory category, RecipeType type, String recipe_name) {
         this.ingredients = ingredients;
         this.recipe_steps = steps;
         this.category = category;
         this.type = type;
+        this.recipe_name = recipe_name;
     }
 
     public String getRecipeName(){
@@ -41,4 +42,5 @@ public class Recipe {
     public RecipeType getRecipeType(){
         return this.type;
     }
+
 }
