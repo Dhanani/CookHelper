@@ -11,4 +11,4 @@ An Android application.
 3. Think of this application as one on the playstore/appstore. Think of actions people would do in this app. Remember, no bugs allowed in master.
 
 ## Things To Do:
-1. A `Recipe` class. This will store a *list* of `Ingredients`, the name of the Recipe, a *list* of the Recipe steps, the Recipe Category and the Recipe Type. There is a class for Ingredient, RecipeStep, RecipeCategory, and RecipeType already. You must respect the existing classes in the implementation. You must also create a class RecipeName which is responsible for storing the name of a Recipe (String). The class will look similar to class Ingredient. I am also planning on keeping track of the caleries per food creation. That can be in a class variable (in Recipe) of type int.
+1. Minimum 2 ingredients
