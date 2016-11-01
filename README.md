@@ -12,3 +12,4 @@ An Android application.
 
 ## Things To Do:
 1. Minimum 2 ingredients
+2. Add number of ingridients (int) to the recipe class to get number of ingridients easily 
