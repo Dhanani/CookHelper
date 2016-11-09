@@ -1,5 +1,6 @@
 package com.uottawa.keenan.cookhelper;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -20,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -32,7 +34,9 @@ public class AddRecipe extends AppCompatActivity {
     private ArrayList<RecipeType> recipe_types = new ArrayList<>();
     public ArrayList<Recipe> recipes = new ArrayList<>();
 
-    public String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Database";
+    public CreateDB ingredientDB;
+    public CreateDB categoryDB;
+    public CreateDB typeDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,19 @@ public class AddRecipe extends AppCompatActivity {
         updateCategorySpinner();
         setupTypes();
         updateTypeSpinner();
-        setupIngredients();
+
+        try {
+            ingredientDB = new CreateDB(getApplicationContext(), "IngredientsDB.txt");
+            categoryDB = new CreateDB(getApplicationContext(), "CategoriesDB.txt");
+            typeDB = new CreateDB(getApplicationContext(), "TypesDB.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            setupIngredients();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setupCategories() {
@@ -65,7 +81,7 @@ public class AddRecipe extends AppCompatActivity {
         recipe_types.add(new RecipeType("Korean"));
     }
 
-    public void setupIngredients() {
+    public void setupIngredients() throws IOException {
         Ingredient milk = new Ingredient("Milk");
         Ingredient butter = new Ingredient("Butter");
         Ingredient onion = new Ingredient("Onion");
@@ -129,7 +145,7 @@ public class AddRecipe extends AppCompatActivity {
     }
 
 
-    public void OnAddIngredient(View view) {
+    public void OnAddIngredient(View view) throws IOException {
         EditText ingredient_text = (EditText) findViewById(R.id.add_ingredient_editText);
 
 
@@ -267,13 +283,15 @@ public class AddRecipe extends AppCompatActivity {
         step_text.setVisibility(View.VISIBLE);
     }
 
-    public void updateIngredients(Ingredient ingredient) {
+    public void updateIngredients(Ingredient ingredient) throws IOException {
         LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
         CheckBox cb = new CheckBox(this);
 
         cb.setText(ingredient.getIngredient());
         cb.setTextColor(Color.BLACK);
         ingredients_layout.addView(cb);
+        if(!ingredientDB.alreadyExsistsInDB(ingredient.toString())) ingredientDB.addToDB(ingredient.toString());
+        //ingredientDB.readContents();
     }
 
     public Ingredient findWithString(String s) {

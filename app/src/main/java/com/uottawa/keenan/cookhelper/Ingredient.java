@@ -5,7 +5,8 @@ package com.uottawa.keenan.cookhelper;
  */
 
 public class Ingredient {
-    String ingredient;
+
+    public String ingredient;
 
     public Ingredient(String ingredient) {
         this.ingredient = ingredient.trim().toLowerCase();
@@ -22,5 +23,9 @@ public class Ingredient {
 
     public boolean equals(Ingredient other) {
         return (this.ingredient.equals(other.ingredient) );
+    }
+
+    public String toString(){
+        return getIngredient();
     }
 }
