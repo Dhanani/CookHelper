@@ -34,7 +34,7 @@ public class AddRecipe extends AppCompatActivity {
     private ArrayList<RecipeType> recipe_types = new ArrayList<>();
     public ArrayList<Recipe> recipes = new ArrayList<>();
 
-    public CreateDB ingredientDB;
+    static public CreateDB ingredientDB;
     public CreateDB categoryDB;
     public CreateDB typeDB;
 
@@ -42,10 +42,6 @@ public class AddRecipe extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
-        setupCategories();
-        updateCategorySpinner();
-        setupTypes();
-        updateTypeSpinner();
 
         try {
             ingredientDB = new CreateDB(getApplicationContext(), "IngredientsDB.txt");
@@ -54,14 +50,30 @@ public class AddRecipe extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         try {
             setupIngredients();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            setupCategories();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        updateCategorySpinner();
+
+        try {
+            setupTypes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        updateTypeSpinner();
+
     }
 
-    public void setupCategories() {
+    public void setupCategories() throws IOException {
         recipe_categories.add(new RecipeCategory("Appetizer"));
         recipe_categories.add(new RecipeCategory("Main Meal"));
         recipe_categories.add(new RecipeCategory("Side Meal"));
@@ -70,24 +82,48 @@ public class AddRecipe extends AppCompatActivity {
         recipe_categories.add(new RecipeCategory("Sauce"));
         recipe_categories.add(new RecipeCategory("Dressing"));
         recipe_categories.add(new RecipeCategory("Alcoholic Drink"));
+
+        categoryDB.addToDB("empty");
+        categoryDB.addToDB("Appetizer");
+        categoryDB.addToDB("Main Meal");
+        categoryDB.addToDB("Side Meal");
+        categoryDB.addToDB("Non Alcoholic Drink");
+        categoryDB.addToDB("Dessert");
+        categoryDB.addToDB("Sauce");
+        categoryDB.addToDB("Dressing");
+        categoryDB.addToDB("Alcoholic Drink");
+
     }
 
-    public void setupTypes() {
+    public void setupTypes() throws IOException {
         recipe_types.add(new RecipeType("Italian"));
         recipe_types.add(new RecipeType("Greek"));
         recipe_types.add(new RecipeType("Chinese"));
         recipe_types.add(new RecipeType("Colombian"));
         recipe_types.add(new RecipeType("Indian"));
         recipe_types.add(new RecipeType("Korean"));
+
+        typeDB.addToDB("empty");
+        typeDB.addToDB("Italian");
+        typeDB.addToDB("Greek");
+        typeDB.addToDB("Chinese");
+        typeDB.addToDB("Colombian");
+        typeDB.addToDB("Indian");
+
     }
 
     public void setupIngredients() throws IOException {
         Ingredient milk = new Ingredient("Milk");
         Ingredient butter = new Ingredient("Butter");
         Ingredient onion = new Ingredient("Onion");
+        Ingredient empty = new Ingredient("Empty");
+
+        ingredientDB.addToDB("empty");
+        ingredients.add(empty);
         ingredients.add(milk);
         ingredients.add(butter);
         ingredients.add(onion);
+
         updateIngredients(milk);
         updateIngredients(butter);
         updateIngredients(onion);
@@ -290,7 +326,7 @@ public class AddRecipe extends AppCompatActivity {
         cb.setText(ingredient.getIngredient());
         cb.setTextColor(Color.BLACK);
         ingredients_layout.addView(cb);
-        if(!ingredientDB.alreadyExsistsInDB(ingredient.toString())) ingredientDB.addToDB(ingredient.toString());
+        ingredientDB.addToDB(ingredient.toString());
         //ingredientDB.readContents();
     }
 
@@ -321,7 +357,7 @@ public class AddRecipe extends AppCompatActivity {
         return false;
     }
 
-    public void OnAddCategory(View view) {
+    public void OnAddCategory(View view) throws IOException {
         EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
         String category_name = category_or_type_editText.getText().toString().trim().toLowerCase();
         RecipeCategory new_category = new RecipeCategory(category_name);
@@ -340,6 +376,7 @@ public class AddRecipe extends AppCompatActivity {
             toast.show();
         } else {
             recipe_categories.add(new_category);
+            categoryDB.addToDB(new_category.toString());
             updateCategorySpinner();
             category_or_type_editText.setText(null);
         }

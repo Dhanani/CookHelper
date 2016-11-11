@@ -14,9 +14,12 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Scanner;
 
 import static android.content.Context.MODE_WORLD_READABLE;
 
@@ -34,84 +37,82 @@ public class CreateDB {
 
     public CreateDB(Context context, String nameOfDB) throws IOException {
 
+            myDataBase = new File(context.getFilesDir(), nameOfDB);
+            this.context = context;
+            dbName = nameOfDB;
 
-        myDataBase = new File(context.getFilesDir(), nameOfDB);
-        this.context = context;
-        //this.path = path;
-        dbName = nameOfDB;
-        //System.out.println("AAAA" +  context.getExternalFilesDir(null));
-        String separator = System.getProperty("line.separator");
-        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(dbName, Context.MODE_APPEND));
-        outputStreamWriter.write("");
-        outputStreamWriter.append(separator);
-        outputStreamWriter.flush();
-        outputStreamWriter.close();
     }
 
 
-
-
     public void addToDB(String stringToAdd) throws IOException {
+
         try {
-            String separator = System.getProperty("line.separator");
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(dbName, Context.MODE_APPEND));
-            outputStreamWriter.write(stringToAdd);
-            outputStreamWriter.append(separator);
-            outputStreamWriter.flush();
-            outputStreamWriter.close();
-            //myDataBase.close();
+            if(alreadyExsistsInDB(stringToAdd)) {
+                System.out.println(stringToAdd + "already exists in the database");
+            }else{
+                String separator = System.getProperty("line.separator");
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(dbName, Context.MODE_APPEND));
+                outputStreamWriter.write(stringToAdd);
+                outputStreamWriter.append(separator);
+                outputStreamWriter.flush();
+                outputStreamWriter.close();
+            }
         }
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+        readDBContents();
     }
+
+
+    public boolean alreadyExsistsInDB(String stringToAdd) throws IOException {
+
+        boolean existsInDB = false;
+        try  {
+            InputStream input = new FileInputStream(this.myDataBase);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(input, "UTF-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if(line==stringToAdd){
+                    existsInDB = true;
+                    break;
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return existsInDB;
+    }
+
+
+    public String readDBContents() throws IOException {
+
+        StringBuilder builder = new StringBuilder();
+
+        try  {
+            InputStream input = new FileInputStream(this.myDataBase);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(input, "UTF-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        System.out.println(builder.toString());
+        return builder.toString();
+    }
+
 
     public File getMyDataBase(){
         return myDataBase;
     }
 
-    public String toString(){
-        return dbName;
+
+    public String toString(){ return dbName;
     }
 
-    public void readContents() throws IOException {
-        FileInputStream is;
-        BufferedReader reader;
-        if (myDataBase.exists()) {
-            System.out.println("Exists");
-            is = new FileInputStream(myDataBase);
-            reader = new BufferedReader(new InputStreamReader(is));
-            String line = reader.readLine();
-            while(line != null){
-                //Log.d("StackOverflow", line);
-                line = reader.readLine();
-                //System.out.println(line);
-            }
-        }
-    }
-
-    public boolean alreadyExsistsInDB(String stringToAdd) throws IOException {
-
-        boolean existsInDB = false;
-
-        FileInputStream is;
-        BufferedReader reader;
-        if (myDataBase.exists()) {
-            //System.out.println("Exists");
-            is = new FileInputStream(myDataBase);
-            reader = new BufferedReader(new InputStreamReader(is));
-            String line = reader.readLine();
-            while(line != null){
-                line = reader.readLine();
-                if(line!=null && line.equals(stringToAdd)){
-                    System.out.println(stringToAdd + " already exists in db");
-                    existsInDB = true;
-                    break;
-                }
-            }
-        }
-
-        return existsInDB;
-    }
 
 }
