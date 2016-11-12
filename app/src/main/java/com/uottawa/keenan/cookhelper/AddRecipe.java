@@ -103,6 +103,7 @@ public class AddRecipe extends AppCompatActivity {
         recipe_types.add(new RecipeType("Indian"));
         recipe_types.add(new RecipeType("Korean"));
 
+
         typeDB.addToDB("empty");
         typeDB.addToDB("Italian");
         typeDB.addToDB("Greek");
@@ -326,7 +327,10 @@ public class AddRecipe extends AppCompatActivity {
         cb.setText(ingredient.getIngredient());
         cb.setTextColor(Color.BLACK);
         ingredients_layout.addView(cb);
+
+        //KARIM'S WORK
         ingredientDB.addToDB(ingredient.toString());
+        updateIngredientsArrayList();
         //ingredientDB.readContents();
     }
 
@@ -526,7 +530,11 @@ public class AddRecipe extends AppCompatActivity {
                         if (findWithString(checkbox_string) != null) {
                             ingredients.remove(findWithString(checkbox_string));
                             ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
-
+                            try {
+                                ingredientDB.removeFromDB(checkbox_string);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -562,6 +570,26 @@ public class AddRecipe extends AppCompatActivity {
 //          Save all elements from the recipe window into an object of type Recipe
         }
     }
+
+
+
+    //KARIM'S WORK
+    public void updateIngredientsArrayList(){
+
+        ArrayList<Ingredient> myNewArrayList = new ArrayList<>(ingredients.size()-1);
+
+        ArrayList<String> dbSource = ingredientDB.getAsArrayList();
+
+        for(int i=0; i<dbSource.size(); i++){
+            myNewArrayList.add(i, new Ingredient(dbSource.get(i)));
+        }
+
+        ingredients = myNewArrayList;
+        myNewArrayList = null;
+    }
+
+
+
 
 }
 

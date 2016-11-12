@@ -19,6 +19,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static android.content.Context.MODE_WORLD_READABLE;
@@ -30,9 +32,8 @@ import static android.content.Context.MODE_WORLD_READABLE;
 public class CreateDB {
 
     private File myDataBase;
-    //private String path;
-    OutputStreamWriter out;
     private String dbName;
+    private static int size = 0;
     Context context;
 
     public CreateDB(Context context, String nameOfDB) throws IOException {
@@ -56,16 +57,40 @@ public class CreateDB {
                 outputStreamWriter.append(separator);
                 outputStreamWriter.flush();
                 outputStreamWriter.close();
+                size++;
             }
         }
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
-        readDBContents();
+        //readContents();
+    }
+
+    public boolean removeFromDB(String stringToRemove) throws IOException{
+
+        File tempFile = new File(context.getFilesDir(), "myTempFile.txt");
+
+        BufferedReader reader = new BufferedReader(new FileReader(myDataBase));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+        String currentLine;
+
+        while((currentLine = reader.readLine()) != null) {
+            String trimmedLine = currentLine.trim();
+            if(trimmedLine.equals(stringToRemove)) continue;
+            writer.write(currentLine + System.getProperty("line.separator"));
+        }
+        writer.close();
+        reader.close();
+        size --;
+        boolean successful = tempFile.renameTo(myDataBase);
+        myDataBase = tempFile;
+        tempFile.delete();
+        return successful;
     }
 
 
-    public boolean alreadyExsistsInDB(String stringToAdd) throws IOException {
+    public boolean alreadyExsistsInDB(String stringToCheck) throws IOException {
 
         boolean existsInDB = false;
         try  {
@@ -74,7 +99,7 @@ public class CreateDB {
                     new InputStreamReader(input, "UTF-8"));
             String line;
             while ((line = reader.readLine()) != null) {
-                if(line==stringToAdd){
+                if(line.equals(stringToCheck)){
                     existsInDB = true;
                     break;
                 }
@@ -86,30 +111,52 @@ public class CreateDB {
     }
 
 
-    public String readDBContents() throws IOException {
+    public String readContents() throws IOException {
 
         StringBuilder builder = new StringBuilder();
 
         try  {
-            InputStream input = new FileInputStream(this.myDataBase);
+            InputStream input = new FileInputStream(myDataBase);
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(input, "UTF-8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
+                System.out.println(line);
             }
         }catch(Exception e){
             System.out.println(e);
         }
-        System.out.println(builder.toString());
+        //System.out.println(builder.toString());
         return builder.toString();
     }
 
 
+    public ArrayList<String> getAsArrayList(){
+
+        ArrayList<String> dbAsAL = new ArrayList<>(size);
+
+        //StringBuilder builder = new StringBuilder();
+
+        try  {
+            InputStream input = new FileInputStream(myDataBase);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(input, "UTF-8"));
+            String line;
+            int i=0;
+            while ((line = reader.readLine()) != null) {
+                dbAsAL.add(i, line);
+                i++;
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return dbAsAL;
+    }
+
     public File getMyDataBase(){
         return myDataBase;
     }
-
 
     public String toString(){ return dbName;
     }
