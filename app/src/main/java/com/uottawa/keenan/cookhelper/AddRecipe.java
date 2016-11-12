@@ -53,7 +53,9 @@ public class AddRecipe extends AppCompatActivity {
         }
 
         try {
+            updateIngredientsArrayList();
             setupIngredients();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,8 +142,6 @@ public class AddRecipe extends AppCompatActivity {
     }
 
     public boolean isDuplicateIngredient(Ingredient new_ingredient) {
-
-        ArrayList<String> current_ings = ingredientDB.getAsArrayList();
         for (Ingredient ingredient : ingredients) {
             if (ingredient.equals(new_ingredient)) {
                 return true;
@@ -538,10 +538,13 @@ public class AddRecipe extends AppCompatActivity {
                 LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
                 for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
                     if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked()) {
+                        ((CheckBox)ingredients_layout.getChildAt(i)).setChecked(false);
                         String checkbox_string = ((CheckBox)ingredients_layout.getChildAt(i)).getText().toString();
                              try {
 //                                System.out.println("trying to remove " + checkbox_string);
                                 ingredientDB.removeFromDB(checkbox_string);
+                                 ingredients.remove(findWithString(checkbox_string));
+
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -596,7 +599,7 @@ public class AddRecipe extends AppCompatActivity {
     //KARIM'S WORK
     public void updateIngredientsArrayList(){
 
-        ArrayList<Ingredient> myNewArrayList = new ArrayList<>(ingredients.size()-1);
+        ArrayList<Ingredient> myNewArrayList = new ArrayList<>(ingredientDB.getAsArrayList().size());
 
         ArrayList<String> dbSource = ingredientDB.getAsArrayList();
 
@@ -605,7 +608,6 @@ public class AddRecipe extends AppCompatActivity {
         }
 
         ingredients = myNewArrayList;
-        myNewArrayList = null;
     }
 
 
