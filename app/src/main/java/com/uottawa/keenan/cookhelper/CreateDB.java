@@ -38,10 +38,17 @@ public class CreateDB {
 
     public CreateDB(Context context, String nameOfDB) throws IOException {
 
+        try {
+            if (myDataBase.exists()) {
+                myDataBase = new File(context.getFilesDir(), nameOfDB);
+                this.context = context;
+                dbName = nameOfDB;
+            }
+        }catch(NullPointerException ex){
             myDataBase = new File(context.getFilesDir(), nameOfDB);
             this.context = context;
             dbName = nameOfDB;
-
+        }
     }
 
 
