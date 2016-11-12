@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -71,6 +72,7 @@ public class AddRecipe extends AppCompatActivity {
         }
         updateTypeSpinner();
 
+
     }
 
     public void setupCategories() throws IOException {
@@ -114,23 +116,32 @@ public class AddRecipe extends AppCompatActivity {
     }
 
     public void setupIngredients() throws IOException {
-        Ingredient milk = new Ingredient("Milk");
-        Ingredient butter = new Ingredient("Butter");
-        Ingredient onion = new Ingredient("Onion");
-        Ingredient empty = new Ingredient("Empty");
+//        Ingredient milk = new Ingredient("Milk");
+//        Ingredient butter = new Ingredient("Butter");
+//        Ingredient onion = new Ingredient("Onion");
+//        Ingredient empty = new Ingredient("Empty");
 
-        ingredientDB.addToDB("empty");
-        ingredients.add(empty);
-        ingredients.add(milk);
-        ingredients.add(butter);
-        ingredients.add(onion);
 
-        updateIngredients(milk);
-        updateIngredients(butter);
-        updateIngredients(onion);
+//        ingredients.add(empty);
+//        ingredients.add(milk);
+//        ingredients.add(butter);
+//        ingredients.add(onion);
+//        ingredientDB.addToDB("empty");
+//        updateIngredients(milk);
+//        updateIngredients(butter);
+//        updateIngredients(onion);
+
+        ArrayList<String> saved_ings = ingredientDB.getAsArrayList();
+        for (String ing : saved_ings) {
+            Ingredient past = new Ingredient(ing);
+            updateIngredients(past);
+        }
+
     }
 
     public boolean isDuplicateIngredient(Ingredient new_ingredient) {
+
+        ArrayList<String> current_ings = ingredientDB.getAsArrayList();
         for (Ingredient ingredient : ingredients) {
             if (ingredient.equals(new_ingredient)) {
                 return true;
@@ -204,6 +215,7 @@ public class AddRecipe extends AppCompatActivity {
             } else {
                 ingredients.add(new_ingredient);
                 updateIngredients(new_ingredient);
+                ingredientDB.addToDB(new_ingredient.getIngredient());
                 ingredient_text.setText(null);
             }
         }
@@ -329,8 +341,8 @@ public class AddRecipe extends AppCompatActivity {
         ingredients_layout.addView(cb);
 
         //KARIM'S WORK
-        ingredientDB.addToDB(ingredient.toString());
-        updateIngredientsArrayList();
+//        ingredientDB.addToDB(ingredient.toString());
+//        updateIngredientsArrayList();
         //ingredientDB.readContents();
     }
 
@@ -527,15 +539,23 @@ public class AddRecipe extends AppCompatActivity {
                 for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
                     if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked()) {
                         String checkbox_string = ((CheckBox)ingredients_layout.getChildAt(i)).getText().toString();
-                        if (findWithString(checkbox_string) != null) {
-                            ingredients.remove(findWithString(checkbox_string));
-                            ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
-                            try {
+                             try {
+//                                System.out.println("trying to remove " + checkbox_string);
                                 ingredientDB.removeFromDB(checkbox_string);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        }
+                        ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
+//                        if (findWithString(checkbox_string) != null) {
+//                            ingredients.remove(findWithString(checkbox_string));
+//                            try {
+////                                System.out.println("trying to remove " + checkbox_string);
+//                                ingredientDB.removeFromDB(checkbox_string);
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                            ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
+//                        }
                     }
                 }
 

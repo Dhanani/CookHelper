@@ -81,9 +81,10 @@ public class CreateDB {
         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 
         String currentLine;
-
+        System.out.println("deleting");
         while((currentLine = reader.readLine()) != null) {
             String trimmedLine = currentLine.trim();
+            System.out.println("trimmedline: " + trimmedLine);
             if(trimmedLine.equals(stringToRemove)) continue;
             writer.write(currentLine + System.getProperty("line.separator"));
         }
@@ -91,7 +92,7 @@ public class CreateDB {
         reader.close();
         size --;
         boolean successful = tempFile.renameTo(myDataBase);
-        myDataBase = tempFile;
+        myDataBase = new File(context.getFilesDir(), dbName);
         tempFile.delete();
         return successful;
     }
