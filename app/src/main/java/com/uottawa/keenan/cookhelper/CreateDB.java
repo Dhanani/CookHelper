@@ -33,7 +33,7 @@ public class CreateDB {
 
     private File myDataBase;
     private String dbName;
-    private static int size = 0;
+    private int size = 0;
     Context context;
 
     public CreateDB(Context context, String nameOfDB) throws IOException {
@@ -79,15 +79,15 @@ public class CreateDB {
 
         BufferedReader reader = new BufferedReader(new FileReader(myDataBase));
         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-
+        boolean first = false;
         String currentLine;
-        System.out.println("deleting");
         while((currentLine = reader.readLine()) != null) {
             String trimmedLine = currentLine.trim();
-            System.out.println("trimmedline: " + trimmedLine);
             if(trimmedLine.equals(stringToRemove)) continue;
+            first = true;
             writer.write(currentLine + System.getProperty("line.separator"));
         }
+
         writer.close();
         reader.close();
         size --;
@@ -130,7 +130,6 @@ public class CreateDB {
             String line;
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
-                System.out.println(line);
             }
         }catch(Exception e){
             System.out.println(e);
