@@ -1,5 +1,6 @@
 package com.uottawa.keenan.cookhelper;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -20,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -32,49 +35,119 @@ public class AddRecipe extends AppCompatActivity {
     private ArrayList<RecipeType> recipe_types = new ArrayList<>();
     public ArrayList<Recipe> recipes = new ArrayList<>();
 
-    public String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Database";
+    static public CreateDB ingredientDB;
+    public CreateDB categoryDB;
+    public CreateDB typeDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
-        setupCategories();
+
+        try {
+            ingredientDB = new CreateDB(getApplicationContext(), "IngredientsDB.txt");
+            categoryDB = new CreateDB(getApplicationContext(), "CategoriesDB.txt");
+            typeDB = new CreateDB(getApplicationContext(), "TypesDB.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+//            System.out.println("GET FUCKED HERE222");
+            updateIngredientsArrayList();
+
+            setupIngredients();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        updateCategoryEntries();
         updateCategorySpinner();
-        setupTypes();
+
+        updateTypeEntries();
         updateTypeSpinner();
-        setupIngredients();
+
+//        try {
+//            setupTypes();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        updateTypeSpinner();
+
+
     }
 
-    public void setupCategories() {
-        recipe_categories.add(new RecipeCategory("Appetizer"));
-        recipe_categories.add(new RecipeCategory("Main Meal"));
-        recipe_categories.add(new RecipeCategory("Side Meal"));
-        recipe_categories.add(new RecipeCategory("Non Alcoholic Drink"));
-        recipe_categories.add(new RecipeCategory("Dessert"));
-        recipe_categories.add(new RecipeCategory("Sauce"));
-        recipe_categories.add(new RecipeCategory("Dressing"));
-        recipe_categories.add(new RecipeCategory("Alcoholic Drink"));
+    public void setupCategories() throws IOException {
+//        recipe_categories.add(new RecipeCategory("Appetizer"));
+//        recipe_categories.add(new RecipeCategory("Main Meal"));
+//        recipe_categories.add(new RecipeCategory("Side Meal"));
+//        recipe_categories.add(new RecipeCategory("Non Alcoholic Drink"));
+//        recipe_categories.add(new RecipeCategory("Dessert"));
+//        recipe_categories.add(new RecipeCategory("Sauce"));
+//        recipe_categories.add(new RecipeCategory("Dressing"));
+//        recipe_categories.add(new RecipeCategory("Alcoholic Drink"));
+//
+//        categoryDB.addToDB("empty");
+//        categoryDB.addToDB("Appetizer");
+//        categoryDB.addToDB("Main Meal");
+//        categoryDB.addToDB("Side Meal");
+//        categoryDB.addToDB("Non Alcoholic Drink");
+//        categoryDB.addToDB("Dessert");
+//        categoryDB.addToDB("Sauce");
+//        categoryDB.addToDB("Dressing");
+//        categoryDB.addToDB("Alcoholic Drink");
+
+//        ArrayList<String> saved_categories = categoryDB.getAsArrayList();
+//        for (String cat : saved_categories) {
+//            category_entries.add(cat);
+//        }
+
     }
 
-    public void setupTypes() {
-        recipe_types.add(new RecipeType("Italian"));
-        recipe_types.add(new RecipeType("Greek"));
-        recipe_types.add(new RecipeType("Chinese"));
-        recipe_types.add(new RecipeType("Colombian"));
-        recipe_types.add(new RecipeType("Indian"));
-        recipe_types.add(new RecipeType("Korean"));
+    public void setupTypes() throws IOException {
+//        recipe_types.add(new RecipeType("Italian"));
+//        recipe_types.add(new RecipeType("Greek"));
+//        recipe_types.add(new RecipeType("Chinese"));
+//        recipe_types.add(new RecipeType("Colombian"));
+//        recipe_types.add(new RecipeType("Indian"));
+//        recipe_types.add(new RecipeType("Korean"));
+//
+//
+//        typeDB.addToDB("empty");
+//        typeDB.addToDB("Italian");
+//        typeDB.addToDB("Greek");
+//        typeDB.addToDB("Chinese");
+//        typeDB.addToDB("Colombian");
+//        typeDB.addToDB("Indian");
+
     }
 
-    public void setupIngredients() {
-        Ingredient milk = new Ingredient("Milk");
-        Ingredient butter = new Ingredient("Butter");
-        Ingredient onion = new Ingredient("Onion");
-        ingredients.add(milk);
-        ingredients.add(butter);
-        ingredients.add(onion);
-        updateIngredients(milk);
-        updateIngredients(butter);
-        updateIngredients(onion);
+    public void setupIngredients() throws IOException {
+//        Ingredient milk = new Ingredient("Milk");
+//        Ingredient butter = new Ingredient("Butter");
+//        Ingredient onion = new Ingredient("Onion");
+//        Ingredient empty = new Ingredient("Empty");
+
+
+//        ingredients.add(empty);
+//        ingredients.add(milk);
+//        ingredients.add(butter);
+//        ingredients.add(onion);
+//        ingredientDB.addToDB("empty");
+//        updateIngredients(milk);
+//        updateIngredients(butter);
+//        updateIngredients(onion);
+
+        ArrayList<String> saved_ings = ingredientDB.getAsArrayList();
+        for (String ing : saved_ings) {
+            Ingredient past = new Ingredient(ing);
+            updateIngredients(past);
+        }
+
     }
 
     public boolean isDuplicateIngredient(Ingredient new_ingredient) {
@@ -87,49 +160,42 @@ public class AddRecipe extends AppCompatActivity {
     }
 
     public void updateCategorySpinner() {
-        Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
 
-        category_entries.clear();
-        category_spinner.setAdapter(null);
+        if (category_entries.size()>0){
+            Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
 
-        ArrayAdapter<String> dataAdapterCategory = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, category_entries);
+            ArrayAdapter<String> dataAdapterCategory = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, category_entries);
+
+            dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            category_spinner.setAdapter(dataAdapterCategory);
 
 
-        for (RecipeCategory rc : recipe_categories) {
-            category_entries.add(rc.getRecipeCategory());
+            int spinnerPosition = dataAdapterCategory.getPosition(category_entries.get(category_entries.size()-1));
+            category_spinner.setSelection(spinnerPosition);
         }
 
-        dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        category_spinner.setAdapter(dataAdapterCategory);
-
-
-        int spinnerPosition = dataAdapterCategory.getPosition(category_entries.get(category_entries.size()-1));
-        category_spinner.setSelection(spinnerPosition);
     }
 
     public void updateTypeSpinner() {
-        Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
-        type_entries.clear();
-        type_spinner.setAdapter(null);
+        if (type_entries.size()>0){
+            Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
-        ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, type_entries);
+            ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, type_entries);
 
-        for (RecipeType rt : recipe_types) {
-            type_entries.add(rt.getRecipeType());
+            dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            type_spinner.setAdapter(dataAdapterType);
+
+            int spinnerPosition = dataAdapterType.getPosition(type_entries.get(type_entries.size()-1));
+            type_spinner.setSelection(spinnerPosition);
         }
 
-        dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        type_spinner.setAdapter(dataAdapterType);
-
-        int spinnerPosition = dataAdapterType.getPosition(type_entries.get(type_entries.size()-1));
-        type_spinner.setSelection(spinnerPosition);
     }
 
 
-    public void OnAddIngredient(View view) {
+    public void OnAddIngredient(View view) throws IOException {
         EditText ingredient_text = (EditText) findViewById(R.id.add_ingredient_editText);
 
 
@@ -151,6 +217,7 @@ public class AddRecipe extends AppCompatActivity {
             } else {
                 ingredients.add(new_ingredient);
                 updateIngredients(new_ingredient);
+                ingredientDB.addToDB(new_ingredient.getIngredient());
                 ingredient_text.setText(null);
             }
         }
@@ -267,13 +334,18 @@ public class AddRecipe extends AppCompatActivity {
         step_text.setVisibility(View.VISIBLE);
     }
 
-    public void updateIngredients(Ingredient ingredient) {
+    public void updateIngredients(Ingredient ingredient) throws IOException {
         LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
         CheckBox cb = new CheckBox(this);
 
         cb.setText(ingredient.getIngredient());
         cb.setTextColor(Color.BLACK);
         ingredients_layout.addView(cb);
+
+        //KARIM'S WORK
+//        ingredientDB.addToDB(ingredient.toString());
+//        updateIngredientsArrayList();
+        //ingredientDB.readContents();
     }
 
     public Ingredient findWithString(String s) {
@@ -285,25 +357,25 @@ public class AddRecipe extends AppCompatActivity {
         return null;
     }
 
-    public boolean isDuplicateCategory(RecipeCategory other) {
-        for (RecipeCategory rc : recipe_categories) {
-            if (rc.equals(other)) {
+    public boolean isDuplicateCategory(String other) {
+        for (String s : category_entries) {
+            if (s.equals(other)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isDuplicateType(RecipeType other) {
-        for (RecipeType rt : recipe_types) {
-            if (rt.equals(other)) {
+    public boolean isDuplicateType(String other) {
+        for (String s : type_entries) {
+            if (s.equals(other)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void OnAddCategory(View view) {
+    public void OnAddCategory(View view) throws IOException {
         EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
         String category_name = category_or_type_editText.getText().toString().trim().toLowerCase();
         RecipeCategory new_category = new RecipeCategory(category_name);
@@ -314,14 +386,15 @@ public class AddRecipe extends AppCompatActivity {
 
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
-        } else if (isDuplicateCategory(new_category)) {
+        } else if (isDuplicateCategory(new_category.toString())) {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, new_category.getRecipeCategory() + " already exists!", duration);
 
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else {
-            recipe_categories.add(new_category);
+            category_entries.add(new_category.getRecipeCategory());
+            categoryDB.addToDB(new_category.getRecipeCategory());
             updateCategorySpinner();
             category_or_type_editText.setText(null);
         }
@@ -339,14 +412,19 @@ public class AddRecipe extends AppCompatActivity {
 
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
-        } else if (isDuplicateType(new_type)) {
+        } else if (isDuplicateType(new_type.toString())) {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, new_type.getRecipeType() + " already exists!", duration);
 
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else {
-            recipe_types.add(new_type);
+            type_entries.add(new_type.getRecipeType());
+            try {
+                typeDB.addToDB(new_type.getRecipeType());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             updateTypeSpinner();
             category_or_type_editText.setText(null);
         }
@@ -354,6 +432,9 @@ public class AddRecipe extends AppCompatActivity {
     }
 
 
+    public void deleteTypeOrCategory(String s, ArrayList<String> arr){
+        arr.remove(s);
+    }
 
     public void OnEditCurrentRecipe(View view) {
         LinearLayout ingredient_elements_layout = (LinearLayout) findViewById(R.id.ingredient_elements_layout);
@@ -389,21 +470,37 @@ public class AddRecipe extends AppCompatActivity {
         delete_category_btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
-
-                if (category_spinner.getSelectedItem() == null) {
-                    delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                    delete_category_toast.show();
-                } else {
+                if ((category_entries.size() == 1)) {
                     RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
+                    category_entries.clear();
+                    category_spinner.setAdapter(null);
+                    try {
+                        categoryDB.removeFromDB(selected_item.getRecipeCategory());
 
-                    ((ArrayAdapter<String>) category_spinner.getAdapter()).remove((String)category_spinner.getSelectedItem());
-                    ((ArrayAdapter<String>) category_spinner.getAdapter()).notifyDataSetChanged();
-                    recipe_categories.clear();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                    for (int i = 0; i < ((ArrayAdapter<String>) category_spinner.getAdapter()).getCount(); i++) {
-                        recipe_categories.add(new RecipeCategory(((ArrayAdapter<String>) category_spinner.getAdapter()).getItem(i).toString()));
+                } else {
+                    if (category_spinner.getSelectedItem() == null) {
+                        delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        delete_category_toast.show();
+                    } else {
+                        RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
+                        try {
+                            categoryDB.removeFromDB(selected_item.getRecipeCategory());
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+//                    category_entries.remove(selected_item.getRecipeCategory());
+                        ((ArrayAdapter<String>) category_spinner.getAdapter()).remove((String)category_spinner.getSelectedItem());
+                        ((ArrayAdapter<String>) category_spinner.getAdapter()).notifyDataSetChanged();
+
                     }
                 }
+
+
             }
         });
 
@@ -416,21 +513,36 @@ public class AddRecipe extends AppCompatActivity {
         delete_type_btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
-
-                if (type_spinner.getSelectedItem() == null) {
-                    delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                    delete_category_toast.show();
-                } else {
+                if ((type_entries.size() == 1)) {
                     RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
-
-                    ((ArrayAdapter<String>) type_spinner.getAdapter()).remove((String)type_spinner.getSelectedItem());
-                    ((ArrayAdapter<String>) type_spinner.getAdapter()).notifyDataSetChanged();
-
-                    for (int i = 0; i < ((ArrayAdapter<String>) type_spinner.getAdapter()).getCount(); i++) {
-                        recipe_types.add(new RecipeType(((ArrayAdapter<String>) type_spinner.getAdapter()).getItem(i).toString()));
+                    type_entries.clear();
+                    type_spinner.setAdapter(null);
+                    try {
+                        typeDB.removeFromDB(selected_item.getRecipeType());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                } else{
+                    if (type_spinner.getSelectedItem() == null) {
+                        delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        delete_category_toast.show();
+                    } else {
+                        RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
+                        try {
+                            typeDB.removeFromDB(selected_item.getRecipeType());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ((ArrayAdapter<String>) type_spinner.getAdapter()).remove((String)type_spinner.getSelectedItem());
+                        ((ArrayAdapter<String>) type_spinner.getAdapter()).notifyDataSetChanged();
 
+
+
+                    }
                 }
+
+
+
             }
         });
 
@@ -467,12 +579,27 @@ public class AddRecipe extends AppCompatActivity {
                 LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
                 for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
                     if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked()) {
+                        ((CheckBox)ingredients_layout.getChildAt(i)).setChecked(false);
                         String checkbox_string = ((CheckBox)ingredients_layout.getChildAt(i)).getText().toString();
-                        if (findWithString(checkbox_string) != null) {
-                            ingredients.remove(findWithString(checkbox_string));
-                            ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
+                             try {
+//                                System.out.println("trying to remove " + checkbox_string);
+                                ingredientDB.removeFromDB(checkbox_string);
+                                 ingredients.remove(findWithString(checkbox_string));
 
-                        }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
+//                        if (findWithString(checkbox_string) != null) {
+//                            ingredients.remove(findWithString(checkbox_string));
+//                            try {
+////                                System.out.println("trying to remove " + checkbox_string);
+//                                ingredientDB.removeFromDB(checkbox_string);
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                            ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
+//                        }
                     }
                 }
 
@@ -507,6 +634,52 @@ public class AddRecipe extends AppCompatActivity {
 //          Save all elements from the recipe window into an object of type Recipe
         }
     }
+
+
+    public void updateCategoryEntries(){
+
+        category_entries.clear();
+
+
+        ArrayList<String> dbSource = categoryDB.getAsArrayList();
+
+        for(int i=0; i<dbSource.size(); i++){
+            category_entries.add(i,dbSource.get(i));
+        }
+
+
+
+
+    }
+
+    public void updateTypeEntries(){
+
+        type_entries.clear();
+
+
+        ArrayList<String> dbSource = typeDB.getAsArrayList();
+
+        for(int i=0; i<dbSource.size(); i++){
+            type_entries.add(i,dbSource.get(i));
+        }
+
+
+
+
+    }
+    //KARIM'S WORK
+    public void updateIngredientsArrayList(){
+        ingredients.clear();
+        ArrayList<String> dbSource = ingredientDB.getAsArrayList();
+        for(int i=0; i<dbSource.size(); i++){
+            System.out.println(dbSource.get(i));
+            ingredients.add(new Ingredient(dbSource.get(i)));
+        }
+
+    }
+
+
+
 
 }
 

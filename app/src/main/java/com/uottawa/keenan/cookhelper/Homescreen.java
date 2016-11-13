@@ -5,10 +5,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import java.io.IOException;
+
 public class Homescreen extends AppCompatActivity {
+
+    CreateDB recipiesDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        try {
+            recipiesDB = new CreateDB(getApplicationContext(),"RecipesDB.txt");
+            recipiesDB.addToDB("this is a place holder");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
     }

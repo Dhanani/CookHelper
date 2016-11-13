@@ -23,4 +23,8 @@ public class RecipeCategory {
     public boolean equals(RecipeCategory other) {
         return (this.recipe_category.equals(other.getRecipeCategory()) );
     }
+
+    public String toString(){
+        return getRecipeCategory();
+    }
 }
