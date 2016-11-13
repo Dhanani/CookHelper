@@ -461,6 +461,10 @@ public class AddRecipe extends AppCompatActivity {
 
         final Button delete_category_btn = new Button(this);
         delete_category_btn.setText("Delete Category");
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+        delete_category_btn.setLayoutParams(param);
         add_type_category_layout.addView(delete_category_btn);
         delete_category_btn.setVisibility(View.VISIBLE);
 
@@ -507,6 +511,7 @@ public class AddRecipe extends AppCompatActivity {
 
         final Button delete_type_btn = new Button(this);
         delete_type_btn.setText("Delete Type");
+        delete_type_btn.setLayoutParams(param);
         add_type_category_layout.addView(delete_type_btn);
         delete_type_btn.setVisibility(View.VISIBLE);
 
@@ -548,6 +553,7 @@ public class AddRecipe extends AppCompatActivity {
 
         final Button delete_ingredient_btn = new Button(this);
         delete_ingredient_btn.setText("Delete Ingredients");
+        delete_ingredient_btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         ingredient_elements_layout.addView(delete_ingredient_btn);
         delete_ingredient_btn.setVisibility(View.VISIBLE);
 
