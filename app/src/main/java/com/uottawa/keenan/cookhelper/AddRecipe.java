@@ -68,6 +68,9 @@ public class AddRecipe extends AppCompatActivity {
         updateCategoryEntries();
         updateCategorySpinner();
 
+        updateTypeEntries();
+        updateTypeSpinner();
+
 //        try {
 //            setupTypes();
 //        } catch (IOException e) {
@@ -106,20 +109,20 @@ public class AddRecipe extends AppCompatActivity {
     }
 
     public void setupTypes() throws IOException {
-        recipe_types.add(new RecipeType("Italian"));
-        recipe_types.add(new RecipeType("Greek"));
-        recipe_types.add(new RecipeType("Chinese"));
-        recipe_types.add(new RecipeType("Colombian"));
-        recipe_types.add(new RecipeType("Indian"));
-        recipe_types.add(new RecipeType("Korean"));
-
-
-        typeDB.addToDB("empty");
-        typeDB.addToDB("Italian");
-        typeDB.addToDB("Greek");
-        typeDB.addToDB("Chinese");
-        typeDB.addToDB("Colombian");
-        typeDB.addToDB("Indian");
+//        recipe_types.add(new RecipeType("Italian"));
+//        recipe_types.add(new RecipeType("Greek"));
+//        recipe_types.add(new RecipeType("Chinese"));
+//        recipe_types.add(new RecipeType("Colombian"));
+//        recipe_types.add(new RecipeType("Indian"));
+//        recipe_types.add(new RecipeType("Korean"));
+//
+//
+//        typeDB.addToDB("empty");
+//        typeDB.addToDB("Italian");
+//        typeDB.addToDB("Greek");
+//        typeDB.addToDB("Chinese");
+//        typeDB.addToDB("Colombian");
+//        typeDB.addToDB("Indian");
 
     }
 
@@ -175,23 +178,20 @@ public class AddRecipe extends AppCompatActivity {
     }
 
     public void updateTypeSpinner() {
-        Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
-        type_entries.clear();
-        type_spinner.setAdapter(null);
+        if (type_entries.size()>0){
+            Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
-        ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, type_entries);
+            ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, type_entries);
 
-        for (RecipeType rt : recipe_types) {
-            type_entries.add(rt.getRecipeType());
+            dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            type_spinner.setAdapter(dataAdapterType);
+
+            int spinnerPosition = dataAdapterType.getPosition(type_entries.get(type_entries.size()-1));
+            type_spinner.setSelection(spinnerPosition);
         }
 
-        dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        type_spinner.setAdapter(dataAdapterType);
-
-        int spinnerPosition = dataAdapterType.getPosition(type_entries.get(type_entries.size()-1));
-        type_spinner.setSelection(spinnerPosition);
     }
 
 
@@ -366,9 +366,9 @@ public class AddRecipe extends AppCompatActivity {
         return false;
     }
 
-    public boolean isDuplicateType(RecipeType other) {
-        for (RecipeType rt : recipe_types) {
-            if (rt.equals(other)) {
+    public boolean isDuplicateType(String other) {
+        for (String s : type_entries) {
+            if (s.equals(other)) {
                 return true;
             }
         }
@@ -393,8 +393,8 @@ public class AddRecipe extends AppCompatActivity {
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else {
-            category_entries.add(new_category.toString());
-            categoryDB.addToDB(new_category.toString());
+            category_entries.add(new_category.getRecipeCategory());
+            categoryDB.addToDB(new_category.getRecipeCategory());
             updateCategorySpinner();
             category_or_type_editText.setText(null);
         }
@@ -412,14 +412,19 @@ public class AddRecipe extends AppCompatActivity {
 
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
-        } else if (isDuplicateType(new_type)) {
+        } else if (isDuplicateType(new_type.toString())) {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, new_type.getRecipeType() + " already exists!", duration);
 
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         } else {
-            recipe_types.add(new_type);
+            type_entries.add(new_type.getRecipeType());
+            try {
+                typeDB.addToDB(new_type.getRecipeType());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             updateTypeSpinner();
             category_or_type_editText.setText(null);
         }
@@ -508,21 +513,36 @@ public class AddRecipe extends AppCompatActivity {
         delete_type_btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
-
-                if (type_spinner.getSelectedItem() == null) {
-                    delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                    delete_category_toast.show();
-                } else {
+                if ((type_entries.size() == 1)) {
                     RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
-
-                    ((ArrayAdapter<String>) type_spinner.getAdapter()).remove((String)type_spinner.getSelectedItem());
-                    ((ArrayAdapter<String>) type_spinner.getAdapter()).notifyDataSetChanged();
-
-                    for (int i = 0; i < ((ArrayAdapter<String>) type_spinner.getAdapter()).getCount(); i++) {
-                        recipe_types.add(new RecipeType(((ArrayAdapter<String>) type_spinner.getAdapter()).getItem(i).toString()));
+                    type_entries.clear();
+                    type_spinner.setAdapter(null);
+                    try {
+                        typeDB.removeFromDB(selected_item.getRecipeType());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                } else{
+                    if (type_spinner.getSelectedItem() == null) {
+                        delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        delete_category_toast.show();
+                    } else {
+                        RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
+                        try {
+                            typeDB.removeFromDB(selected_item.getRecipeType());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ((ArrayAdapter<String>) type_spinner.getAdapter()).remove((String)type_spinner.getSelectedItem());
+                        ((ArrayAdapter<String>) type_spinner.getAdapter()).notifyDataSetChanged();
 
+
+
+                    }
                 }
+
+
+
             }
         });
 
@@ -632,6 +652,21 @@ public class AddRecipe extends AppCompatActivity {
 
     }
 
+    public void updateTypeEntries(){
+
+        type_entries.clear();
+
+
+        ArrayList<String> dbSource = typeDB.getAsArrayList();
+
+        for(int i=0; i<dbSource.size(); i++){
+            type_entries.add(i,dbSource.get(i));
+        }
+
+
+
+
+    }
     //KARIM'S WORK
     public void updateIngredientsArrayList(){
         ingredients.clear();
