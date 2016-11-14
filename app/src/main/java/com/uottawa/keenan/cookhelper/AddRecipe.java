@@ -38,6 +38,7 @@ public class AddRecipe extends AppCompatActivity {
     static public CreateDB ingredientDB;
     public CreateDB categoryDB;
     public CreateDB typeDB;
+    public CreateDB recipeDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class AddRecipe extends AppCompatActivity {
             ingredientDB = new CreateDB(getApplicationContext(), "IngredientsDB.txt");
             categoryDB = new CreateDB(getApplicationContext(), "CategoriesDB.txt");
             typeDB = new CreateDB(getApplicationContext(), "TypesDB.txt");
+            recipeDB = new CreateDB(getApplicationContext(), "RecipeDB.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -327,11 +329,22 @@ public class AddRecipe extends AppCompatActivity {
 
     public void OnAddStep(View view) {
         EditText step_text = (EditText) findViewById(R.id.enter_step_editText);
-        RecipeStep rs = new RecipeStep(step_text.getText().toString());
-        steps.add(rs);
-        updateSteps();
-        step_text.setText(null);
-        step_text.setVisibility(View.VISIBLE);
+        String step = step_text.getText().toString();
+
+        if (!step.trim().isEmpty()){
+            RecipeStep rs = new RecipeStep(step_text.getText().toString());
+            steps.add(rs);
+            updateSteps();
+            step_text.setText(null);
+            step_text.setVisibility(View.VISIBLE);
+        } else {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, "Write your step!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+            toast.show();
+        }
+
     }
 
     public void updateIngredients(Ingredient ingredient) throws IOException {
@@ -614,10 +627,24 @@ public class AddRecipe extends AppCompatActivity {
 
     }
 
+    public ArrayList<Ingredient> getSelectedIngredients(){
+        LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+        ArrayList<Ingredient> selectedIngredients = new ArrayList<Ingredient>();
+
+        for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+            if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked()) {
+                String checkbox_string = ((CheckBox)ingredients_layout.getChildAt(i)).getText().toString();
+                selectedIngredients.add(new Ingredient(checkbox_string));
+            }
+        }
+
+        return selectedIngredients;
+
+    }
+
     public void OnAddRecipe(View view) {
         EditText recipe_name_edittext = (EditText) findViewById(R.id.recipe_name_edittext);
         String recipe_name = recipe_name_edittext.getText().toString().trim();
-
 
         if (recipe_name.isEmpty()) {
             int duration = Toast.LENGTH_SHORT;
@@ -630,17 +657,68 @@ public class AddRecipe extends AppCompatActivity {
             Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
             Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
 
-            recipes.add(new Recipe(ingredients, steps,new RecipeCategory(category_spinner.getSelectedItem().toString()),new RecipeType(type_spinner.getSelectedItem().toString()),recipe_name));
+            recipes.add(new Recipe(getSelectedIngredients(), steps,new RecipeCategory(category_spinner.getSelectedItem().toString()),new RecipeType(type_spinner.getSelectedItem().toString()),recipe_name.trim().toLowerCase()));
+            System.out.println(recipes.get(0).getIngredients().size());
+            if (recipes.get(0).getIngredients().size() > 0 && recipes.get(0).getRecipeSteps().size() > 0){
+                String recipeInDB = getRecipeListing(recipes.get(0));
 
-            Intent intent = new Intent(getApplicationContext(), Homescreen.class);
-            startActivity(intent);
+                System.out.println(recipeInDB);
+                try {
+                    if (!recipeDB.addToRecipeDB(recipeInDB)){
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(this, "Recipe name already exists!", duration);
+                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        toast.show();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), Homescreen.class);
+                        startActivity(intent);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, "You need a minimum of 1 ingredient and 1 step!", duration);
 
-//          TO DO:
-//          Make a class Recipe
-//          Save all elements from the recipe window into an object of type Recipe
+                toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                toast.show();
+            }
+
+
         }
+        recipes.clear();
     }
 
+    public String getRecipeListing(Recipe recipe){
+        String recipe_name = recipe.getRecipeName();
+        String recipe_category = recipe.getRecipeCategory().getRecipeCategory();
+        String recipe_type = recipe.getRecipeType().getRecipeType();
+
+        ArrayList<RecipeStep> recipe_steps = recipe.getRecipeSteps();
+        ArrayList<Ingredient> recipe_ingredients = recipe.getIngredients();
+
+        String out = recipe_name + "|" + recipe_category + "|" + recipe_type + "|";
+
+        for (int i = 0; i < recipe_steps.size(); i++){
+            if (i != recipe_steps.size() - 1){
+                out = out + recipe_steps.get(i).getStep() + "`";
+            } else {
+                out = out + recipe_steps.get(i).getStep();
+            }
+        }
+
+        out = out + "|";
+
+        for (int i = 0; i < recipe_ingredients.size(); i++){
+            if (i != recipe_ingredients.size() - 1){
+                out = out + recipe_ingredients.get(i).getIngredient() + "`";
+            } else {
+                out = out + recipe_ingredients.get(i).getIngredient();
+            }
+        }
+
+        return out;
+    }
 
     public void updateCategoryEntries(){
 
