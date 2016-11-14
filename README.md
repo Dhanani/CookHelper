@@ -11,6 +11,6 @@ An Android application.
 3. Think of this application as one on the playstore/appstore. Think of actions people would do in this app. Remember, no bugs allowed in master.
 
 ## Things To Do:
-1. Minimum 2 ingredients
+1. Restrict users from typing "|" verticle pole(s) and "`" backtick(s) into ANY field
 2. Parse search query in "Find a Recipe" view, and display results in a listview
 3. Above listview must be a custom XML like the one presented in the lab
