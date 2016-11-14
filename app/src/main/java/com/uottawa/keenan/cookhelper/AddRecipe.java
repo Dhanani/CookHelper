@@ -672,6 +672,12 @@ public class AddRecipe extends AppCompatActivity {
                     } else {
                         Intent intent = new Intent(getApplicationContext(), Homescreen.class);
                         startActivity(intent);
+
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(this, "Recipe " + recipes.get(0).getRecipeName() + " has been added!" , duration);
+
+                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        toast.show();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
