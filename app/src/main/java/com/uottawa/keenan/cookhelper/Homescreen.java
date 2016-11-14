@@ -14,13 +14,6 @@ public class Homescreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        try {
-            recipiesDB = new CreateDB(getApplicationContext(),"RecipesDB.txt");
-            recipiesDB.addToDB("this is a place holder");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
     }
