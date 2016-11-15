@@ -32,4 +32,8 @@ public class FindRecipe extends AppCompatActivity {
         add_boolean_operator("not");
     }
 
+    public void OnSearch(View view) {
+        //Add soemthing here
+    }
+
 }
