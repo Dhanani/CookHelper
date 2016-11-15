@@ -73,6 +73,31 @@ public class CreateDB {
         //readContents();
     }
 
+    public boolean addToRecipeDB(String stringToAdd) throws IOException {
+        String recipe_name = stringToAdd.split("\\|")[0];
+        System.out.println(recipe_name);
+        try {
+            if(alreadyExsistsInRecipeDB(recipe_name)) {
+                System.out.println(stringToAdd + "already exists in the database");
+                return false;
+            }else{
+                String separator = System.getProperty("line.separator");
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(dbName, Context.MODE_APPEND));
+                outputStreamWriter.write(stringToAdd);
+                outputStreamWriter.append(separator);
+                outputStreamWriter.flush();
+                outputStreamWriter.close();
+                size++;
+                return true;
+            }
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+            return false;
+        }
+        //readContents();
+    }
+
     public boolean removeFromDB(String stringToRemove) throws IOException{
 
         File tempFile = new File(context.getFilesDir(), "myTempFile.txt");
@@ -97,6 +122,28 @@ public class CreateDB {
         return successful;
     }
 
+    public boolean alreadyExsistsInRecipeDB(String stringToCheck) throws IOException {
+
+        boolean existsInDB = false;
+        try  {
+            InputStream input = new FileInputStream(this.myDataBase);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(input, "UTF-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String recipe_name = line.split("\\|")[0];
+                System.out.println(recipe_name + "is fucked");
+                if(recipe_name.equals(stringToCheck)){
+                    existsInDB = true;
+                    break;
+                }
+
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return existsInDB;
+    }
 
     public boolean alreadyExsistsInDB(String stringToCheck) throws IOException {
 
