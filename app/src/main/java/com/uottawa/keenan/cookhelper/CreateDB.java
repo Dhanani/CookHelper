@@ -181,7 +181,7 @@ public class CreateDB {
         }catch(Exception e){
             System.out.println(e);
         }
-        //System.out.println(builder.toString());
+        System.out.println(builder.toString());
         return builder.toString();
     }
 
