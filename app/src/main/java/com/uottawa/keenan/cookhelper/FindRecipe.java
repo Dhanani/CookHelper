@@ -107,7 +107,21 @@ public class FindRecipe extends AppCompatActivity {
         }
     }
 
+
+    /*
+        Executed when search button is pressed.
+    */
     public void OnSearch(View view) {
+        EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
+
+        try {
+            ArrayList<Recipe> orderedRecipes =  findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
+            for (Recipe r : orderedRecipes) {
+                System.out.println(r.getRecipeName());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //public ArrayList<Recipe> findRelevantRecipes (String userInput, CreateDB database)
         //THE METHOD ABOVE SHOULD BE CALLED
@@ -231,8 +245,8 @@ public class FindRecipe extends AppCompatActivity {
         Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
         Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
-        String desiredCategory = category_spinner.toString();
-        String desiredType = type_spinner.toString();
+        String desiredCategory = category_spinner.getSelectedItem().toString();
+        String desiredType = type_spinner.getSelectedItem().toString();
 
         for (int i=0; i<databaseRecipes.size(); i++){
             ArrayList<String> temp = getIngredientsList(databaseRecipes.get(i));
