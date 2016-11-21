@@ -118,6 +118,9 @@ public class FindRecipe extends AppCompatActivity {
             for (Recipe r : orderedRecipes) {
                 System.out.println(r.getRecipeName());
             }
+            if (orderedRecipes.size() == 0){
+                System.out.println("No recipes found");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
