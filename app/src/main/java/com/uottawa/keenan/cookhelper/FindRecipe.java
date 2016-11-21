@@ -2,10 +2,12 @@ package com.uottawa.keenan.cookhelper;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -114,13 +116,22 @@ public class FindRecipe extends AppCompatActivity {
         EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
 
         try {
-            ArrayList<Recipe> orderedRecipes =  findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
-            for (Recipe r : orderedRecipes) {
-                System.out.println(r.getRecipeName());
+            if (!ingredients_editText.getText().toString().isEmpty()) {
+                ArrayList<Recipe> orderedRecipes =  findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
+                for (Recipe r : orderedRecipes) {
+                    System.out.println(r.getRecipeName());
+                }
+                if (orderedRecipes.size() == 0){
+                    System.out.println("No recipes found");
+                }
+            } else {
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, "You need to enter ingredients to search!", duration);
+
+                toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                toast.show();
             }
-            if (orderedRecipes.size() == 0){
-                System.out.println("No recipes found");
-            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
