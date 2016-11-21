@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -46,25 +48,11 @@ public class FindRecipe extends AppCompatActivity {
 
     public void OnSearch(View view) {
 
-//        String userInput = ((EditText)findViewById(R.id.ingredients_editText)).getText()
-//                .toString();
-//        try {
-//            ArrayList<String> relevantRecipes = findRelevantRecipes(userInput, recipeDB);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        //public ArrayList<Recipe> findRelevantRecipes (String userInput, CreateDB database)
+        //THE METHOD ABOVE SHOULD BE CALLED
 
     }
 
-    /**STILL NEEDS TO BE IMPLEMENTED
-     * This method needs to get each line of recipe in the database and needs to
-     * put it into an ArrayList<String>
-     * ALSO CHANGE FIRST LINE RELATED TO THIS METHOD IN THE FindReleventRecipes METHOD
-     */
-//    public ArrayList<String> getRecipeList(CreateDB recipeDB){
-//        ArrayList<String> recipes = recipeDB.getAsArrayList();
-//        return recipes;
-//    }
 
     /**
      * Gets all the ingredients of a recipe
@@ -81,6 +69,59 @@ public class FindRecipe extends AppCompatActivity {
             ingredients.add(temp[i]);
         }
         return ingredients;
+    }
+
+    /**
+     * Gets the steps of a recipe
+     * @param recipe
+     * @return
+     * @throws IOException
+     */
+    public ArrayList<String> getStepsList(String recipe) throws IOException{
+
+        String[] temp =  recipe.split("\\|")[3].split("`");
+        ArrayList<String> steps = new ArrayList<String>();
+
+        for (int i=0; i<temp.length; i++){
+            steps.add(temp[i]);
+        }
+        return steps;
+    }
+
+    /**
+     * Gets the category of the recipe
+     * @param recipe
+     * @return
+     * @throws IOException
+     */
+    public String getCategory(String recipe) throws IOException{
+
+        String[] category =  recipe.split("\\|")[1].split("`");
+        return category[0] ;
+    }
+
+    /**
+     * Gets the type of the recipe
+     * @param recipe
+     * @return
+     * @throws IOException
+     */
+    public String getType(String recipe) throws IOException{
+
+        String[] type =  recipe.split("\\|")[2].split("`");
+        return type[0] ;
+    }
+
+    /**
+     * Gets name of the recipe
+     * @param recipe
+     * @return
+     * @throws IOException
+     */
+    public static String getName(String recipe) throws IOException{
+
+        String[] name =  recipe.split("\\|")[0].split("`");
+        return name[0] ;
     }
 
 
@@ -117,7 +158,7 @@ public class FindRecipe extends AppCompatActivity {
      * @param database
      * @throws IOException
      */
-    public ArrayList<String> findRelevantRecipes (String userInput, CreateDB database)
+    public ArrayList<Recipe> findRelevantRecipes (String userInput, CreateDB database)
             throws IOException{
 
         ArrayList<String> databaseRecipes = database.getAsArrayList();
@@ -126,17 +167,28 @@ public class FindRecipe extends AppCompatActivity {
         ArrayList<ArrayList<String>> userIngredients = setUserInput(userInput);
         ArrayList<ArrayList<String>> indexedRecipes = new ArrayList<ArrayList<String>>();
 
+        Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
+        Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+
+        String desiredCategory = category_spinner.toString();
+        String desiredType = type_spinner.toString();
+
         for (int i=0; i<databaseRecipes.size(); i++){
             ArrayList<String> temp = getIngredientsList(databaseRecipes.get(i));
             if (Integer.parseInt(haveAnyCommonElems(temp, userIngredients.get(0))) > 0 &&
-                    Integer.parseInt(haveAnyCommonElems(temp, userIngredients.get(1))) == 0){
-                relevantRecipes.add(databaseRecipes.get(i));
-                relevance.add(haveAnyCommonElems(temp, userIngredients.get(0)));
+                    Integer.parseInt(haveAnyCommonElems(temp, userIngredients.get(1))) == 0) {
+
+                if (getCategory(databaseRecipes.get(i)).equals(desiredCategory) ||
+                        getType(databaseRecipes.get(i)).equals(desiredType)) {
+
+                    relevantRecipes.add(databaseRecipes.get(i));
+                    relevance.add(haveAnyCommonElems(temp, userIngredients.get(0)));
+                }
             }
         }
         indexedRecipes.add(relevantRecipes);
         indexedRecipes.add(relevance);
-        return sortByRelevance(indexedRecipes);
+        return convertStringToRecipe(sortByRelevance(indexedRecipes));
     }
 
     /**
@@ -173,6 +225,94 @@ public class FindRecipe extends AppCompatActivity {
             }
         }
         return indexedRecipes.get(0);
+    }
+
+    /**
+     * HELPER METHOD for converting ArrayList<String> to ArrayList<Recipe>
+     * @param stringList
+     * @return
+     * @throws IOException
+     */
+    private ArrayList<ArrayList<Ingredient>> getListOfIngredientList(ArrayList<String> stringList) throws IOException{
+        ArrayList<ArrayList<Ingredient>> listOfIngredientList = new ArrayList<ArrayList<Ingredient>>();
+        ArrayList<Ingredient> ingredientList = new ArrayList<>();
+        Ingredient sep = new Ingredient("sep"); //Seperator
+
+        for (int j=0; j<stringList.size(); j++){
+            for (int i=0; i<getIngredientsList(stringList.get(j)).size(); i++){
+                Ingredient in = new Ingredient(getIngredientsList(stringList.get(j)).get(i));
+                ingredientList.add(in);
+            }
+            ingredientList.add(sep);
+        }
+        ingredientList.remove(ingredientList.size()-1);
+
+        int prev = 0;
+        for (int cur = 0; cur < ingredientList.size(); cur++) {
+            if (ingredientList.get(cur).equals(sep)) {
+                listOfIngredientList.add(new ArrayList<Ingredient>(ingredientList.subList(prev, cur)));
+                prev = cur + 1;
+            }
+        }
+        listOfIngredientList.add(new ArrayList<Ingredient>(ingredientList.subList(prev, ingredientList.size())));
+        return listOfIngredientList;
+    }
+
+    /**
+     * HELPER METHOD for converting ArrayList<String> to ArrayList<Recipe>
+     * @param stringList
+     * @return
+     * @throws IOException
+     */
+    private ArrayList<ArrayList<RecipeStep>> getListOfStepsList(ArrayList<String> stringList) throws IOException{
+        ArrayList<ArrayList<RecipeStep>> listOfStepsList = new ArrayList<ArrayList<RecipeStep>>();
+        ArrayList<RecipeStep> stepsList = new ArrayList<>();
+        RecipeStep sep = new RecipeStep("sep"); //Seperator
+
+        for (int j=0; j<stringList.size(); j++){
+            for (int i=0; i<getStepsList(stringList.get(j)).size(); i++){
+                RecipeStep step = new RecipeStep(getStepsList(stringList.get(j)).get(i));
+                stepsList.add(step);
+            }
+            stepsList.add(sep);
+        }
+        stepsList.remove(stepsList.size()-1);
+
+        int prev = 0;
+        for (int cur = 0; cur < stepsList.size(); cur++) {
+            if (stepsList.get(cur).equals(sep)) {
+                listOfStepsList.add(new ArrayList<RecipeStep>(stepsList.subList(prev, cur)));
+                prev = cur + 1;
+            }
+        }
+        listOfStepsList.add(new ArrayList<RecipeStep>(stepsList.subList(prev, stepsList.size())));
+        return listOfStepsList;
+    }
+
+
+    /**
+     * Takes in a ArrayList<String> and converts it into a ArrayList<Recipe>
+     * @param stringList
+     * @return
+     * @throws IOException
+     */
+    public ArrayList<Recipe> convertStringToRecipe (ArrayList<String> stringList) throws IOException {
+
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        ArrayList<ArrayList<Ingredient>> ingredients = new ArrayList<ArrayList<Ingredient>>();
+        ArrayList<ArrayList<RecipeStep>> steps = new ArrayList<ArrayList<RecipeStep>>();
+
+        ingredients = getListOfIngredientList(stringList);
+        steps = getListOfStepsList(stringList);
+
+        for (int i=0; i<stringList.size(); i++){
+            RecipeCategory category = new RecipeCategory(getCategory(stringList.get(i)));
+            RecipeType type = new RecipeType(getType(stringList.get(i)));
+            String name = getName(stringList.get(i));
+            Recipe recipe = new Recipe(ingredients.get(i), steps.get(i), category,type, name);
+            recipes.add(recipe);
+        }
+        return recipes;
     }
 
     /**
