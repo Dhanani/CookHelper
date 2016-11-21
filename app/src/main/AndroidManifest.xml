@@ -21,7 +21,7 @@
         <activity android:name=".AddRecipe" />
         <activity android:name=".Help" />
         <activity android:name=".FindRecipe" />
-
+        <activity android:name=".AllRecipes"></activity>
     </application>
 
 </manifest>
