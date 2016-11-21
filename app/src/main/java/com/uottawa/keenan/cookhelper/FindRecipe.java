@@ -3,6 +3,7 @@ package com.uottawa.keenan.cookhelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -17,6 +18,11 @@ import java.util.ArrayList;
 public class FindRecipe extends AppCompatActivity {
 
     public CreateDB recipeDB;
+    public CreateDB categoryDB;
+    public CreateDB typeDB;
+
+    private ArrayList<String> category_entries = new ArrayList<>();
+    private ArrayList<String> type_entries = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +32,17 @@ public class FindRecipe extends AppCompatActivity {
         try {
             recipeDB = new CreateDB(getApplicationContext(), "RecipeDB.txt");
             recipeDB.readContents();
+
+            categoryDB = new CreateDB(getApplicationContext(), "CategoriesDB.txt");
+            typeDB = new CreateDB(getApplicationContext(), "TypesDB.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        updateCategoryEntries();
+        updateCategorySpinner();
+        updateTypeEntries();
+        updateTypeSpinner();
     }
 
     private void add_boolean_operator(String operator){
@@ -48,6 +62,49 @@ public class FindRecipe extends AppCompatActivity {
 
     public void OnNot(View view) {
         add_boolean_operator("not");
+    }
+
+    public void updateCategoryEntries(){
+        category_entries.clear();
+        ArrayList<String> dbSource = categoryDB.getAsArrayList();
+        for(int i=0; i<dbSource.size(); i++){
+            category_entries.add(i,dbSource.get(i));
+        }
+    }
+
+    public void updateTypeEntries(){
+        type_entries.clear();
+        ArrayList<String> dbSource = typeDB.getAsArrayList();
+        for(int i=0; i<dbSource.size(); i++){
+            type_entries.add(i,dbSource.get(i));
+        }
+    }
+
+    public void updateCategorySpinner() {
+        if (category_entries.size()>0){
+            Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
+
+            ArrayAdapter<String> dataAdapterCategory = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, category_entries);
+
+            dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            category_spinner.setAdapter(dataAdapterCategory);
+
+            int spinnerPosition = dataAdapterCategory.getPosition(category_entries.get(category_entries.size()-1));
+            category_spinner.setSelection(spinnerPosition);
+        }
+    }
+
+    public void updateTypeSpinner() {
+        if (type_entries.size()>0){
+            Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+            ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, type_entries);
+            dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            type_spinner.setAdapter(dataAdapterType);
+            int spinnerPosition = dataAdapterType.getPosition(type_entries.get(type_entries.size()-1));
+            type_spinner.setSelection(spinnerPosition);
+        }
     }
 
     public void OnSearch(View view) {
