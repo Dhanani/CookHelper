@@ -321,9 +321,9 @@ public class FindRecipe extends AppCompatActivity {
             }
             ingredientList.add(sep);
         }
-        if (ingredientList.size() != 0) {
+        //if (ingredientList.size() != 0) {
             ingredientList.remove(ingredientList.size() - 1);
-        }
+        //}
 
         int prev = 0;
         for (int cur = 0; cur < ingredientList.size(); cur++) {
@@ -354,9 +354,9 @@ public class FindRecipe extends AppCompatActivity {
             }
             stepsList.add(sep);
         }
-        if (stepsList.size() != 0) {
+        //if (stepsList.size() != 0) {
             stepsList.remove(stepsList.size() - 1);
-        }
+        //}
 
         int prev = 0;
         for (int cur = 0; cur < stepsList.size(); cur++) {
