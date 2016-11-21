@@ -107,7 +107,6 @@ public class FindRecipe extends AppCompatActivity {
         }
     }
 
-
     /*
         Executed when search button is pressed.
     */
@@ -122,7 +121,6 @@ public class FindRecipe extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         //public ArrayList<Recipe> findRelevantRecipes (String userInput, CreateDB database)
         //THE METHOD ABOVE SHOULD BE CALLED
 
@@ -320,7 +318,9 @@ public class FindRecipe extends AppCompatActivity {
             }
             ingredientList.add(sep);
         }
-        ingredientList.remove(ingredientList.size()-1);
+        if (ingredientList.size() != 0) {
+            ingredientList.remove(ingredientList.size() - 1);
+        }
 
         int prev = 0;
         for (int cur = 0; cur < ingredientList.size(); cur++) {
@@ -351,7 +351,9 @@ public class FindRecipe extends AppCompatActivity {
             }
             stepsList.add(sep);
         }
-        stepsList.remove(stepsList.size()-1);
+        if (stepsList.size() != 0) {
+            stepsList.remove(stepsList.size() - 1);
+        }
 
         int prev = 0;
         for (int cur = 0; cur < stepsList.size(); cur++) {
