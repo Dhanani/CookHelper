@@ -25,7 +25,6 @@ public class FindRecipe extends AppCompatActivity {
 
     private ArrayList<String> category_entries = new ArrayList<>();
     private ArrayList<String> type_entries = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -220,18 +219,23 @@ public class FindRecipe extends AppCompatActivity {
      */
     public ArrayList<ArrayList<String>> setUserInput (String input){
 
-        String[] temp = input.split(" ");
+        String[] stringInput = input.split(" ");
         ArrayList<String> andIngredients = new ArrayList<String>();
         ArrayList<String> notIngredients = new ArrayList<String>();
         ArrayList<ArrayList<String>> userInput = new ArrayList<>();
 
-        for (int i = 0; i<temp.length; i++){
-
-            if (!temp[i].equals("and")){
-                andIngredients.add(temp[i]);
+        for (int i = 0; i<stringInput.length; i++){
+            if (!stringInput[i].equals("and") && !stringInput[i].equals("not") ){
+                try{
+                    if (!stringInput[i-1].equals("not")){
+                        andIngredients.add(stringInput[i]);
+                    }
+                }catch (ArrayIndexOutOfBoundsException e){
+                    andIngredients.add(stringInput[i]);
+                }
             }
-            if (temp[i].equals("not")){
-                notIngredients.add(temp[i+1]);
+            if (stringInput[i].equals("not")){
+                notIngredients.add(stringInput[i+1]);
             }
         }
         userInput.add(andIngredients);
@@ -261,15 +265,16 @@ public class FindRecipe extends AppCompatActivity {
         String desiredType = type_spinner.getSelectedItem().toString();
 
         for (int i=0; i<databaseRecipes.size(); i++){
-            ArrayList<String> temp = getIngredientsList(databaseRecipes.get(i));
-            if (Integer.parseInt(haveAnyCommonElems(temp, userIngredients.get(0))) > 0 &&
-                    Integer.parseInt(haveAnyCommonElems(temp, userIngredients.get(1))) == 0) {
+            ArrayList<String> recipeIngredients = getIngredientsList(databaseRecipes.get(i));
+            if (Integer.parseInt(haveAnyCommonElems(recipeIngredients, userIngredients.get(0))) ==
+                    userIngredients.get(0).size() &&
+                    Integer.parseInt(haveAnyCommonElems(recipeIngredients, userIngredients.get(1))) == 0) {
 
                 if (getCategory(databaseRecipes.get(i)).equals(desiredCategory) ||
                         getType(databaseRecipes.get(i)).equals(desiredType)) {
 
                     relevantRecipes.add(databaseRecipes.get(i));
-                    relevance.add(haveAnyCommonElems(temp, userIngredients.get(0)));
+                    relevance.add(getPercentRelevance(recipeIngredients, userIngredients.get(0)));
                 }
             }
         }
@@ -293,11 +298,11 @@ public class FindRecipe extends AppCompatActivity {
                 if (Integer.parseInt(indexedRecipes.get(1).get(j-1))
                         < Integer.parseInt(indexedRecipes.get(1).get(j))) {
 
-                    tempIndices = Integer.parseInt(indexedRecipes.get(1).get(i));
-                    tempRecipes = indexedRecipes.get(0).get(i);
+                    tempIndices = Integer.parseInt(indexedRecipes.get(1).get(j-1));
+                    tempRecipes = indexedRecipes.get(0).get(j-1);
 
                     indexedRecipes.get(1).add(j-1, indexedRecipes.get(1).get(j));
-                    indexedRecipes.get(1).remove(j); //FOR COUNTER
+                    indexedRecipes.get(1).remove(j); //FOR PERCENT RELEVANCE
 
                     indexedRecipes.get(0).add(j-1, indexedRecipes.get(0).get(j));
                     indexedRecipes.get(0).remove(j); //FOR RECIPES
@@ -307,7 +312,6 @@ public class FindRecipe extends AppCompatActivity {
 
                     indexedRecipes.get(0).add(j, tempRecipes);
                     indexedRecipes.get(0).remove(j+1);
-
                 }
             }
         }
@@ -332,9 +336,9 @@ public class FindRecipe extends AppCompatActivity {
             }
             ingredientList.add(sep);
         }
-        //if (ingredientList.size() != 0) {
+        if (ingredientList.size() != 0) {
             ingredientList.remove(ingredientList.size() - 1);
-        //}
+        }
 
         int prev = 0;
         for (int cur = 0; cur < ingredientList.size(); cur++) {
@@ -365,9 +369,9 @@ public class FindRecipe extends AppCompatActivity {
             }
             stepsList.add(sep);
         }
-        //if (stepsList.size() != 0) {
+        if (stepsList.size() != 0) {
             stepsList.remove(stepsList.size() - 1);
-        //}
+        }
 
         int prev = 0;
         for (int cur = 0; cur < stepsList.size(); cur++) {
@@ -422,5 +426,19 @@ public class FindRecipe extends AppCompatActivity {
             }
         }
         return Integer.toString(counter);
+    }
+
+    /**
+     *
+     * @param recipeIngredients
+     * @param userInput
+     * @return
+     */
+    public static String getPercentRelevance (ArrayList<String> recipeIngredients,
+                                              ArrayList<String> userInput ){
+        double userInputAsDouble = userInput.size();
+        double recipeIngAsDouble = recipeIngredients.size();
+        double percentRelevance = (userInputAsDouble/recipeIngAsDouble)*100.0;
+        return Integer.toString((int)percentRelevance);
     }
 }
