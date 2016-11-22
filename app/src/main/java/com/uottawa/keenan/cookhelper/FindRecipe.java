@@ -386,7 +386,7 @@ public class FindRecipe extends AppCompatActivity {
 
 
     /**
-     * Takes in a ArrayList<String> and converts it into a ArrayList<Recipe>
+     * Takes in a ArrayList<String> type and converts it into a ArrayList<Recipe> type
      * @param stringList
      * @return
      * @throws IOException
