@@ -67,6 +67,7 @@ public class FindRecipe extends AppCompatActivity {
 
     public void updateCategoryEntries(){
         category_entries.clear();
+        category_entries.add("");
         ArrayList<String> dbSource = categoryDB.getAsArrayList();
         for(int i=0; i<dbSource.size(); i++){
             category_entries.add(i,dbSource.get(i));
@@ -75,6 +76,7 @@ public class FindRecipe extends AppCompatActivity {
 
     public void updateTypeEntries(){
         type_entries.clear();
+        type_entries.add("");
         ArrayList<String> dbSource = typeDB.getAsArrayList();
         for(int i=0; i<dbSource.size(); i++){
             type_entries.add(i,dbSource.get(i));
