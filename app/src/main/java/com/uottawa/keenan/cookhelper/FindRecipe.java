@@ -115,7 +115,15 @@ public class FindRecipe extends AppCompatActivity {
         EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
 
         try {
-            if (!ingredients_editText.getText().toString().isEmpty()) {
+            if (ingredients_editText.getText().toString().trim().equals("and") ||
+                    ingredients_editText.getText().toString().trim().equals("not")) {
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, "Not valid input!", duration);
+
+                toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                toast.show();
+
+            } else if (!ingredients_editText.getText().toString().isEmpty()){
                 ArrayList<Recipe> orderedRecipes =  findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
                 for (Recipe r : orderedRecipes) {
                     System.out.println(r.getRecipeName());
@@ -123,7 +131,8 @@ public class FindRecipe extends AppCompatActivity {
                 if (orderedRecipes.size() == 0){
                     System.out.println("No recipes found");
                 }
-            } else {
+            }
+            else {
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(this, "You need to enter ingredients to search!", duration);
 
@@ -234,7 +243,7 @@ public class FindRecipe extends AppCompatActivity {
                     andIngredients.add(stringInput[i]);
                 }
             }
-            if (stringInput[i].equals("not")){
+            if (stringInput[i].equals("not") && !stringInput[stringInput.length-1].equals("not")){
                 notIngredients.add(stringInput[i+1]);
             }
         }
