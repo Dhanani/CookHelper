@@ -120,47 +120,56 @@ public class FindRecipe extends AppCompatActivity {
             Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
             Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
-            if (category_spinner.getSelectedItem().toString().isEmpty() && type_spinner.getSelectedItem().toString().isEmpty()) {
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, "You need to selected a category or type!", duration);
-
-                toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                toast.show();
-            }
-
-            if (!ingredients_editText.getText().toString().trim().isEmpty()){
-
-                if (ingredients_editText.getText().toString().trim().equals("and") ||
-                        ingredients_editText.getText().toString().trim().equals("not")) {
+            if (true){
+                if (category_spinner.getSelectedItem().toString().isEmpty() &&
+                        type_spinner.getSelectedItem().toString().isEmpty() &&
+                        ingredients_editText.getText().toString().trim().isEmpty()) {
                     int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(this, "Not valid input!", duration);
+                    Toast toast = Toast.makeText(this, "You need to select category/type or choose ingredients", duration);
 
                     toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
                     toast.show();
+                }
 
-                } else {
-                    ArrayList<Recipe> orderedRecipes =  findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
+                else if (!ingredients_editText.getText().toString().trim().isEmpty()){
+
+                    if (ingredients_editText.getText().toString().trim().equals("and") ||
+                            ingredients_editText.getText().toString().trim().equals("not")) {
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(this, "Not valid input!", duration);
+
+                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        toast.show();
+
+                    }
+                    else  {
+                        ArrayList<Recipe> orderedRecipes =  findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
+                        for (Recipe r : orderedRecipes) {
+                            System.out.println(r.getRecipeName());
+                        }
+                        if (orderedRecipes.size() == 0){
+                            System.out.println("No recipes found");
+                        }
+                    }
+                }
+                else if (!category_spinner.getSelectedItem().toString().isEmpty() ||
+                        !type_spinner.getSelectedItem().toString().isEmpty()) {
+                    ArrayList<Recipe> orderedRecipes =
+                            findRelevantRecipesByCategoryOrType(
+                                    type_spinner.getSelectedItem().toString(),
+                                    category_spinner.getSelectedItem().toString(), recipeDB);
                     for (Recipe r : orderedRecipes) {
                         System.out.println(r.getRecipeName());
                     }
-                    if (orderedRecipes.size() == 0){
-                        System.out.println("No recipes found");
+                        if (orderedRecipes.size() == 0) {
+                            System.out.println("No recipesss found");
+                        }
                     }
                 }
 
-            } else {
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, "You need to enter ingredients to search!", duration);
-
-                toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                toast.show();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         //public ArrayList<Recipe> findRelevantRecipes (String userInput, CreateDB database)
         //THE METHOD ABOVE SHOULD BE CALLED
 
@@ -271,6 +280,39 @@ public class FindRecipe extends AppCompatActivity {
     }
 
     /**
+     * Finds recipes according to category and/or type when no ingredients are inputted
+     * @param type
+     * @param category
+     * @param database
+     * @return
+     * @throws IOException
+     */
+
+    public ArrayList<Recipe> findRelevantRecipesByCategoryOrType (String type,
+                                                                   String category,
+                                                                   CreateDB database)throws IOException{
+
+        ArrayList<String> databaseRecipes = database.getAsArrayList();
+        ArrayList<String> relevantRecipes = new ArrayList<String>();
+
+        for (int i=0; i<databaseRecipes.size(); i++){
+            if (getType(databaseRecipes.get(i)).equals(type) &&
+                    (getCategory(databaseRecipes.get(i)).equals(category))){
+                relevantRecipes.add(databaseRecipes.get(i));
+            }
+            else if (getType(databaseRecipes.get(i)).equals(type) && category.isEmpty()){
+                relevantRecipes.add(databaseRecipes.get(i));
+            }
+            else if (type.isEmpty() && getCategory(databaseRecipes.get(i)).equals(category)){
+                relevantRecipes.add(databaseRecipes.get(i));
+            }
+        }
+
+        return convertStringToRecipe(relevantRecipes);
+    }
+
+
+    /**
      * Takes in user input and finds relevant recipes in the database
      * @param userInput
      * @param database
@@ -291,15 +333,20 @@ public class FindRecipe extends AppCompatActivity {
         String desiredCategory = category_spinner.getSelectedItem().toString();
         String desiredType = type_spinner.getSelectedItem().toString();
 
-        for (int i=0; i<databaseRecipes.size(); i++){
+        for (int i=0; i<databaseRecipes.size(); i++) {
             ArrayList<String> recipeIngredients = getIngredientsList(databaseRecipes.get(i));
             if (Integer.parseInt(haveAnyCommonElems(recipeIngredients, userIngredients.get(0))) ==
                     userIngredients.get(0).size() &&
                     Integer.parseInt(haveAnyCommonElems(recipeIngredients, userIngredients.get(1))) == 0) {
 
-                if (getCategory(databaseRecipes.get(i)).equals(desiredCategory) ||
+                if (desiredCategory.isEmpty() && getType(databaseRecipes.get(i)).equals(desiredType)) {
+                    relevantRecipes.add(databaseRecipes.get(i));
+                    relevance.add(getPercentRelevance(recipeIngredients, userIngredients.get(0)));
+                } else if (desiredType.isEmpty() && getCategory(databaseRecipes.get(i)).equals(desiredCategory)) {
+                    relevantRecipes.add(databaseRecipes.get(i));
+                    relevance.add(getPercentRelevance(recipeIngredients, userIngredients.get(0)));
+                } else if (getCategory(databaseRecipes.get(i)).equals(desiredCategory) &&
                         getType(databaseRecipes.get(i)).equals(desiredType)) {
-
                     relevantRecipes.add(databaseRecipes.get(i));
                     relevance.add(getPercentRelevance(recipeIngredients, userIngredients.get(0)));
                 }
