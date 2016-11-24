@@ -2,6 +2,7 @@ package com.uottawa.keenan.cookhelper;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -143,7 +144,8 @@ public class FindRecipe extends AppCompatActivity {
 
                     }
                     else  {
-                        ArrayList<Recipe> orderedRecipes =  findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
+                        ArrayList<Recipe> orderedRecipes =
+                                findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
                         for (Recipe r : orderedRecipes) {
                             System.out.println(r.getRecipeName());
                         }
@@ -347,6 +349,9 @@ public class FindRecipe extends AppCompatActivity {
                     relevance.add(getPercentRelevance(recipeIngredients, userIngredients.get(0)));
                 } else if (getCategory(databaseRecipes.get(i)).equals(desiredCategory) &&
                         getType(databaseRecipes.get(i)).equals(desiredType)) {
+                    relevantRecipes.add(databaseRecipes.get(i));
+                    relevance.add(getPercentRelevance(recipeIngredients, userIngredients.get(0)));
+                } else if (desiredCategory.isEmpty() && desiredType.isEmpty()){
                     relevantRecipes.add(databaseRecipes.get(i));
                     relevance.add(getPercentRelevance(recipeIngredients, userIngredients.get(0)));
                 }
