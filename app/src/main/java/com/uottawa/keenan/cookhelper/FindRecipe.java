@@ -123,8 +123,7 @@ public class FindRecipe extends AppCompatActivity {
 
             if (true){
                 if (category_spinner.getSelectedItem().toString().isEmpty() &&
-                        type_spinner.getSelectedItem().toString().isEmpty() &&
-                        ingredients_editText.getText().toString().trim().isEmpty()) {
+                        type_spinner.getSelectedItem().toString().isEmpty()) {
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(this, "You need to select category/type or choose ingredients", duration);
 
