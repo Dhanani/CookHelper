@@ -344,7 +344,6 @@ public class AddRecipe extends AppCompatActivity {
             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
             toast.show();
         }
-
     }
 
     public void updateIngredients(Ingredient ingredient) throws IOException {

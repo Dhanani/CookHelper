@@ -212,8 +212,14 @@ public class CreateDB {
         return myDataBase;
     }
 
-    public String toString(){ return dbName;
+    public void destroyDataBase(){
+        myDataBase.delete();
+        dbName = null;
+        size = 0;
+        context = null;
     }
+
+    public String toString(){ return dbName;}
 
 
 }
