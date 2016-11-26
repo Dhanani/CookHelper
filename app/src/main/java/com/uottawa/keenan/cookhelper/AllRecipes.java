@@ -1,5 +1,6 @@
 package com.uottawa.keenan.cookhelper;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +43,8 @@ public class AllRecipes extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 final String item = (String) parent.getItemAtPosition(position);
+                Intent intent = new Intent(getApplicationContext(), EditRecipe.class);
+                startActivityForResult (intent,0);
             }
         });
     }
