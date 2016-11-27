@@ -40,6 +40,7 @@ public class AddRecipe extends AppCompatActivity {
     public CreateDB typeDB;
     public CreateDB recipeDB;
 
+    public boolean oldIngredientsLoaded = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -60,8 +61,8 @@ public class AddRecipe extends AppCompatActivity {
         try {
 //            System.out.println("GET FUCKED HERE222");
             updateIngredientsArrayList();
-
             setupIngredients();
+            oldIngredientsLoaded = true;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -349,7 +350,9 @@ public class AddRecipe extends AppCompatActivity {
     public void updateIngredients(Ingredient ingredient) throws IOException {
         LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
         CheckBox cb = new CheckBox(this);
-
+        if (oldIngredientsLoaded) {
+            cb.setChecked(true);
+        }
         cb.setText(ingredient.getIngredient());
         cb.setTextColor(Color.BLACK);
         ingredients_layout.addView(cb);
