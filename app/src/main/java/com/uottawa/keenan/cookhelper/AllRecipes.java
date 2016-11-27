@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class AllRecipes extends AppCompatActivity {
 
     public CreateDB recipeDB;
+    public CreateDB tempDB;
     public ArrayList<Recipe> all_recipes = new ArrayList<Recipe>();
 
 
@@ -29,6 +30,9 @@ public class AllRecipes extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
         ListView listView = (ListView) findViewById(R.id.all_recipes_listView);
         updateRecipes();
 
@@ -43,6 +47,18 @@ public class AllRecipes extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 final String item = (String) parent.getItemAtPosition(position);
+                // Create Database "temp". temp will only include one line, the recipe name.
+                // i.e. the selected listview item string
+                // It will be read by EditRecipe. EditRecipe will then locate recipe in database
+                // and populate EditRecipe view
+                try {
+                    tempDB = new CreateDB(getApplicationContext(), "tempDB.txt");
+                    tempDB.destroyDataBase();
+                    tempDB = new CreateDB(getApplicationContext(), "tempDB.txt");
+                    tempDB.addToDB(item);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent(getApplicationContext(), EditRecipe.class);
                 startActivityForResult (intent,0);
             }

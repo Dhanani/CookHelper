@@ -132,7 +132,6 @@ public class CreateDB {
             String line;
             while ((line = reader.readLine()) != null) {
                 String recipe_name = line.split("\\|")[0];
-                System.out.println(recipe_name + "is fucked");
                 if(recipe_name.equals(stringToCheck)){
                     existsInDB = true;
                     break;
@@ -143,6 +142,29 @@ public class CreateDB {
             System.out.println(e);
         }
         return existsInDB;
+    }
+
+    /*
+        Added by Keenan.
+        Get Recipe line of database (i.e. recipe posting) by recipe name.
+     */
+    public String getRecipeListingFromName(String recipeName) throws IOException {
+        try  {
+            InputStream input = new FileInputStream(this.myDataBase);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String recipe_name = line.split("\\|")[0];
+                if(recipe_name.equals(recipeName)){
+                    return line;
+                }
+
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        return null;
     }
 
     public boolean alreadyExsistsInDB(String stringToCheck) throws IOException {
