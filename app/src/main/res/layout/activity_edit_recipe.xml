@@ -121,7 +121,8 @@
                     android:text="Add Step"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/add_recipe_step_btn" />
+                    android:id="@+id/add_recipe_step_btn"
+                    android:onClick="OnAddStep" />
             </LinearLayout>
 
             <TextView
