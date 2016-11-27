@@ -191,19 +191,14 @@ public class EditRecipe extends AppCompatActivity {
         EditText recipe_name_edittext = (EditText) findViewById(R.id.recipe_name_edittext);
         recipe_name_edittext.setText(recipe_name);
 
+        // Load steps (to do)
+
+
+        // Load spinners to appropriate category and type
         Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
         Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
-
-
         category_spinner.setSelection(category_entries.indexOf(recipe_category.getRecipeCategory()));
         type_spinner.setSelection(type_entries.indexOf(recipe_type.getRecipeType()));
-//        LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
-//        for (Ingredient i : ingredients) {
-//            CheckBox cb = new CheckBox(this);
-//            cb.setText(ingredient.getIngredient());
-//            cb.setTextColor(Color.BLACK);
-//            ingredients_layout.addView(cb);
-//        }
 
     }
 
@@ -244,6 +239,80 @@ public class EditRecipe extends AppCompatActivity {
             type_spinner.setAdapter(dataAdapterType);
             int spinnerPosition = dataAdapterType.getPosition(type_entries.get(type_entries.size()-1));
             type_spinner.setSelection(spinnerPosition);
+        }
+
+    }
+
+    public boolean isDuplicateCategory(String other) {
+        for (String s : category_entries) {
+            if (s.equals(other)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isDuplicateType(String other) {
+        for (String s : type_entries) {
+            if (s.equals(other)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void OnAddCategory(View view) throws IOException {
+        EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
+        String category_name = category_or_type_editText.getText().toString().trim().toLowerCase();
+        RecipeCategory new_category = new RecipeCategory(category_name);
+
+        if (category_name.isEmpty()) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, "Name your Category first!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+            toast.show();
+        } else if (isDuplicateCategory(new_category.toString())) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, new_category.getRecipeCategory() + " already exists!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+            toast.show();
+        } else {
+            category_entries.add(new_category.getRecipeCategory());
+            categoryDB.addToDB(new_category.getRecipeCategory());
+            updateCategorySpinner();
+            category_or_type_editText.setText(null);
+        }
+
+    }
+
+    public void OnAddType(View view) {
+        EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
+        String type_name = category_or_type_editText.getText().toString().trim().toLowerCase();
+        RecipeType new_type = new RecipeType(type_name);
+
+        if (type_name.isEmpty()) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, "Name your Type first!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+            toast.show();
+        } else if (isDuplicateType(new_type.toString())) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, new_type.getRecipeType() + " already exists!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+            toast.show();
+        } else {
+            type_entries.add(new_type.getRecipeType());
+            try {
+                typeDB.addToDB(new_type.getRecipeType());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            updateTypeSpinner();
+            category_or_type_editText.setText(null);
         }
 
     }
