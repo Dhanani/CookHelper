@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -29,6 +31,8 @@ public class EditRecipe extends AppCompatActivity {
 
     public ArrayList<Ingredient> all_ingredients = new ArrayList<>();
 
+    private ArrayList<String> category_entries = new ArrayList<>();
+    private ArrayList<String> type_entries = new ArrayList<>();
 
     boolean oldIngredientsLoaded = false;
     @Override
@@ -51,10 +55,14 @@ public class EditRecipe extends AppCompatActivity {
             updateRecipeName();
             updateCategoryAndType();
             updateIngredientsArrayList();
-
             getDatabaseItems();
+            updateCategoryEntries();
+            updateCategorySpinner();
+            updateTypeEntries();
+            updateTypeSpinner();
             setupView();
             oldIngredientsLoaded = true;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,6 +191,12 @@ public class EditRecipe extends AppCompatActivity {
         EditText recipe_name_edittext = (EditText) findViewById(R.id.recipe_name_edittext);
         recipe_name_edittext.setText(recipe_name);
 
+        Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
+        Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+
+
+        category_spinner.setSelection(category_entries.indexOf(recipe_category.getRecipeCategory()));
+        type_spinner.setSelection(type_entries.indexOf(recipe_type.getRecipeType()));
 //        LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
 //        for (Ingredient i : ingredients) {
 //            CheckBox cb = new CheckBox(this);
@@ -190,6 +204,47 @@ public class EditRecipe extends AppCompatActivity {
 //            cb.setTextColor(Color.BLACK);
 //            ingredients_layout.addView(cb);
 //        }
+
+    }
+
+    public void updateCategoryEntries(){
+        category_entries.clear();
+        ArrayList<String> dbSource = categoryDB.getAsArrayList();
+        for(int i=0; i<dbSource.size(); i++){
+            category_entries.add(i,dbSource.get(i));
+        }
+    }
+
+    public void updateTypeEntries(){
+        type_entries.clear();
+        ArrayList<String> dbSource = typeDB.getAsArrayList();
+        for(int i=0; i<dbSource.size(); i++){
+            type_entries.add(i,dbSource.get(i));
+        }
+    }
+
+    public void updateCategorySpinner() {
+        if (category_entries.size()>0){
+            Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
+            ArrayAdapter<String> dataAdapterCategory = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, category_entries);
+            dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            category_spinner.setAdapter(dataAdapterCategory);
+            int spinnerPosition = dataAdapterCategory.getPosition(category_entries.get(category_entries.size()-1));
+            category_spinner.setSelection(spinnerPosition);
+        }
+    }
+
+    public void updateTypeSpinner() {
+        if (type_entries.size()>0){
+            Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+            ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, type_entries);
+            dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            type_spinner.setAdapter(dataAdapterType);
+            int spinnerPosition = dataAdapterType.getPosition(type_entries.get(type_entries.size()-1));
+            type_spinner.setSelection(spinnerPosition);
+        }
 
     }
 
