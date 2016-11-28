@@ -446,6 +446,17 @@ public class AddRecipe extends AppCompatActivity {
 
     }
 
+    public boolean existsInDatabase(String i) {
+        ArrayList<String> dbIngs = recipeDB.getIngredientsUsedInRecipes();
+
+        for (String ing : dbIngs) {
+            if (i.equals(ing)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public void deleteTypeOrCategory(String s, ArrayList<String> arr){
         arr.remove(s);
@@ -566,6 +577,19 @@ public class AddRecipe extends AppCompatActivity {
             }
         });
 
+        // Grey out Ingredients that exist in db
+
+
+        final LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+        for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+            CheckBox ingCB = (CheckBox)ingredients_layout.getChildAt(i);
+            String ingCBText = ingCB.getText().toString();
+
+            if (existsInDatabase(ingCBText)) {
+                ingCB.setEnabled(false);
+            }
+        }
+
         final Button delete_ingredient_btn = new Button(this);
         delete_ingredient_btn.setText("Delete Ingredients");
         delete_ingredient_btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -592,6 +616,11 @@ public class AddRecipe extends AppCompatActivity {
                 delete_ingredient_btn.setVisibility(View.GONE);
                 done_btn.setVisibility(View.GONE);
                 add_ingredient_editText.setVisibility(View.VISIBLE);
+
+                for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+                    CheckBox ingCB = (CheckBox)ingredients_layout.getChildAt(i);
+                    ingCB.setEnabled(true);
+                }
             }
         });
 
@@ -603,7 +632,6 @@ public class AddRecipe extends AppCompatActivity {
                         ((CheckBox)ingredients_layout.getChildAt(i)).setChecked(false);
                         String checkbox_string = ((CheckBox)ingredients_layout.getChildAt(i)).getText().toString();
                              try {
-//                                System.out.println("trying to remove " + checkbox_string);
                                 ingredientDB.removeFromDB(checkbox_string);
                                  ingredients.remove(findWithString(checkbox_string));
 
@@ -611,16 +639,6 @@ public class AddRecipe extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
-//                        if (findWithString(checkbox_string) != null) {
-//                            ingredients.remove(findWithString(checkbox_string));
-//                            try {
-////                                System.out.println("trying to remove " + checkbox_string);
-//                                ingredientDB.removeFromDB(checkbox_string);
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                            ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
-//                        }
                     }
                 }
 
