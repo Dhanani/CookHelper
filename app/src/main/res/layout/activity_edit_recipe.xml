@@ -91,6 +91,12 @@
                 android:id="@+id/enter_steps_label"
                 android:layout_weight="1" />
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recipe_steps_layout"></LinearLayout>
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,14 +198,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/save_recipe_btn"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:onClick="OnSaveRecipe" />
 
                 <Button
                     android:text="Edit Recipe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:id="@+id/edit_current_recipe_button" />
+                    android:id="@+id/edit_current_recipe_button"
+                    android:onClick="OnEditCurrentRecipe" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

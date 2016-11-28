@@ -5,11 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -60,6 +63,9 @@ public class EditRecipe extends AppCompatActivity {
             updateCategorySpinner();
             updateTypeEntries();
             updateTypeSpinner();
+
+
+
             setupView();
             oldIngredientsLoaded = true;
 
@@ -192,7 +198,7 @@ public class EditRecipe extends AppCompatActivity {
         recipe_name_edittext.setText(recipe_name);
 
         // Load steps (to do)
-
+        updateRecipeStepsView();
 
         // Load spinners to appropriate category and type
         Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
@@ -200,6 +206,121 @@ public class EditRecipe extends AppCompatActivity {
         category_spinner.setSelection(category_entries.indexOf(recipe_category.getRecipeCategory()));
         type_spinner.setSelection(type_entries.indexOf(recipe_type.getRecipeType()));
 
+    }
+
+
+    public void OnAddStep(View view) {
+        EditText step_text = (EditText) findViewById(R.id.enter_step_editText);
+        String step = step_text.getText().toString();
+
+        if (!step.trim().isEmpty()){
+            RecipeStep rs = new RecipeStep(step_text.getText().toString());
+            recipe_steps.add(rs);
+            updateRecipeStepsView();
+            step_text.setText(null);
+            step_text.setVisibility(View.VISIBLE);
+        } else {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, "Write your step!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+            toast.show();
+        }
+    }
+
+    public void updateRecipeStepsView() {
+        LinearLayout recipe_steps_layout = (LinearLayout) findViewById(R.id.recipe_steps_layout);
+        recipe_steps_layout.removeAllViewsInLayout();
+        recipe_steps_layout.requestLayout();
+
+        for (int i = 0; i < recipe_steps.size(); i ++) {
+            TextView tv = new TextView(this);
+            tv.setText(i + 1 + ". " + recipe_steps.get(i).getStep());
+            tv.setTextSize(22);
+            recipe_steps_layout.addView(tv);
+            EditText et = new EditText(this);
+            et.setText(recipe_steps.get(i).getStep());
+            recipe_steps_layout.addView(et);
+            et.setVisibility(View.GONE);
+            setOnClicks(tv, et, recipe_steps.get(i));
+        }
+
+    }
+
+    private int getVisibleChildCount(LinearLayout layout) {
+        int count = 0;
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            if(layout.getChildAt(i).getVisibility() == View.VISIBLE) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public void setOnClicks(final TextView tv, final EditText et, final RecipeStep current_step) {
+        final LinearLayout recipe_save_step_btn_layout = (LinearLayout) findViewById(R.id.recipe_save_step_btn_layout);
+        LinearLayout delete_step_btn_layout = (LinearLayout) findViewById(R.id.delete_step_btn_layout);
+
+        final Button save_recipe_step_btn = new Button(this);
+        save_recipe_step_btn.setText("Save");
+        recipe_save_step_btn_layout.addView(save_recipe_step_btn);
+        save_recipe_step_btn.setVisibility(View.GONE);
+
+        final Button delete_step_btn = new Button(this);
+        delete_step_btn.setText("Delete");
+        delete_step_btn_layout.addView(delete_step_btn);
+        delete_step_btn.setVisibility(View.GONE);
+
+        tv.setOnClickListener(new TextView.OnClickListener() {
+            public void onClick(View v) {
+
+                final EditText step_text = (EditText) findViewById(R.id.enter_step_editText);
+                final Button add_recipe_step_btn = (Button) findViewById(R.id.add_recipe_step_btn);
+
+                if (getVisibleChildCount(recipe_save_step_btn_layout) == 0)  {
+                    step_text.setVisibility(View.GONE);
+                    tv.setVisibility(View.GONE);
+                    et.setVisibility(View.VISIBLE);
+                    et.setFocusableInTouchMode(true);
+                    et.requestFocus();
+                    et.setSelection(et.getText().length());
+                    add_recipe_step_btn.setVisibility(View.GONE);
+                    save_recipe_step_btn.setVisibility(View.VISIBLE);
+                    delete_step_btn.setVisibility(View.VISIBLE);
+
+                    delete_step_btn.setOnClickListener(new Button.OnClickListener() {
+                        public void onClick(View v) {
+                            recipe_steps.remove(current_step);
+                            updateRecipeStepsView();
+                            delete_step_btn.setVisibility(View.GONE);
+                            save_recipe_step_btn.setVisibility(View.GONE);
+                            add_recipe_step_btn.setVisibility(View.VISIBLE);
+                            step_text.setVisibility(View.VISIBLE);
+                            step_text.setFocusableInTouchMode(true);
+                            step_text.requestFocus();
+
+                        }
+                    });
+
+                    save_recipe_step_btn.setOnClickListener(new Button.OnClickListener() {
+                        public void onClick(View v) {
+                            int index = recipe_steps.indexOf(current_step);
+                            recipe_steps.set(index, new RecipeStep(et.getText().toString()));
+                            delete_step_btn.setVisibility(View.GONE);
+                            save_recipe_step_btn.setVisibility(View.GONE);
+                            et.setVisibility(View.GONE);
+                            tv.setVisibility(View.VISIBLE);
+                            add_recipe_step_btn.setVisibility(View.VISIBLE);
+                            step_text.setVisibility(View.VISIBLE);
+                            step_text.setFocusableInTouchMode(true);
+                            step_text.requestFocus();
+
+                            updateRecipeStepsView();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void updateCategoryEntries(){
@@ -314,6 +435,193 @@ public class EditRecipe extends AppCompatActivity {
             updateTypeSpinner();
             category_or_type_editText.setText(null);
         }
+
+    }
+
+    public Ingredient findWithString(String s) {
+        for (int i = 0; i < ingredients.size(); i ++ ) {
+            if (ingredients.get(i).getIngredient().equals(s)) {
+                return ingredients.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void OnEditCurrentRecipe(View view) {
+        LinearLayout ingredient_elements_layout = (LinearLayout) findViewById(R.id.ingredient_elements_layout);
+        LinearLayout save_edit_recipe_layout = (LinearLayout) findViewById(R.id.save_edit_recipe_layout);
+        LinearLayout add_type_category_layout = (LinearLayout) findViewById(R.id.add_type_category_layout);
+
+        final EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
+        final EditText add_ingredient_editText = (EditText) findViewById(R.id.add_ingredient_editText);
+        add_ingredient_editText.setVisibility(View.GONE);
+        category_or_type_editText.setVisibility(View.GONE);
+
+        final Button add_ingredient_btn = (Button) findViewById(R.id.add_ingredient_btn);
+        final Button edit_current_recipe_button = (Button) findViewById(R.id.edit_current_recipe_button);
+        final Button save_current_recipe_btn = (Button) findViewById(R.id.save_recipe_btn);
+        final Button add_category_btn = (Button) findViewById(R.id.add_category_btn);
+        final Button add_type_btn = (Button) findViewById(R.id.add_type_btn);
+
+        add_category_btn.setVisibility(View.GONE);
+        add_type_btn.setVisibility(View.GONE);
+
+        add_ingredient_btn.setVisibility(View.GONE);
+        save_current_recipe_btn.setVisibility(View.GONE);
+        edit_current_recipe_button.setVisibility(View.GONE);
+
+        final Button delete_category_btn = new Button(this);
+        delete_category_btn.setText("Delete Category");
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+        delete_category_btn.setLayoutParams(param);
+        add_type_category_layout.addView(delete_category_btn);
+        delete_category_btn.setVisibility(View.VISIBLE);
+
+        int duration = Toast.LENGTH_SHORT;
+        final Toast delete_category_toast = Toast.makeText(this, "There's nothing to delete!", duration);
+//
+        delete_category_btn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
+                if ((category_entries.size() == 1)) {
+                    RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
+                    category_entries.clear();
+                    category_spinner.setAdapter(null);
+                    try {
+                        categoryDB.removeFromDB(selected_item.getRecipeCategory());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    if (category_spinner.getSelectedItem() == null) {
+                        delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        delete_category_toast.show();
+                    } else {
+                        RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
+                        try {
+                            categoryDB.removeFromDB(selected_item.getRecipeCategory());
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+//                    category_entries.remove(selected_item.getRecipeCategory());
+                        ((ArrayAdapter<String>) category_spinner.getAdapter()).remove((String)category_spinner.getSelectedItem());
+                        ((ArrayAdapter<String>) category_spinner.getAdapter()).notifyDataSetChanged();
+
+                    }
+                }
+
+
+            }
+        });
+//
+//
+        final Button delete_type_btn = new Button(this);
+        delete_type_btn.setText("Delete Type");
+        delete_type_btn.setLayoutParams(param);
+        add_type_category_layout.addView(delete_type_btn);
+        delete_type_btn.setVisibility(View.VISIBLE);
+//
+        delete_type_btn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+                if ((type_entries.size() == 1)) {
+                    RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
+                    type_entries.clear();
+                    type_spinner.setAdapter(null);
+                    try {
+                        typeDB.removeFromDB(selected_item.getRecipeType());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else{
+                    if (type_spinner.getSelectedItem() == null) {
+                        delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        delete_category_toast.show();
+                    } else {
+                        RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
+                        try {
+                            typeDB.removeFromDB(selected_item.getRecipeType());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ((ArrayAdapter<String>) type_spinner.getAdapter()).remove((String)type_spinner.getSelectedItem());
+                        ((ArrayAdapter<String>) type_spinner.getAdapter()).notifyDataSetChanged();
+
+
+
+                    }
+                }
+
+
+
+            }
+        });
+
+        final Button delete_ingredient_btn = new Button(this);
+        delete_ingredient_btn.setText("Delete Ingredients");
+        delete_ingredient_btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        ingredient_elements_layout.addView(delete_ingredient_btn);
+        delete_ingredient_btn.setVisibility(View.VISIBLE);
+
+        final Button done_btn = new Button(this);
+        done_btn.setText("Done");
+        done_btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        save_edit_recipe_layout.addView(done_btn);
+        done_btn.setVisibility(View.VISIBLE);
+//
+        done_btn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                add_ingredient_btn.setVisibility(View.VISIBLE);
+                save_current_recipe_btn.setVisibility(View.VISIBLE);
+                edit_current_recipe_button.setVisibility(View.VISIBLE);
+                category_or_type_editText.setVisibility(View.VISIBLE);
+                delete_type_btn.setVisibility(View.GONE);
+                delete_category_btn.setVisibility(View.GONE);
+                add_category_btn.setVisibility(View.VISIBLE);
+                add_type_btn.setVisibility(View.VISIBLE);
+
+                delete_ingredient_btn.setVisibility(View.GONE);
+                done_btn.setVisibility(View.GONE);
+                add_ingredient_editText.setVisibility(View.VISIBLE);
+            }
+        });
+
+        delete_ingredient_btn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+                for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+                    if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked()) {
+                        ((CheckBox)ingredients_layout.getChildAt(i)).setChecked(false);
+                        String checkbox_string = ((CheckBox)ingredients_layout.getChildAt(i)).getText().toString();
+                        try {
+//                                System.out.println("trying to remove " + checkbox_string);
+                            ingredientDB.removeFromDB(checkbox_string);
+                            ingredients.remove(findWithString(checkbox_string));
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
+//                        if (findWithString(checkbox_string) != null) {
+//                            ingredients.remove(findWithString(checkbox_string));
+//                            try {
+////                                System.out.println("trying to remove " + checkbox_string);
+//                                ingredientDB.removeFromDB(checkbox_string);
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                            ((CheckBox)ingredients_layout.getChildAt(i)).setVisibility(View.GONE);
+//                        }
+                    }
+                }
+
+            }
+        });
 
     }
 
