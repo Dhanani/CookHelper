@@ -122,6 +122,71 @@ public class CreateDB {
         return successful;
     }
 
+    public ArrayList<String> getCategoriesUsedInRecipes(){
+
+        if(dbName!="RecipeDB.txt"){
+            return null;
+        }
+
+        ArrayList<String> allCategories = new ArrayList<>(size);
+
+        try  {
+            InputStream input = new FileInputStream(myDataBase);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] recipeCategory;
+                recipeCategory = line.split("\\|")[1].split("`");
+
+                for(int i=0; i<recipeCategory.length; i++) {
+                    if(!allCategories.contains(recipeCategory[i])){
+                        allCategories.add(recipeCategory[i]);
+                        System.out.println(recipeCategory[i]);
+                    }
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        return allCategories;
+    }
+
+
+    public ArrayList<String> getTypesUsedInRecipes(){
+
+        if(dbName!="RecipeDB.txt"){
+            return null;
+        }
+
+        ArrayList<String> allTypes = new ArrayList<>(size);
+
+        try  {
+            InputStream input = new FileInputStream(myDataBase);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] recipeType;
+                recipeType = line.split("\\|")[2].split("`");
+
+                for(int i=0; i<recipeType.length; i++) {
+                    if(!allTypes.contains(recipeType[i])){
+                        allTypes.add(recipeType[i]);
+                    }
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        return allTypes;
+    }
+
+
     public ArrayList<String> getIngredientsUsedInRecipes(){
 
         if(dbName!="RecipeDB.txt"){
@@ -262,6 +327,9 @@ public class CreateDB {
         }
         return dbAsAL;
     }
+
+
+
 
     public File getMyDataBase(){
         return myDataBase;
