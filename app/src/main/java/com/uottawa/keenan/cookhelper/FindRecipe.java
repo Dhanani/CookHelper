@@ -26,6 +26,7 @@ public class FindRecipe extends AppCompatActivity {
 
     private ArrayList<String> category_entries = new ArrayList<>();
     private ArrayList<String> type_entries = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +124,8 @@ public class FindRecipe extends AppCompatActivity {
 
             if (true){
                 if (category_spinner.getSelectedItem().toString().isEmpty() &&
-                        type_spinner.getSelectedItem().toString().isEmpty()) {
+                        type_spinner.getSelectedItem().toString().isEmpty() &&
+                        ingredients_editText.getText().toString().trim().isEmpty()) {
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(this, "You need to select category/type or choose ingredients", duration);
 
@@ -149,7 +151,11 @@ public class FindRecipe extends AppCompatActivity {
                             System.out.println(r.getRecipeName());
                         }
                         if (orderedRecipes.size() == 0){
-                            System.out.println("No recipes found");
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(this, "No Recipes Found!", duration);
+
+                            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                            toast.show();
                         }
                     }
                 }
@@ -163,7 +169,11 @@ public class FindRecipe extends AppCompatActivity {
                         System.out.println(r.getRecipeName());
                     }
                         if (orderedRecipes.size() == 0) {
-                            System.out.println("No recipesss found");
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(this, "No Recipes Found!", duration);
+
+                            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                            toast.show();
                         }
                     }
                 }
@@ -256,7 +266,8 @@ public class FindRecipe extends AppCompatActivity {
      */
     public ArrayList<ArrayList<String>> setUserInput (String input){
 
-        String[] stringInput = input.split(" ");
+        String trimmedInput = input.trim().replaceAll(" +", " ");
+        String[] stringInput = trimmedInput.split(" ");
         ArrayList<String> andIngredients = new ArrayList<String>();
         ArrayList<String> notIngredients = new ArrayList<String>();
         ArrayList<ArrayList<String>> userInput = new ArrayList<>();
@@ -265,14 +276,14 @@ public class FindRecipe extends AppCompatActivity {
             if (!stringInput[i].equals("and") && !stringInput[i].equals("not") ){
                 try{
                     if (!stringInput[i-1].equals("not")){
-                        andIngredients.add(stringInput[i]);
+                        andIngredients.add(stringInput[i].trim());
                     }
                 }catch (ArrayIndexOutOfBoundsException e){
-                    andIngredients.add(stringInput[i]);
+                    andIngredients.add(stringInput[i].trim());
                 }
             }
             if (stringInput[i].equals("not") && !stringInput[stringInput.length-1].equals("not")){
-                notIngredients.add(stringInput[i+1]);
+                notIngredients.add(stringInput[i+1].trim());
             }
         }
         userInput.add(andIngredients);
