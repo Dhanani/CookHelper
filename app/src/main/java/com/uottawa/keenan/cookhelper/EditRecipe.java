@@ -447,6 +447,27 @@ public class EditRecipe extends AppCompatActivity {
         return null;
     }
 
+    public boolean existsInDatabase(String i) {
+        ArrayList<String> dbIngs = recipeDB.getIngredientsUsedInRecipes();
+
+        for (String ing : dbIngs) {
+            if (i.equals(ing)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean existsInDB(String item, ArrayList<String> db) {
+        for (String s : db) {
+            if (item.equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void OnEditCurrentRecipe(View view) {
         LinearLayout ingredient_elements_layout = (LinearLayout) findViewById(R.id.ingredient_elements_layout);
         LinearLayout save_edit_recipe_layout = (LinearLayout) findViewById(R.id.save_edit_recipe_layout);
@@ -481,6 +502,42 @@ public class EditRecipe extends AppCompatActivity {
 
         int duration = Toast.LENGTH_SHORT;
         final Toast delete_category_toast = Toast.makeText(this, "There's nothing to delete!", duration);
+
+        ArrayList<String> dbCats = recipeDB.getCategoriesUsedInRecipes();
+        ArrayList<String> dbTypes = recipeDB.getTypesUsedInRecipes();
+
+        ArrayList<String> tempCats = new ArrayList<>();
+        ArrayList<String> tempTypes = new ArrayList<>();
+
+
+        if (category_entries.size() > 0) {
+            for (String s : category_entries) {
+                if (!existsInDB(s, dbCats)) {
+                    tempCats.add(s);
+                }
+            }
+
+            Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
+            ArrayAdapter<String> dataAdapterCategory = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item, tempCats);
+            dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            category_spinner.setAdapter(dataAdapterCategory);
+        }
+
+
+        if (type_entries.size() > 0) {
+            for (String s : type_entries) {
+                if (!existsInDB(s, dbTypes)) {
+                    tempTypes.add(s);
+                }
+            }
+
+            Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+            ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, tempTypes);
+            dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            type_spinner.setAdapter(dataAdapterType);
+        }
 //
         delete_category_btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -562,6 +619,16 @@ public class EditRecipe extends AppCompatActivity {
             }
         });
 
+        final LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+        for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+            CheckBox ingCB = (CheckBox)ingredients_layout.getChildAt(i);
+            String ingCBText = ingCB.getText().toString();
+
+            if (existsInDatabase(ingCBText)) {
+                ingCB.setEnabled(false);
+            }
+        }
+
         final Button delete_ingredient_btn = new Button(this);
         delete_ingredient_btn.setText("Delete Ingredients");
         delete_ingredient_btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -588,6 +655,18 @@ public class EditRecipe extends AppCompatActivity {
                 delete_ingredient_btn.setVisibility(View.GONE);
                 done_btn.setVisibility(View.GONE);
                 add_ingredient_editText.setVisibility(View.VISIBLE);
+
+                updateCategoryEntries();
+                updateCategorySpinner();
+
+                updateTypeEntries();
+                updateTypeSpinner();
+
+                for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+                    CheckBox ingCB = (CheckBox)ingredients_layout.getChildAt(i);
+                    ingCB.setEnabled(true);
+                }
+
             }
         });
 
