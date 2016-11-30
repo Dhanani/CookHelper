@@ -736,12 +736,16 @@ public class AddRecipe extends AppCompatActivity {
 
                 System.out.println(recipeInDB);
                 try {
-                    if (!recipeDB.addToRecipeDB(recipeInDB)){
+                    boolean recipeNameAlreadyExists = recipeDB.alreadyExsistsInRecipeDB(recipeInDB.split("\\|")[0]);
+                    System.out.println(recipeNameAlreadyExists);
+                    if (recipeNameAlreadyExists){
                         int duration = Toast.LENGTH_SHORT;
                         Toast toast = Toast.makeText(this, "Recipe name already exists!", duration);
                         toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
                         toast.show();
                     } else {
+
+                        recipeDB.addToDB(recipeInDB);
                         Intent intent = new Intent(getApplicationContext(), Homescreen.class);
                         startActivity(intent);
 
