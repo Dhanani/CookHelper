@@ -22,7 +22,8 @@
         <activity android:name=".Help" />
         <activity android:name=".FindRecipe" />
         <activity android:name=".AllRecipes" />
-        <activity android:name=".EditRecipe"></activity>
+        <activity android:name=".EditRecipe" />
+        <activity android:name=".RecipeView"></activity>
     </application>
 
 </manifest>

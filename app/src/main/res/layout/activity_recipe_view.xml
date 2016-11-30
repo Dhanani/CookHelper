@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_recipe_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.uottawa.keenan.cookhelper.RecipeView">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <TextView
+            android:text="RECIPE NAME"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recipe_name"
+            android:textSize="20sp"
+            android:layout_weight="0.04" />
+
+        <TextView
+            android:text="Ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recipe_ingredient_label"
+            android:textSize="16sp" />
+
+        <TextView
+            android:text="INGREDIENTS POPULATED"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recipe_ingredients"
+            android:layout_weight="0.19" />
+
+        <TextView
+            android:text="Recipe Steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recipe_steps_label"
+            android:layout_weight="0.04"
+            android:textSize="16sp" />
+
+        <TextView
+            android:text="STEPS POPULATED"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recipe_steps"
+            android:layout_weight="0.16" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="31dp">
+
+            <TextView
+                android:text="Recipe Type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_type_label"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="Recipe Category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_category_label"
+                android:layout_weight="1.07" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:layout_weight="0.19">
+
+            <TextView
+                android:text="TYPE POPLATED"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_type"
+                android:layout_weight="1.23" />
+
+            <TextView
+                android:text="CATEGORY POPULATED"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_category"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <Button
+            android:text="Edit Recipe"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:id="@+id/edit_recipe"
+            android:layout_weight="0.08" />
+
+    </LinearLayout>
+</RelativeLayout>
