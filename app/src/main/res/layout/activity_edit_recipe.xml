@@ -24,7 +24,7 @@
             android:id="@+id/main_vertical_layout">
 
             <TextView
-                android:text="Edit Recipe"
+                android:text="@string/EditRecipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edit_recipe_textView"
@@ -33,7 +33,7 @@
                 android:textStyle="normal|bold" />
 
             <TextView
-                android:text="Recipe Name"
+                android:text="@string/RecipeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/recipe_name_textView" />
@@ -44,10 +44,10 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/recipe_name_edittext"
-                android:hint="Enter Recipe Name" />
+                android:hint="@string/HintRecipeName" />
 
             <TextView
-                android:text="Ingredients:"
+                android:text="@string/Ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/choose_ingredients_textView" />
@@ -72,10 +72,10 @@
                     android:ems="10"
                     android:id="@+id/add_ingredient_editText"
                     android:layout_weight="1"
-                    android:hint="Name of Ingredient" />
+                    android:hint="@string/HintIngredients" />
 
                 <Button
-                    android:text="Add Ingredient"
+                    android:text="@string/AddIngredient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_ingredient_btn"
@@ -85,7 +85,7 @@
             </LinearLayout>
 
             <TextView
-                android:text="Steps:"
+                android:text="@string/Steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/enter_steps_label"
@@ -103,7 +103,7 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/enter_step_editText"
-                android:hint="Enter step" />
+                android:hint="@string/AddStep" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -124,7 +124,7 @@
                 android:id="@+id/recipe_add_step_btn_layout">
 
                 <Button
-                    android:text="Add Step"
+                    android:text="@string/AddStep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_recipe_step_btn"
@@ -132,7 +132,7 @@
             </LinearLayout>
 
             <TextView
-                android:text="Category And Type"
+                android:text="@string/CategoryAndType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/category_and_type_label" />
@@ -162,7 +162,7 @@
                 android:ems="10"
                 android:id="@+id/category_or_type_editText"
                 android:layout_weight="1"
-                android:hint="Category / Type" />
+                android:hint="@string/CategoryType" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -171,7 +171,7 @@
                 android:id="@+id/add_type_category_layout">
 
                 <Button
-                    android:text="Add Category"
+                    android:text="@string/AddCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_category_btn"
@@ -179,7 +179,7 @@
                     android:onClick="OnAddCategory" />
 
                 <Button
-                    android:text="Add Type"
+                    android:text="@string/AddType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_type_btn"
@@ -194,7 +194,7 @@
                 android:id="@+id/save_edit_recipe_layout">
 
                 <Button
-                    android:text="Save Recipe"
+                    android:text="@string/SaveRecipe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/save_recipe_btn"
@@ -202,7 +202,7 @@
                     android:onClick="OnSaveRecipe" />
 
                 <Button
-                    android:text="Edit Recipe"
+                    android:text="@string/EditRecipe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

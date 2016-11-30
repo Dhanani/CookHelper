@@ -12,7 +12,10 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -34,7 +37,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Add Recipe"
+                android:text="@string/AddRecipe"
                 android:id="@+id/add_recipe_btn"
                 android:onClick="OnAddRecipe"
                 android:layout_weight="1" />
@@ -42,7 +45,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Search Recipe"
+                android:text="@string/SearchRecipe"
                 android:id="@+id/search_recipe_btn"
                 android:onClick="OnFindRecipe"
                 android:layout_weight="1" />
@@ -57,7 +60,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="All Recipes"
+                android:text="@string/AllRecipes"
                 android:id="@+id/all_recipes_btn"
                 android:onClick="OnAllRecipes"
                 android:layout_weight="1" />
@@ -65,7 +68,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Help"
+                android:text="@string/Help"
                 android:id="@+id/help_btn"
                 android:onClick="OnHelp"
                 android:layout_weight="1" />

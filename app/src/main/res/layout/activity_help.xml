@@ -17,23 +17,21 @@
         android:weightSum="1">
 
         <TextView
-            android:text="@string/help"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/helpTextView"
             android:textSize="36dp"
-            tools:text="@string/help"
-            android:layout_weight="0.02" />
+            android:layout_weight="0.02"
+            android:text="@string/Help" />
 
         <TextView
-            android:text="creators: "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/creatorsTextView"
             android:textSize="24dp"
-            tools:text="creators:"
-            android:layout_weight="0.02" />
+            android:layout_weight="0.02"
+            tools:text="@string/Team" />
 
         <TextView
             android:text="@string/aly"

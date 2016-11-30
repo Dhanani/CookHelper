@@ -24,14 +24,14 @@
             android:layout_weight="1">
 
             <Button
-                android:text="Delete"
+                android:text="@string/Delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/delete_step_btn"
                 android:layout_weight="1" />
 
             <Button
-                android:text="Save"
+                android:text="@string/Save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/save_recipe_step_edit_btn"

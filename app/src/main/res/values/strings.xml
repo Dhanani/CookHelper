@@ -1,23 +1,84 @@
 <resources>
-    <string name="app_name">CookHelper
-    </string>
 
-    <string name="harrison">Harrison Reay
-    </string>
+    <!-- Title -->
+    <string name="app_name">CookHelper</string>
 
-    <string name="karim">Karim Chukfeh
-    </string>
 
-    <string name="keenan">Keenan Dhanani
-    </string>
+    <!-- Help -->
+    <string name="Help">Help</string>
+    <string name="Team">Team:</string>
+    <string name="aly">Aly Abdelrahman</string>
+    <string name="harrison">Harrison Reay</string>
+    <string name="hasnain">Hasnain Syed</string>
+    <string name="karim">Karim Chukfeh</string>
+    <string name="keenan">Keenan Dhanani</string>
 
-    <string name="aly">Aly Abdelrahman
-    </string>
 
-    <string name="hasnain">Hasnain Syed
-    </string>
+    <!-- Add -->
+    <string name="AddARecipe">Add a Recipe</string>
+    <string name="AddCategory">Add Category</string>
+    <string name="CatType">Select Category and Type:</string>
+    <string name="AddIngredient">Add Ingredient</string>
+    <string name="AddRecipe">Add Recipe</string>
+    <string name="AddStep">Add Step</string>
+    <string name="AddType">Add Type</string>
 
-    <string name="help">Help
-    </string>
+    <!-- All -->
+    <string name="CategoryType">Category / Type</string>
 
+
+    <!-- Static -->
+    <string name="EnterIngredients">Enter Ingredients:</string>
+    <string name="EnterRecipeName">Enter Recipe Name:</string>
+    <string name="EnterSteps">Enter Steps:</string>
+
+
+    <!-- Hints -->
+    <string name="HintFindRecipeIngredients">Enter Ingredients Here</string>
+    <string name="HintIngredients">Enter Ingredient</string>
+    <string name="HintRecipeName">Enter Recipe Name</string>
+    <string name="HintStep">Enter Step</string>
+
+
+    <!-- Recipe_View -->
+    <string name="CapsRecipeName">RECIPE NAME</string>
+    <string name="PopulateCategory">CATEGORY POPULATED</string>
+    <string name="PopulateIngredients">INGREDIENTS POPULATED</string>
+    <string name="PopulateSteps">STEPS POPULATED</string>
+    <string name="PopulateType">TYPE POPULATED</string>
+
+
+    <!-- Operations -->
+    <string name="And">And</string>
+    <string name="Not">Not</string>
+    <string name="Or">Or</string>
+
+
+    <!-- Recipe Objects -->
+    <string name="Ingredients">Ingredients:</string>
+    <string name="RecipeCategory">Recipe Category:</string>
+    <string name="RecipeName">Recipe Name:</string>
+    <string name="RecipeSteps">Recipe Steps:</string>
+    <string name="RecipeType">Recipe Type:</string>
+    <string name="Steps">Steps:</string>
+
+
+    <!-- Recipe Actions -->
+    <string name="AllRecipes">All Recipes</string>
+    <string name="EditRecipe">Edit Recipe</string>
+    <string name="FindARecipe">Find a Recipe</string>
+    <string name="SaveRecipe">Save Recipe</string>
+    <string name="SearchRecipe">Search Recipe</string>
+
+
+    <!-- Misc. -->
+    <string name="Category">Category</string>
+    <string name="CategoryAndType">Category and Type</string>
+    <string name="Delete">Delete</string>
+    <string name="Search">Search</string>
+    <string name="Results">Results:</string>
+    <string name="Save">Save</string>
+    <string name="Type">Type</string>
+
+    
 </resources>
