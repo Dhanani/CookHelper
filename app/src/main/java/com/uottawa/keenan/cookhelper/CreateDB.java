@@ -100,25 +100,55 @@ public class CreateDB {
 
     public boolean removeFromDB(String stringToRemove) throws IOException{
 
-        File tempFile = new File(context.getFilesDir(), "myTempFile.txt");
+        boolean successful = false;
+        if(dbName == "RecipeDB.txt"){
 
-        BufferedReader reader = new BufferedReader(new FileReader(myDataBase));
-        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-        boolean first = false;
-        String currentLine;
-        while((currentLine = reader.readLine()) != null) {
-            String trimmedLine = currentLine.trim();
-            if(trimmedLine.equals(stringToRemove)) continue;
-            first = true;
-            writer.write(currentLine + System.getProperty("line.separator"));
+            File tempFile = new File(context.getFilesDir(), "myTempFile.txt");
+
+
+            BufferedReader reader = new BufferedReader(new FileReader(myDataBase));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+            boolean first = false;
+            String line;
+            String[] recipeName;
+            while ((line = reader.readLine()) != null) {
+                String trimmedLine = line.trim();
+                recipeName = trimmedLine.split("\\|")[0].split("`");
+                if (recipeName[0].equals(stringToRemove)) continue;
+                first = true;
+                writer.write(line + System.getProperty("line.separator"));
+            }
+
+            writer.close();
+            reader.close();
+            size--;
+            successful = tempFile.renameTo(myDataBase);
+            myDataBase = new File(context.getFilesDir(), dbName);
+            tempFile.delete();
+
         }
+        else{
+            File tempFile = new File(context.getFilesDir(), "myTempFile.txt");
 
-        writer.close();
-        reader.close();
-        size --;
-        boolean successful = tempFile.renameTo(myDataBase);
-        myDataBase = new File(context.getFilesDir(), dbName);
-        tempFile.delete();
+
+            BufferedReader reader = new BufferedReader(new FileReader(myDataBase));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+            boolean first = false;
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String trimmedLine = line.trim();
+                if (trimmedLine.equals(stringToRemove)) continue;
+                first = true;
+                writer.write(line + System.getProperty("line.separator"));
+            }
+
+            writer.close();
+            reader.close();
+            size--;
+            successful = tempFile.renameTo(myDataBase);
+            myDataBase = new File(context.getFilesDir(), dbName);
+            tempFile.delete();
+        }
         return successful;
     }
 
