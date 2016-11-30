@@ -50,9 +50,7 @@ public class EditRecipe extends AppCompatActivity {
             ingredientDB = new CreateDB(getApplicationContext(), "IngredientsDB.txt");
             categoryDB = new CreateDB(getApplicationContext(), "CategoriesDB.txt");
             typeDB = new CreateDB(getApplicationContext(), "TypesDB.txt");
-            System.out.println("recipe name:   "+tempDB.getAsArrayList().get(0));
             recipe_raw = recipeDB.getRecipeListingFromName(tempDB.getAsArrayList().get(0));
-            System.out.println(recipe_raw);
             updateIngredients();
             updateSteps();
             updateRecipeName();
@@ -63,9 +61,6 @@ public class EditRecipe extends AppCompatActivity {
             updateCategorySpinner();
             updateTypeEntries();
             updateTypeSpinner();
-
-
-
             setupView();
             oldIngredientsLoaded = true;
 

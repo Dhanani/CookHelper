@@ -21,32 +21,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recipe_name"
-            android:textSize="20sp"
-            android:layout_weight="0.04" />
+            android:textSize="24sp"
+            android:layout_weight="0.04"
+            android:textStyle="normal|bold" />
 
         <TextView
             android:text="@string/Ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recipe_ingredient_label"
-            android:textSize="16sp" />
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="@string/PopulateIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recipe_ingredients"
-            android:layout_weight="0.19" />
+            android:layout_weight="0.19"
+            android:textSize="14sp" />
 
         <TextView
             android:text="@string/RecipeSteps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recipe_steps_label"
-            android:textSize="16sp" />
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="@string/PopulateSteps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recipe_steps"
@@ -62,14 +64,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/recipe_type_label"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textStyle="normal|bold"
+                android:textSize="18sp" />
 
             <TextView
                 android:text="@string/RecipeCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/recipe_category_label"
-                android:layout_weight="1.07" />
+                android:layout_weight="1.07"
+                android:textStyle="normal|bold"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -79,14 +85,12 @@
             android:layout_weight="0.19">
 
             <TextView
-                android:text="@string/PopulateType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/recipe_type"
                 android:layout_weight="1.23" />
 
             <TextView
-                android:text="@string/PopulateCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/recipe_category"
@@ -98,7 +102,8 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:id="@+id/edit_recipe"
-            android:layout_weight="0.08" />
+            android:layout_weight="0.08"
+            android:onClick="OnEditRecipe" />
 
     </LinearLayout>
 </RelativeLayout>
