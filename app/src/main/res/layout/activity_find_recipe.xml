@@ -118,7 +118,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/results_textView"
-            android:elevation="1dp" />
+            android:elevation="1dp"
+            android:textStyle="normal|bold" />
 
         <ListView
             android:layout_width="match_parent"
