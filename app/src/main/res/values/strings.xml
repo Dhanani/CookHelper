@@ -79,6 +79,7 @@
     <string name="Results">Results:</string>
     <string name="Save">Save</string>
     <string name="Type">Type</string>
+    <string name="DeleteRecipe">Delete Recipe</string>
 
 
 </resources>

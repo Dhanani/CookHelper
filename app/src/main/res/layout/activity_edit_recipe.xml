@@ -209,6 +209,15 @@
                     android:id="@+id/edit_current_recipe_button"
                     android:onClick="OnEditCurrentRecipe" />
             </LinearLayout>
+
+            <Button
+                android:text="@string/DeleteRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:onClick="OnDeleteRecipe" />
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

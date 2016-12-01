@@ -812,4 +812,22 @@ public class EditRecipe extends AppCompatActivity {
         }
         recipes.clear();
     }
+
+    public void OnDeleteRecipe(View view) {
+        try {
+            recipeDB.removeFromDB(recipe_raw.split("\\|")[0]);
+            Intent intent = new Intent(getApplicationContext(), Homescreen.class);
+            startActivity(intent);
+
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, recipe_raw.split("\\|")[0] + " has been deleted!" , duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+            toast.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }

@@ -40,14 +40,6 @@
                 android:onClick="OnAnd" />
 
             <Button
-                android:text="@string/Or"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/OR_btn"
-                android:layout_weight="1"
-                android:onClick="OnOr" />
-
-            <Button
                 android:text="@string/Not"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
