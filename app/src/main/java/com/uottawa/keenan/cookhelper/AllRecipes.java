@@ -69,8 +69,6 @@ public class AllRecipes extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), RecipeView.class);
                 startActivityForResult (intent,0);
-//                Intent intent = new Intent(getApplicationContext(), EditRecipe.class);
-//                startActivityForResult (intent,0);
             }
         });
     }

@@ -1,12 +1,15 @@
 package com.uottawa.keenan.cookhelper;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,14 +26,31 @@ public class FindRecipe extends AppCompatActivity {
     public CreateDB recipeDB;
     public CreateDB categoryDB;
     public CreateDB typeDB;
+    public CreateDB tempDB;
 
     private ArrayList<String> category_entries = new ArrayList<>();
     private ArrayList<String> type_entries = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_recipe);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        setup();
+    }
+
+    public void setup() {
+        category_entries = new ArrayList<>();
+        type_entries = new ArrayList<>();
+        ArrayList<String> emptyArrayList = new ArrayList<>();
+        ListView listView = (ListView) findViewById(R.id.search_results_listview);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, emptyArrayList);
+        listView.setAdapter(adapter);
 
         try {
             recipeDB = new CreateDB(getApplicationContext(), "RecipeDB.txt");
@@ -47,7 +67,6 @@ public class FindRecipe extends AppCompatActivity {
         updateTypeEntries();
         updateTypeSpinner();
     }
-
     private void add_boolean_operator(String operator){
         EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
         String current_text = ingredients_editText.getText().toString().trim().toLowerCase();
@@ -147,15 +166,16 @@ public class FindRecipe extends AppCompatActivity {
                     else  {
                         ArrayList<Recipe> orderedRecipes =
                                 findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
-                        for (Recipe r : orderedRecipes) {
-                            System.out.println(r.getRecipeName());
-                        }
+
                         if (orderedRecipes.size() == 0){
                             int duration = Toast.LENGTH_SHORT;
                             Toast toast = Toast.makeText(this, "No Recipes Found!", duration);
 
                             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
                             toast.show();
+                        } else {
+                            // Recipes found > 0
+                            setupListView(orderedRecipes);
                         }
                     }
                 }
@@ -165,15 +185,17 @@ public class FindRecipe extends AppCompatActivity {
                             findRelevantRecipesByCategoryOrType(
                                     type_spinner.getSelectedItem().toString(),
                                     category_spinner.getSelectedItem().toString(), recipeDB);
-                    for (Recipe r : orderedRecipes) {
-                        System.out.println(r.getRecipeName());
-                    }
+
+
                         if (orderedRecipes.size() == 0) {
                             int duration = Toast.LENGTH_SHORT;
                             Toast toast = Toast.makeText(this, "No Recipes Found!", duration);
 
                             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
                             toast.show();
+                        } else {
+                            // Recipes found > 0
+                            setupListView(orderedRecipes);
                         }
                     }
                 }
@@ -181,11 +203,42 @@ public class FindRecipe extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
         //public ArrayList<Recipe> findRelevantRecipes (String userInput, CreateDB database)
         //THE METHOD ABOVE SHOULD BE CALLED
 
     }
 
+
+    public void setupListView(ArrayList<Recipe> orderedRecipes) {
+        ArrayList<String> recipeNames = new ArrayList<>();
+        for (Recipe r : orderedRecipes) {
+            recipeNames.add(r.getRecipeName());
+        }
+
+        ListView listView = (ListView) findViewById(R.id.search_results_listview);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, recipeNames);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                final String item = (String) parent.getItemAtPosition(position);
+
+                try {
+                    tempDB = new CreateDB(getApplicationContext(), "tempDB.txt");
+                    tempDB.destroyDataBase();
+                    tempDB = new CreateDB(getApplicationContext(), "tempDB.txt");
+                    tempDB.addToDB(item);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent = new Intent(getApplicationContext(), RecipeView.class);
+                startActivityForResult (intent,0);
+            }
+        });
+    }
 
     /**
      * Gets all the ingredients of a recipe

@@ -664,7 +664,7 @@ public class EditRecipe extends AppCompatActivity {
             public void onClick(View v) {
                 LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
                 for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
-                    if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked()) {
+                    if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked() && ((CheckBox)ingredients_layout.getChildAt(i)).isEnabled() ) {
                         ((CheckBox)ingredients_layout.getChildAt(i)).setChecked(false);
                         String checkbox_string = ((CheckBox)ingredients_layout.getChildAt(i)).getText().toString();
                         try {
@@ -754,52 +754,61 @@ public class EditRecipe extends AppCompatActivity {
             Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
             Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
 
-            recipes.add(new Recipe(getSelectedIngredients(), recipe_steps,new RecipeCategory(category_spinner.getSelectedItem().toString()),new RecipeType(type_spinner.getSelectedItem().toString()),recipe_name.trim().toLowerCase()));
-            System.out.println(recipes.get(0).getIngredients().size());
-
-            if (recipes.get(0).getIngredients().size() > 0 && recipes.get(0).getRecipeSteps().size() > 0){
-                String recipeInDB = getRecipeListing(recipes.get(0));
-
-                System.out.println(recipeInDB);
-                try {
-                    boolean recipeNameAlreadyExists = recipeDB.alreadyExsistsInRecipeDB(recipeInDB.split("\\|")[0]);
-                    System.out.println(recipeNameAlreadyExists);
-
-                    if ((recipe_raw.split("\\|")[0].equals(recipeInDB.split("\\|")[0]) ) || !recipeNameAlreadyExists) {
-                        recipeDB.removeFromDB(recipe_raw.split("\\|")[0]);
-                        recipeDB.addToDB(recipeInDB);
-                        tempDB.destroyDataBase();
-                        try {
-                            tempDB = new CreateDB(getApplicationContext(), "tempDB.txt");
-                            tempDB.addToDB(recipeInDB.split("\\|")[0]);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        finish();
-
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(this, "Recipe " + recipes.get(0).getRecipeName() + " has been added!" , duration);
-
-                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                        toast.show();
-                    } else {
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(this, "Recipe name already exists!", duration);
-                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                        toast.show();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
+            if (category_spinner.getSelectedItem() == null || type_spinner.getSelectedItem()==null ) {
                 int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, "You need a minimum of 1 ingredient and 1 step!", duration);
+                Toast toast = Toast.makeText(this, "Enter Type/Category first!", duration);
 
                 toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
                 toast.show();
+            } else {
+                recipes.add(new Recipe(getSelectedIngredients(), recipe_steps,new RecipeCategory(category_spinner.getSelectedItem().toString()),new RecipeType(type_spinner.getSelectedItem().toString()),recipe_name.trim().toLowerCase()));
+                System.out.println(recipes.get(0).getIngredients().size());
+
+                if (recipes.get(0).getIngredients().size() > 0 && recipes.get(0).getRecipeSteps().size() > 0){
+                    String recipeInDB = getRecipeListing(recipes.get(0));
+
+                    System.out.println(recipeInDB);
+                    try {
+                        boolean recipeNameAlreadyExists = recipeDB.alreadyExsistsInRecipeDB(recipeInDB.split("\\|")[0]);
+                        System.out.println(recipeNameAlreadyExists);
+
+                        if ((recipe_raw.split("\\|")[0].equals(recipeInDB.split("\\|")[0]) ) || !recipeNameAlreadyExists) {
+                            recipeDB.removeFromDB(recipe_raw.split("\\|")[0]);
+                            recipeDB.addToDB(recipeInDB);
+                            tempDB.destroyDataBase();
+                            try {
+                                tempDB = new CreateDB(getApplicationContext(), "tempDB.txt");
+                                tempDB.addToDB(recipeInDB.split("\\|")[0]);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            finish();
+
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(this, "Recipe " + recipes.get(0).getRecipeName() + " has been added!" , duration);
+
+                            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                            toast.show();
+                        } else {
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(this, "Recipe name already exists!", duration);
+                            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                            toast.show();
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(this, "You need a minimum of 1 ingredient and 1 step!", duration);
+
+                    toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                    toast.show();
+                }
             }
+
         }
         recipes.clear();
     }
