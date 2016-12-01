@@ -218,7 +218,8 @@ public class FindRecipe extends AppCompatActivity {
         }
 
         ListView listView = (ListView) findViewById(R.id.search_results_listview);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, recipeNames);
+        RecipeArrayAdapter adapter = new RecipeArrayAdapter(this, recipeNames);
+                //new ArrayAdapter(this, android.R.layout.simple_list_item_1, recipeNames);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

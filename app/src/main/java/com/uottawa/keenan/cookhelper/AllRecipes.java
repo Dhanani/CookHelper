@@ -51,7 +51,8 @@ public class AllRecipes extends AppCompatActivity {
         for (Recipe r : all_recipes) {
             recipe_names.add(r.getRecipeName());
         }
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, recipe_names);
+        //ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, recipe_names);
+        RecipeArrayAdapter adapter = new RecipeArrayAdapter(this, recipe_names);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
