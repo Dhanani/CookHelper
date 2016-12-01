@@ -24,4 +24,8 @@
         <item name="colorButtonNormal">@android:color/holo_purple</item>
     </style>
 
+    <style name="GreenButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@android:color/holo_green_dark</item>
+    </style>
+
 </resources>

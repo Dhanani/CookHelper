@@ -212,9 +212,9 @@
                     android:id="@+id/save_recipe_btn"
                     android:layout_weight="1"
                     android:onClick="OnSaveRecipe"
-                    android:theme="@style/BlueButon"
                     android:textColor="@android:color/background_light"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:theme="@style/GreenButton"/>
 
                 <Button
                     android:text="@string/EditRecipe"
@@ -223,9 +223,9 @@
                     android:layout_weight="1"
                     android:id="@+id/edit_current_recipe_button"
                     android:onClick="OnEditCurrentRecipe"
-                    android:theme="@style/BlueButon"
                     android:textColor="@android:color/background_light"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:theme="@style/RedButton"/>
             </LinearLayout>
 
             <Button

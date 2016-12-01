@@ -219,7 +219,7 @@
                     android:id="@+id/add_current_recipe_btn"
                     android:layout_weight="1"
                     android:onClick="OnAddRecipe"
-                    android:theme="@style/OrangeButton"
+                    android:theme="@style/GreenButton"
                     android:textColor="@android:color/background_light"
                     android:textSize="18sp"/>
 
