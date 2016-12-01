@@ -81,6 +81,9 @@
     <string name="Type">Type</string>
     <string name="DeleteRecipe">Delete Recipe</string>
     <string name="EditContents">Edit Contents</string>
+    <string name="Placeholder">Placeholder</string>
+    <string name="CategoryColon">Category:</string>
+    <string name="TypeColon">Type:</string>/>
 
 
 </resources>

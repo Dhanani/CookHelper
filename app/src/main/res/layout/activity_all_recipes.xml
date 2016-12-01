@@ -22,7 +22,8 @@
             android:id="@+id/all_recipes_textView"
             android:gravity="center"
             android:textSize="24sp"
-            android:textStyle="normal|bold" />
+            android:textStyle="normal|bold"
+            android:textAllCaps="false" />
 
         <ListView
             android:layout_width="match_parent"

@@ -103,7 +103,9 @@
             android:layout_height="36dp"
             android:id="@+id/edit_recipe"
             android:layout_weight="0.08"
-            android:onClick="OnEditRecipe" />
+            android:onClick="OnEditRecipe"
+            android:textSize="18sp"
+            style="@style/Widget.AppCompat.Button.Colored"/>
 
     </LinearLayout>
 </RelativeLayout>

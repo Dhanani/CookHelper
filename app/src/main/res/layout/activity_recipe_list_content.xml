@@ -14,24 +14,62 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:id="@+id/recipe_result_item"
-        android:layout_height="70dp">
+        android:layout_height="wrap_content">
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recipe_result_name" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <TextView
-            android:text="Category:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recipe_result_cate" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_result_name"
+                android:layout_weight="1"
+                android:text="@string/Placeholder"
+                android:textSize="20sp"
+                android:textAlignment="textStart"
+                android:textStyle="normal|bold" />
+        </LinearLayout>
 
-        <TextView
-            android:text="Type:"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/recipe_result_type" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="@string/CategoryColon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_category"
+                android:layout_weight="1"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:text="@string/Placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_result_cate"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="@string/TypeColon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_type"
+                android:layout_weight="1"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:text="@string/Placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_result_type"
+                android:layout_weight="1" />
+        </LinearLayout>
 
     </LinearLayout>
+
 </RelativeLayout>
