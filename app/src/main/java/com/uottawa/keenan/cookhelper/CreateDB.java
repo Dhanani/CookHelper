@@ -101,7 +101,7 @@ public class CreateDB {
     public boolean removeFromDB(String stringToRemove) throws IOException{
 
         boolean successful = false;
-        if(dbName == "RecipeDB.txt"){
+        if(dbName.equals("RecipeDB.txt") ){
 
             File tempFile = new File(context.getFilesDir(), "myTempFile.txt");
 

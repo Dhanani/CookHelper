@@ -1,5 +1,6 @@
 package com.uottawa.keenan.cookhelper;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,17 +33,23 @@ public class EditRecipe extends AppCompatActivity {
     public RecipeType recipe_type;
     public String recipe_name;
 
+    public ArrayList<Recipe> recipes = new ArrayList<>();
+
     public ArrayList<Ingredient> all_ingredients = new ArrayList<>();
 
     private ArrayList<String> category_entries = new ArrayList<>();
     private ArrayList<String> type_entries = new ArrayList<>();
 
     boolean oldIngredientsLoaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_recipe);
+        setup();
+    }
 
+    public void setup() {
         // Open Recipe DB and temp file containing recipe name to edit
         try {
             recipeDB = new CreateDB(getApplicationContext(), "RecipeDB.txt");
@@ -67,19 +74,7 @@ public class EditRecipe extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
-    // Override back button to destroy temp file
-    @Override
-    public void onBackPressed()
-    {
-        tempDB.destroyDataBase();
-        // code here to show dialog
-        super.onBackPressed();  // optional depending on your needs
-    }
-
 
     public void updateIngredients() {
         String[] temp =  recipe_raw.split("\\|")[4].split("`");
@@ -699,4 +694,113 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
+    public ArrayList<Ingredient> getSelectedIngredients(){
+        LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+        ArrayList<Ingredient> selectedIngredients = new ArrayList<Ingredient>();
+
+        for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+            if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked()) {
+                String checkbox_string = ((CheckBox)ingredients_layout.getChildAt(i)).getText().toString();
+                selectedIngredients.add(new Ingredient(checkbox_string));
+            }
+        }
+
+        return selectedIngredients;
+
+    }
+
+    public String getRecipeListing(Recipe recipe){
+        String recipe_name = recipe.getRecipeName();
+        String recipe_category = recipe.getRecipeCategory().getRecipeCategory();
+        String recipe_type = recipe.getRecipeType().getRecipeType();
+
+        ArrayList<RecipeStep> recipe_steps = recipe.getRecipeSteps();
+        ArrayList<Ingredient> recipe_ingredients = recipe.getIngredients();
+
+        String out = recipe_name + "|" + recipe_category + "|" + recipe_type + "|";
+
+        for (int i = 0; i < recipe_steps.size(); i++){
+            if (i != recipe_steps.size() - 1){
+                out = out + recipe_steps.get(i).getStep() + "`";
+            } else {
+                out = out + recipe_steps.get(i).getStep();
+            }
+        }
+
+        out = out + "|";
+
+        for (int i = 0; i < recipe_ingredients.size(); i++){
+            if (i != recipe_ingredients.size() - 1){
+                out = out + recipe_ingredients.get(i).getIngredient() + "`";
+            } else {
+                out = out + recipe_ingredients.get(i).getIngredient();
+            }
+        }
+
+        return out;
+    }
+
+    public void OnSaveRecipe(View view) {
+        EditText recipe_name_edittext = (EditText) findViewById(R.id.recipe_name_edittext);
+        String recipe_name = recipe_name_edittext.getText().toString().trim();
+
+        if (recipe_name.isEmpty()) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, "Name your Recipe!", duration);
+
+            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+            toast.show();
+        } else {
+            Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
+            Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
+
+            recipes.add(new Recipe(getSelectedIngredients(), recipe_steps,new RecipeCategory(category_spinner.getSelectedItem().toString()),new RecipeType(type_spinner.getSelectedItem().toString()),recipe_name.trim().toLowerCase()));
+            System.out.println(recipes.get(0).getIngredients().size());
+
+            if (recipes.get(0).getIngredients().size() > 0 && recipes.get(0).getRecipeSteps().size() > 0){
+                String recipeInDB = getRecipeListing(recipes.get(0));
+
+                System.out.println(recipeInDB);
+                try {
+                    boolean recipeNameAlreadyExists = recipeDB.alreadyExsistsInRecipeDB(recipeInDB.split("\\|")[0]);
+                    System.out.println(recipeNameAlreadyExists);
+
+                    if ((recipe_raw.split("\\|")[0].equals(recipeInDB.split("\\|")[0]) ) || !recipeNameAlreadyExists) {
+                        recipeDB.removeFromDB(recipe_raw.split("\\|")[0]);
+                        recipeDB.addToDB(recipeInDB);
+                        tempDB.destroyDataBase();
+                        try {
+                            tempDB = new CreateDB(getApplicationContext(), "tempDB.txt");
+                            tempDB.addToDB(recipeInDB.split("\\|")[0]);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        finish();
+
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(this, "Recipe " + recipes.get(0).getRecipeName() + " has been added!" , duration);
+
+                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        toast.show();
+                    } else {
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(this, "Recipe name already exists!", duration);
+                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                        toast.show();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, "You need a minimum of 1 ingredient and 1 step!", duration);
+
+                toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                toast.show();
+            }
+        }
+        recipes.clear();
+    }
 }

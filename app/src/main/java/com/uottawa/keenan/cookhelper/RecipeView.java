@@ -26,7 +26,16 @@ public class RecipeView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_view);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        setup();
+
+    }
+
+    public void setup() {
         try {
             recipeDB = new CreateDB(getApplicationContext(), "RecipeDB.txt");
             tempDB = new CreateDB(getApplicationContext(), "tempDB.txt");
@@ -40,7 +49,6 @@ public class RecipeView extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     /*
         Populates view with: Recipe Name, Recipe Steps, Ingredients, Category & Type
      */
@@ -49,11 +57,13 @@ public class RecipeView extends AppCompatActivity {
         recipe_name_textview.setText(recipe_name);
 
         TextView recipe_ing_textview = (TextView) findViewById(R.id.recipe_ingredients);
+        recipe_ing_textview.setText(null);
         for (Ingredient i : ingredients) {
             recipe_ing_textview.setText( recipe_ing_textview.getText() + "\n" + "- " + i.getIngredient());
         }
 
         TextView recipe_steps_textview = (TextView) findViewById(R.id.recipe_steps);
+        recipe_steps_textview.setText(null);
         for (int i = 0; i < recipe_steps.size(); i++) {
             int sum = i+1;
             recipe_steps_textview.setText(recipe_steps_textview.getText() + "\n" + Integer.toString(sum) +". "+ recipe_steps.get(i).getStep());
@@ -71,6 +81,7 @@ public class RecipeView extends AppCompatActivity {
         startActivityForResult (intent,0);
     }
     public void updateIngredients() {
+        ingredients.clear();
         String[] temp =  recipe_raw.split("\\|")[4].split("`");
 
         for (int i=0; i<temp.length; i++){
@@ -79,6 +90,7 @@ public class RecipeView extends AppCompatActivity {
     }
 
     public void updateSteps() {
+        recipe_steps.clear();
         String[] temp =  recipe_raw.split("\\|")[3].split("`");
 
         for (int i=0; i<temp.length; i++){

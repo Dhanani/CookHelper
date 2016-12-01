@@ -23,6 +23,16 @@ public class AllRecipes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_recipes);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        setup();
+    }
+
+    public void setup() {
+        all_recipes = new ArrayList<Recipe>();
         // Open Database for Recipes
         try {
             recipeDB = new CreateDB(getApplicationContext(), "RecipeDB.txt");
@@ -64,7 +74,6 @@ public class AllRecipes extends AppCompatActivity {
             }
         });
     }
-
 
     public void updateRecipes() {
         ArrayList<String> databaseRecipes = recipeDB.getAsArrayList();
