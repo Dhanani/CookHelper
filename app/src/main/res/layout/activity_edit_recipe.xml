@@ -80,7 +80,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/add_ingredient_btn"
                     android:layout_weight="1"
-                    android:onClick="OnAddIngredient" />
+                    android:onClick="OnAddIngredient"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
 
             </LinearLayout>
 
@@ -128,7 +131,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_recipe_step_btn"
-                    android:onClick="OnAddStep" />
+                    android:onClick="OnAddStep"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <TextView
@@ -176,7 +182,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/add_category_btn"
                     android:layout_weight="1"
-                    android:onClick="OnAddCategory" />
+                    android:onClick="OnAddCategory"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
 
                 <Button
                     android:text="@string/AddType"
@@ -184,7 +193,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/add_type_btn"
                     android:layout_weight="1"
-                    android:onClick="OnAddType" />
+                    android:onClick="OnAddType"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -199,7 +211,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/save_recipe_btn"
                     android:layout_weight="1"
-                    android:onClick="OnSaveRecipe" />
+                    android:onClick="OnSaveRecipe"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
 
                 <Button
                     android:text="@string/EditRecipe"
@@ -207,7 +222,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:id="@+id/edit_current_recipe_button"
-                    android:onClick="OnEditCurrentRecipe" />
+                    android:onClick="OnEditCurrentRecipe"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <Button
@@ -216,7 +234,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button2"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:onClick="OnDeleteRecipe" />
+                android:onClick="OnDeleteRecipe"
+                android:textSize="18sp"/>
 
         </LinearLayout>
     </ScrollView>

@@ -36,7 +36,8 @@
                 android:text="@string/EnterRecipeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/recipe_name_textview" />
+                android:id="@+id/recipe_name_textview"
+                android:textStyle="normal|bold" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -50,7 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/EnterIngredients"
-                android:id="@+id/choose_ingredients_label" />
+                android:id="@+id/choose_ingredients_label"
+                android:textStyle="normal|bold" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -82,7 +84,10 @@
                     android:text="@string/AddIngredient"
                     android:id="@+id/add_ingredient_btn"
                     android:layout_weight="1"
-                    android:onClick="OnAddIngredient" />
+                    android:onClick="OnAddIngredient"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -90,7 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/EnterSteps"
-                android:id="@+id/enter_steps_label" />
+                android:id="@+id/enter_steps_label"
+                android:textStyle="normal|bold" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -127,7 +133,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/AddStep"
                     android:id="@+id/add_recipe_step_btn"
-                    android:onClick="OnAddStep" />
+                    android:onClick="OnAddStep"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <TextView
@@ -135,7 +144,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/CatType"
                 android:id="@+id/category_and_type_label"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textStyle="normal|bold" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -178,7 +188,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/add_category_btn"
                     android:layout_weight="1"
-                    android:onClick="OnAddCategory" />
+                    android:onClick="OnAddCategory"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
 
                 <Button
                     android:text="@string/AddType"
@@ -186,7 +199,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/add_type_btn"
                     android:layout_weight="1"
-                    android:onClick="OnAddType" />
+                    android:onClick="OnAddType"
+                    android:theme="@style/BlueButon"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -202,15 +218,21 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/add_current_recipe_btn"
                     android:layout_weight="1"
-                    android:onClick="OnAddRecipe" />
+                    android:onClick="OnAddRecipe"
+                    android:theme="@style/OrangeButton"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
 
                 <Button
-                    android:text="@string/EditRecipe"
+                    android:text="@string/EditContents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/edit_current_recipe_button"
                     android:layout_weight="1"
-                    android:onClick="OnEditCurrentRecipe" />
+                    android:onClick="OnEditCurrentRecipe"
+                    android:theme="@style/RedButton"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"/>
             </LinearLayout>
 
         </LinearLayout>

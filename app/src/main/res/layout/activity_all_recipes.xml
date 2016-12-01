@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/all_recipes_textView"
             android:gravity="center"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textStyle="normal|bold" />
 
         <ListView
             android:layout_width="match_parent"

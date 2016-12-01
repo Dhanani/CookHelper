@@ -80,6 +80,7 @@
     <string name="Save">Save</string>
     <string name="Type">Type</string>
     <string name="DeleteRecipe">Delete Recipe</string>
+    <string name="EditContents">Edit Contents</string>
 
 
 </resources>

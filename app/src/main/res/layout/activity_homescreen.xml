@@ -40,7 +40,11 @@
                 android:text="@string/AddRecipe"
                 android:id="@+id/add_recipe_btn"
                 android:onClick="OnAddRecipe"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:theme="@style/BlueButon"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp"
+                />
 
             <Button
                 android:layout_width="match_parent"
@@ -48,7 +52,10 @@
                 android:text="@string/SearchRecipe"
                 android:id="@+id/search_recipe_btn"
                 android:onClick="OnFindRecipe"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:theme="@style/BlueButon"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -63,7 +70,10 @@
                 android:text="@string/AllRecipes"
                 android:id="@+id/all_recipes_btn"
                 android:onClick="OnAllRecipes"
-                android:layout_weight="1" />
+                android:theme="@style/BlueButon"
+                android:textColor="@android:color/background_light"
+                android:layout_weight="1"
+                android:textSize="24sp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -71,7 +81,10 @@
                 android:text="@string/Help"
                 android:id="@+id/help_btn"
                 android:onClick="OnHelp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:theme="@style/OrangeButton"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp" />
         </LinearLayout>
 
     </LinearLayout>

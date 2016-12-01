@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/find_a_recipe_textView"
             android:textSize="22sp"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textStyle="normal|bold" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -37,7 +38,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/AND_btn"
                 android:layout_weight="1"
-                android:onClick="OnAnd" />
+                android:onClick="OnAnd"
+                android:theme="@style/PurpleButton"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"/>
 
             <Button
                 android:text="@string/Not"
@@ -45,7 +49,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/NOT_btn"
                 android:layout_weight="1"
-                android:onClick="OnNot" />
+                android:onClick="OnNot"
+                android:theme="@style/PurpleButton"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -59,14 +66,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/category_textView"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:text="@string/Type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/type_textView"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textStyle="normal|bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +109,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/search_btn"
-            android:onClick="OnSearch" />
+            android:onClick="OnSearch"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:textSize="18sp" />
 
         <TextView
             android:text="@string/Results"

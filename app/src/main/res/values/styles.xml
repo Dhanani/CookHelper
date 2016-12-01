@@ -8,4 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="OrangeButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@android:color/holo_orange_dark</item>
+    </style>
+
+    <style name="BlueButon" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@android:color/holo_blue_dark</item>
+    </style>
+
+    <style name="RedButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@android:color/holo_red_dark</item>
+    </style>
+
+    <style name="PurpleButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@android:color/holo_purple</item>
+    </style>
+
 </resources>
