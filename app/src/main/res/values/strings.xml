@@ -83,7 +83,8 @@
     <string name="EditContents">Edit Contents</string>
     <string name="Placeholder">Placeholder</string>
     <string name="CategoryColon">Category:</string>
-    <string name="TypeColon">Type:</string>/>
+    <string name="TypeColon">Type:</string>
+    <string name="allreceipesonclickpic" />/>
 
 
 </resources>
