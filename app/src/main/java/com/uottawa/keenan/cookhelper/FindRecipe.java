@@ -54,8 +54,6 @@ public class FindRecipe extends AppCompatActivity {
 
         try {
             recipeDB = new CreateDB(getApplicationContext(), "RecipeDB.txt");
-            recipeDB.readContents();
-
             categoryDB = new CreateDB(getApplicationContext(), "CategoriesDB.txt");
             typeDB = new CreateDB(getApplicationContext(), "TypesDB.txt");
         } catch (IOException e) {

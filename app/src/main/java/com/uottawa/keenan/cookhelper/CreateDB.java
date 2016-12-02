@@ -23,7 +23,7 @@ public class CreateDB {
 
     private Context context;
     private File myDataBase; //this is the file that contains data
-    private String dbName; //this string is the name of the database
+    private String dbName; //the name of the database as a string
     private int size = 0; //the size corresponds to the number of lines in the database
 
     /*
@@ -31,14 +31,22 @@ public class CreateDB {
         or references an already existing file with that name
      */
     public CreateDB(Context context, String nameOfDB) throws IOException {
+        try {
+            if (myDataBase.exists()) {
+                myDataBase = new File(context.getFilesDir(), nameOfDB);
+                this.context = context;
+                dbName = nameOfDB;
+            }
+        }catch(NullPointerException ex) {
+            myDataBase = new File(context.getFilesDir(), nameOfDB);
+            this.context = context;
             dbName = nameOfDB;
-            myDataBase = new File(context.getFilesDir(), dbName);
+        }
     }
 
 
     /*
-        This method takes a string and checks if that already exists in the database before adding it
-        to the database
+        Takes a string and checks if it already exists in the database before adding it
      */
     public void addToDB(String stringToAdd) throws IOException {
 
@@ -62,7 +70,7 @@ public class CreateDB {
 
 
     /*
-        This method is used for adding recipes to the recipe database
+        Used for adding recipes to the recipe database
      */
     public boolean addToRecipeDB(String stringToAdd) throws IOException {
 
@@ -93,7 +101,7 @@ public class CreateDB {
 
 
     /*
-        This method deletes a line from the database based on the given string
+        Deletes a line from the database based on the given string
      */
     public boolean removeFromDB(String stringToRemove) throws IOException{
 
@@ -154,7 +162,7 @@ public class CreateDB {
 
 
     /*
-        This method returns an ArrayList of strings that correspond to categories that are used by
+        Returns an ArrayList of strings that correspond to categories that are used by
         active existing recipes. It is used to check if a category is allowed to be removed
         from the UI or not.
      */
@@ -192,7 +200,7 @@ public class CreateDB {
 
 
     /*
-        This method returns an ArrayList of strings that correspond to types that are used by
+        Returns an ArrayList of strings that correspond to types that are used by
         active existing recipes. It is used to check if a type is allowed to be removed
         from the UI or not.
      */
@@ -229,7 +237,7 @@ public class CreateDB {
 
 
     /*
-        This method returns an ArrayList of strings that correspond to ingredients that are used by
+        Returns an ArrayList of strings that correspond to ingredients that are used by
         active existing recipes. It is used to check if an ingredient is allowed to be removed
         from the UI or not.
      */
@@ -268,7 +276,32 @@ public class CreateDB {
 
 
     /*
-        This method is used to check whether a recipe with a given name already exists in the database
+        Used to check whether a string with a given value already exists in the database
+        or not before adding it.
+     */
+    public boolean alreadyExsistsInDB(String stringToCheck) throws IOException {
+
+        boolean existsInDB = false;
+        try  {
+            InputStream input = new FileInputStream(this.myDataBase);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(input, "UTF-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if(line.equals(stringToCheck)){
+                    existsInDB = true;
+                    break;
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return existsInDB;
+    }
+
+
+    /*
+        Used to check whether a recipe with a given name already exists in the database
         or not before adding it.
      */
     public boolean alreadyExsistsInRecipeDB(String stringToCheck) throws IOException {
@@ -295,32 +328,7 @@ public class CreateDB {
 
 
     /*
-        This method is used to check whether a string with a given value already exists in the database
-        or not before adding it.
-     */
-    public boolean alreadyExsistsInDB(String stringToCheck) throws IOException {
-
-        boolean existsInDB = false;
-        try  {
-            InputStream input = new FileInputStream(this.myDataBase);
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(input, "UTF-8"));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if(line.equals(stringToCheck)){
-                    existsInDB = true;
-                    break;
-                }
-            }
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        return existsInDB;
-    }
-
-
-    /*
-        Get Recipe line of database (i.e. recipe posting) by recipe name.
+        Returns Recipe line of database (i.e. recipe posting) by recipe name.
      */
     public String getRecipeListingFromName(String recipeName) throws IOException {
         try  {
@@ -343,7 +351,7 @@ public class CreateDB {
 
 
     /*
-        This method returns all lines in the database as an ArrayList of strings.
+        Returns all lines in the database as an ArrayList of strings.
      */
     public ArrayList<String> getAsArrayList(){
 
