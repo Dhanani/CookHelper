@@ -76,6 +76,9 @@ public class EditRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+        updates ingredients from database
+     */
     public void updateIngredients() {
         String[] temp =  recipe_raw.split("\\|")[4].split("`");
 
@@ -84,6 +87,9 @@ public class EditRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+        updates steps found in database
+     */
     public void updateSteps() {
         String[] temp =  recipe_raw.split("\\|")[3].split("`");
 
@@ -92,15 +98,24 @@ public class EditRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+        updates recipe name found in database
+     */
     public void updateRecipeName() {
         recipe_name =  recipe_raw.split("\\|")[0];
     }
 
+    /*
+        updates category and type found in database
+     */
     public void updateCategoryAndType() {
         recipe_category =  new RecipeCategory( recipe_raw.split("\\|")[1]);
         recipe_type = new RecipeType( recipe_raw.split("\\|")[2]);
     }
 
+    /*
+        updates old ingredients found in database
+     */
     public void getDatabaseItems() {
         ArrayList<String> saved_ings = ingredientDB.getAsArrayList();
         for (String ing : saved_ings) {
@@ -113,6 +128,9 @@ public class EditRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+        updates all ingredients in database by adding a checkbox for each
+     */
     public void updateIngredients(Ingredient ingredient) throws IOException {
         LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
         CheckBox cb = new CheckBox(this);
@@ -125,6 +143,9 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
+    /*
+         checks if ingredient exists in this.ingredients ArrayList<Ingredient>
+     */
     public boolean isMatch(Ingredient new_ingredient) {
         for (Ingredient ingredient : ingredients) {
             if (ingredient.equals(new_ingredient)) {
@@ -134,6 +155,9 @@ public class EditRecipe extends AppCompatActivity {
         return false;
     }
 
+    /*
+        updates this.ingredients arraylist from database ingredients
+     */
     public void updateIngredientsArrayList(){
         all_ingredients.clear();
         ArrayList<String> dbSource = ingredientDB.getAsArrayList();
@@ -144,6 +168,9 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
+    /*
+        Checks for duplicate ingredient in this.ingredients
+     */
     public boolean isDuplicateIngredient(Ingredient new_ingredient) {
         for (Ingredient ingredient : ingredients) {
             if (ingredient.equals(new_ingredient)) {
@@ -153,6 +180,10 @@ public class EditRecipe extends AppCompatActivity {
         return false;
     }
 
+    /*
+        When "Add Ingredient" button is clicked. Add ingredient to db if valid.
+        If invalid, show corresssponding toasts
+     */
     public void OnAddIngredient(View view) throws IOException {
         EditText ingredient_text = (EditText) findViewById(R.id.add_ingredient_editText);
 
@@ -182,6 +213,10 @@ public class EditRecipe extends AppCompatActivity {
 
 
     }
+
+    /*
+        Populates UI components with recipe contents
+     */
     public void setupView() {
         // Set Recipe Name TextBox
         EditText recipe_name_edittext = (EditText) findViewById(R.id.recipe_name_edittext);
@@ -198,7 +233,12 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
-
+    /*
+        When "add step" button is clicked: the step is added to this.steps ArrayList<RecipeStep>
+        The contents of the EditText will be put into a TextView. The EditText will be destroyed.
+        The TextView will have onclick methods to then put the contents of the TextView into the EditText.
+        The TextView is then destroyed. The pattern continues until the user is satisfied.
+     */
     public void OnAddStep(View view) {
         EditText step_text = (EditText) findViewById(R.id.enter_step_editText);
         String step = step_text.getText().toString();
@@ -218,6 +258,9 @@ public class EditRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+        sets up recipe steps view by populating each recipe step
+     */
     public void updateRecipeStepsView() {
         LinearLayout recipe_steps_layout = (LinearLayout) findViewById(R.id.recipe_steps_layout);
         recipe_steps_layout.removeAllViewsInLayout();
@@ -237,6 +280,9 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
+    /*
+        gets child count of a layout. the children must be visible. the children are ui elements
+     */
     private int getVisibleChildCount(LinearLayout layout) {
         int count = 0;
         for (int i = 0; i < layout.getChildCount(); i++) {
@@ -247,6 +293,9 @@ public class EditRecipe extends AppCompatActivity {
         return count;
     }
 
+    /*
+        sets onclicks for textviews
+     */
     public void setOnClicks(final TextView tv, final EditText et, final RecipeStep current_step) {
         final LinearLayout recipe_save_step_btn_layout = (LinearLayout) findViewById(R.id.recipe_save_step_btn_layout);
         LinearLayout delete_step_btn_layout = (LinearLayout) findViewById(R.id.delete_step_btn_layout);
@@ -313,6 +362,9 @@ public class EditRecipe extends AppCompatActivity {
         });
     }
 
+    /*
+        updates category entries
+     */
     public void updateCategoryEntries(){
         category_entries.clear();
         ArrayList<String> dbSource = categoryDB.getAsArrayList();
@@ -321,6 +373,9 @@ public class EditRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+        updates type entries
+     */
     public void updateTypeEntries(){
         type_entries.clear();
         ArrayList<String> dbSource = typeDB.getAsArrayList();
@@ -329,6 +384,9 @@ public class EditRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+        updates cateogry speinner
+     */
     public void updateCategorySpinner() {
         if (category_entries.size()>0){
             Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
@@ -341,6 +399,9 @@ public class EditRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+        updates type spinner
+     */
     public void updateTypeSpinner() {
         if (type_entries.size()>0){
             Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
@@ -354,6 +415,9 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
+    /*
+        checks for duplicate category entry
+     */
     public boolean isDuplicateCategory(String other) {
         for (String s : category_entries) {
             if (s.equals(other)) {
@@ -363,6 +427,9 @@ public class EditRecipe extends AppCompatActivity {
         return false;
     }
 
+    /*
+        checks for duplicate type entry
+     */
     public boolean isDuplicateType(String other) {
         for (String s : type_entries) {
             if (s.equals(other)) {
@@ -372,6 +439,9 @@ public class EditRecipe extends AppCompatActivity {
         return false;
     }
 
+    /*
+        when add category button is clicked. add category to db if valid input
+     */
     public void OnAddCategory(View view) throws IOException {
         EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
         String category_name = category_or_type_editText.getText().toString().trim().toLowerCase();
@@ -398,6 +468,9 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
+    /*
+        when add type button is clicked, add type to db if valid input
+     */
     public void OnAddType(View view) {
         EditText category_or_type_editText = (EditText) findViewById(R.id.category_or_type_editText);
         String type_name = category_or_type_editText.getText().toString().trim().toLowerCase();
@@ -428,6 +501,9 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
+    /*
+        finds ingredient in db with a string
+     */
     public Ingredient findWithString(String s) {
         for (int i = 0; i < ingredients.size(); i ++ ) {
             if (ingredients.get(i).getIngredient().equals(s)) {
@@ -437,6 +513,9 @@ public class EditRecipe extends AppCompatActivity {
         return null;
     }
 
+    /*
+        checks if a string exists in a db
+     */
     public boolean existsInDatabase(String i) {
         ArrayList<String> dbIngs = recipeDB.getIngredientsUsedInRecipes();
 
@@ -449,6 +528,9 @@ public class EditRecipe extends AppCompatActivity {
         return false;
     }
 
+    /*
+        checks if item exists in db
+     */
     public boolean existsInDB(String item, ArrayList<String> db) {
         for (String s : db) {
             if (item.equals(s)) {
@@ -458,6 +540,9 @@ public class EditRecipe extends AppCompatActivity {
         return false;
     }
 
+    /*
+        adds ui components when edit recipe btn is clicked
+     */
     public void OnEditCurrentRecipe(View view) {
         LinearLayout ingredient_elements_layout = (LinearLayout) findViewById(R.id.ingredient_elements_layout);
         LinearLayout save_edit_recipe_layout = (LinearLayout) findViewById(R.id.save_edit_recipe_layout);
@@ -694,6 +779,9 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
+    /*
+        gets selected ingredients from ingredients layout
+     */
     public ArrayList<Ingredient> getSelectedIngredients(){
         LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
         ArrayList<Ingredient> selectedIngredients = new ArrayList<Ingredient>();
@@ -709,6 +797,9 @@ public class EditRecipe extends AppCompatActivity {
 
     }
 
+    /*
+        gets recipe listing that will go in  database
+     */
     public String getRecipeListing(Recipe recipe){
         String recipe_name = recipe.getRecipeName();
         String recipe_category = recipe.getRecipeCategory().getRecipeCategory();
@@ -740,6 +831,9 @@ public class EditRecipe extends AppCompatActivity {
         return out;
     }
 
+    /*
+        saves recipe to database
+     */
     public void OnSaveRecipe(View view) {
         EditText recipe_name_edittext = (EditText) findViewById(R.id.recipe_name_edittext);
         String recipe_name = recipe_name_edittext.getText().toString().trim();
@@ -813,6 +907,9 @@ public class EditRecipe extends AppCompatActivity {
         recipes.clear();
     }
 
+    /*
+        removes recipe from database
+     */
     public void OnDeleteRecipe(View view) {
         try {
             recipeDB.removeFromDB(recipe_raw.split("\\|")[0]);
