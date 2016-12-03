@@ -524,36 +524,38 @@ public class AddRecipe extends AppCompatActivity {
         delete_category_btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
-                if ((category_entries.size() == 1)) {
-                    RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
-                    category_entries.clear();
-                    category_spinner.setAdapter(null);
-                    try {
-                        categoryDB.removeFromDB(selected_item.getRecipeCategory());
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    if (category_spinner.getSelectedItem() == null) {
-                        delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                        delete_category_toast.show();
-                    } else {
+                if (category_entries.size() > 0) {
+                    if ((category_entries.size() == 1)) {
                         RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
+                        category_entries.clear();
+                        category_spinner.setAdapter(null);
                         try {
                             categoryDB.removeFromDB(selected_item.getRecipeCategory());
 
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-//                    category_entries.remove(selected_item.getRecipeCategory());
-                        ((ArrayAdapter<String>) category_spinner.getAdapter()).remove((String)category_spinner.getSelectedItem());
-                        ((ArrayAdapter<String>) category_spinner.getAdapter()).notifyDataSetChanged();
 
+                    } else {
+                        if (category_spinner.getSelectedItem() == null) {
+                            delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                            delete_category_toast.show();
+                        } else {
+                            RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
+                            try {
+                                categoryDB.removeFromDB(selected_item.getRecipeCategory());
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+//                    category_entries.remove(selected_item.getRecipeCategory());
+                            ((ArrayAdapter<String>) category_spinner.getAdapter()).remove((String)category_spinner.getSelectedItem());
+                            ((ArrayAdapter<String>) category_spinner.getAdapter()).notifyDataSetChanged();
+
+                        }
                     }
                 }
-
 
             }
         });
@@ -568,33 +570,37 @@ public class AddRecipe extends AppCompatActivity {
         delete_type_btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
-                if ((type_entries.size() == 1)) {
-                    RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
-                    type_entries.clear();
-                    type_spinner.setAdapter(null);
-                    try {
-                        typeDB.removeFromDB(selected_item.getRecipeType());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else{
-                    if (type_spinner.getSelectedItem() == null) {
-                        delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                        delete_category_toast.show();
-                    } else {
+
+                if (type_entries.size() > 0) {
+                    if ((type_entries.size() == 1)) {
                         RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
+                        type_entries.clear();
+                        type_spinner.setAdapter(null);
                         try {
                             typeDB.removeFromDB(selected_item.getRecipeType());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        ((ArrayAdapter<String>) type_spinner.getAdapter()).remove((String)type_spinner.getSelectedItem());
-                        ((ArrayAdapter<String>) type_spinner.getAdapter()).notifyDataSetChanged();
+                    } else{
+                        if (type_spinner.getSelectedItem() == null) {
+                            delete_category_toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                            delete_category_toast.show();
+                        } else {
+                            RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
+                            try {
+                                typeDB.removeFromDB(selected_item.getRecipeType());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            ((ArrayAdapter<String>) type_spinner.getAdapter()).remove((String)type_spinner.getSelectedItem());
+                            ((ArrayAdapter<String>) type_spinner.getAdapter()).notifyDataSetChanged();
 
 
 
+                        }
                     }
                 }
+
 
 
 
