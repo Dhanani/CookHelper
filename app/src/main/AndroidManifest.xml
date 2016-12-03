@@ -18,12 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddRecipe" />
-        <activity android:name=".Help" />
-        <activity android:name=".FindRecipe" />
-        <activity android:name=".AllRecipes" />
-        <activity android:name=".EditRecipe" />
-        <activity android:name=".RecipeView" />
+        <activity android:name=".AddRecipe"
+            android:label="@string/AddRecipe"/>
+        <activity android:name=".Help"
+            android:label="@string/Help"/>
+        <activity android:name=".FindRecipe"
+            android:label="@string/FindARecipe"/>
+        <activity android:name=".AllRecipes"
+            android:label="@string/AllRecipes"/>
+        <activity android:name=".EditRecipe"
+            android:label="@string/EditRecipe"/>
+        <activity android:name=".RecipeView"
+            android:label="@string/RecipeView"/>
         <activity android:name=".RecipeArrayAdapter"></activity>
     </application>
 

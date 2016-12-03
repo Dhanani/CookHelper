@@ -41,6 +41,7 @@
 
 
     <!-- Recipe_View -->
+    <string name="RecipeView">Recipe View</string>
     <string name="CapsRecipeName">RECIPE NAME</string>
     <string name="PopulateCategory">CATEGORY POPULATED</string>
     <string name="PopulateIngredients">INGREDIENTS POPULATED</string>

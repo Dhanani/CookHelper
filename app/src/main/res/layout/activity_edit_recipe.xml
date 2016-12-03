@@ -24,15 +24,6 @@
             android:id="@+id/main_vertical_layout">
 
             <TextView
-                android:text="@string/EditRecipe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edit_recipe_textView"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:textStyle="normal|bold" />
-
-            <TextView
                 android:text="@string/RecipeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
