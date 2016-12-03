@@ -31,6 +31,9 @@ public class AllRecipes extends AppCompatActivity {
         setup();
     }
 
+    /*
+        load databases, setup listview with recipe names aquired from database
+     */
     public void setup() {
         all_recipes = new ArrayList<Recipe>();
         // Open Database for Recipes
@@ -74,6 +77,9 @@ public class AllRecipes extends AppCompatActivity {
         });
     }
 
+    /*
+        Gets recipes from recipe db
+     */
     public void updateRecipes() {
         ArrayList<String> databaseRecipes = recipeDB.getAsArrayList();
 

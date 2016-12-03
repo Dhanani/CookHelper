@@ -44,7 +44,7 @@ public class FindRecipe extends AppCompatActivity {
         setup();
     }
 
-    //
+    // loads required data from database
     public void setup() {
         category_entries = new ArrayList<>();
         type_entries = new ArrayList<>();
@@ -66,6 +66,10 @@ public class FindRecipe extends AppCompatActivity {
         updateTypeEntries();
         updateTypeSpinner();
     }
+
+    /*
+        adds boolean operator from button
+     */
     private void add_boolean_operator(String operator){
         EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
         String current_text = ingredients_editText.getText().toString().trim().toLowerCase();
@@ -73,18 +77,23 @@ public class FindRecipe extends AppCompatActivity {
         ingredients_editText.setSelection(ingredients_editText.getText().length());
     }
 
+    /*
+        when "AND" is clicked, "and" is added
+     */
     public void OnAnd(View view) {
         add_boolean_operator("and");
     }
 
-    public void OnOr(View view) {
-        add_boolean_operator("or");
-    }
-
+    /*
+        when "NOT" is clicked, "not" is added
+     */
     public void OnNot(View view) {
         add_boolean_operator("not");
     }
 
+    /*
+       updates category entries from db
+     */
     public void updateCategoryEntries(){
         category_entries.clear();
         category_entries.add("");
@@ -94,6 +103,9 @@ public class FindRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+       updates type entries from db
+     */
     public void updateTypeEntries(){
         type_entries.clear();
         type_entries.add("");
@@ -103,6 +115,9 @@ public class FindRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+           updates category spinner using cateogry_entries
+    */
     public void updateCategorySpinner() {
         if (category_entries.size()>0){
             Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
@@ -118,6 +133,9 @@ public class FindRecipe extends AppCompatActivity {
         }
     }
 
+    /*
+           updates type spinner using type_entries
+    */
     public void updateTypeSpinner() {
         if (type_entries.size()>0){
             Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
@@ -209,7 +227,9 @@ public class FindRecipe extends AppCompatActivity {
 
     }
 
-
+    /*
+               Sets up list view
+     */
     public void setupListView(ArrayList<Recipe> orderedRecipes) {
         ArrayList<String> recipeNames = new ArrayList<>();
         for (Recipe r : orderedRecipes) {
