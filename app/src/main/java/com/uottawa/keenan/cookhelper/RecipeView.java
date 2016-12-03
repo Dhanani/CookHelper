@@ -35,7 +35,11 @@ public class RecipeView extends AppCompatActivity {
 
     }
 
+    /*
+        Load databases
+     */
     public void setup() {
+
         try {
             recipeDB = new CreateDB(getApplicationContext(), "RecipeDB.txt");
             tempDB = new CreateDB(getApplicationContext(), "tempDB.txt");
@@ -49,6 +53,7 @@ public class RecipeView extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     /*
         Populates view with: Recipe Name, Recipe Steps, Ingredients, Category & Type
      */
@@ -76,10 +81,17 @@ public class RecipeView extends AppCompatActivity {
         recipe_category_textview.setText(recipe_category.getRecipeCategory());
     }
 
+    /*
+        when edit recipe is clicked -> go to edit recipe view
+    */
     public void OnEditRecipe(View view) {
         Intent intent = new Intent(getApplicationContext(), EditRecipe.class);
         startActivityForResult (intent,0);
     }
+
+    /*
+        updates ingredients from db to this.ingredients
+     */
     public void updateIngredients() {
         ingredients.clear();
         String[] temp =  recipe_raw.split("\\|")[4].split("`");
@@ -89,6 +101,9 @@ public class RecipeView extends AppCompatActivity {
         }
     }
 
+    /*
+        updates steps that are in db to this.steps
+     */
     public void updateSteps() {
         recipe_steps.clear();
         String[] temp =  recipe_raw.split("\\|")[3].split("`");
@@ -98,10 +113,16 @@ public class RecipeView extends AppCompatActivity {
         }
     }
 
+    /*
+        updates recipe name in db to this.recipe_name
+     */
     public void updateRecipeName() {
         recipe_name =  recipe_raw.split("\\|")[0];
     }
 
+    /*
+        updates category and type from db to this.recipe_category and this.recipe_type
+     */
     public void updateCategoryAndType() {
         recipe_category =  new RecipeCategory( recipe_raw.split("\\|")[1]);
         recipe_type = new RecipeType( recipe_raw.split("\\|")[2]);

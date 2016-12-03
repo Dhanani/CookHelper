@@ -44,6 +44,7 @@ public class FindRecipe extends AppCompatActivity {
         setup();
     }
 
+    //
     public void setup() {
         category_entries = new ArrayList<>();
         type_entries = new ArrayList<>();
