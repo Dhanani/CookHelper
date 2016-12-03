@@ -1,29 +1,19 @@
 package com.uottawa.keenan.cookhelper;
 
 import android.content.Context;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import static android.content.Context.MODE_WORLD_READABLE;
 
 /**
  * Created by karim on 11/7/2016.
@@ -31,20 +21,23 @@ import static android.content.Context.MODE_WORLD_READABLE;
 
 public class CreateDB {
 
-    private File myDataBase;
-    private String dbName;
-    private int size = 0;
-    Context context;
+    private Context context;
+    private File myDataBase; //this is the file that contains data
+    private String dbName; //the name of the database as a string
+    private int size = 0; //the size corresponds to the number of lines in the database
 
+    /*
+        The constructor creates a new file with the given name
+        or references an already existing file with that name
+     */
     public CreateDB(Context context, String nameOfDB) throws IOException {
-
         try {
             if (myDataBase.exists()) {
                 myDataBase = new File(context.getFilesDir(), nameOfDB);
                 this.context = context;
                 dbName = nameOfDB;
             }
-        }catch(NullPointerException ex){
+        }catch(NullPointerException ex) {
             myDataBase = new File(context.getFilesDir(), nameOfDB);
             this.context = context;
             dbName = nameOfDB;
@@ -52,6 +45,9 @@ public class CreateDB {
     }
 
 
+    /*
+        Takes a string and checks if it already exists in the database before adding it
+     */
     public void addToDB(String stringToAdd) throws IOException {
 
         try {
@@ -70,10 +66,16 @@ public class CreateDB {
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
-        //readContents();
     }
 
+
+    /*
+        Used for adding recipes to the recipe database
+     */
     public boolean addToRecipeDB(String stringToAdd) throws IOException {
+
+        if(dbName!="RecipeDB.txt")return false;
+
         String recipe_name = stringToAdd.split("\\|")[0];
         System.out.println(recipe_name);
         try {
@@ -95,16 +97,21 @@ public class CreateDB {
             Log.e("Exception", "File write failed: " + e.toString());
             return false;
         }
-        //readContents();
     }
 
+
+    /*
+        Deletes a line from the database based on the given string
+     */
     public boolean removeFromDB(String stringToRemove) throws IOException{
 
         boolean successful = false;
+
+        //if we're dealing RecipeDB then we must take into account
+        //that each line contains delimiters and that the first value is the recipe name
         if(dbName.equals("RecipeDB.txt") ){
 
             File tempFile = new File(context.getFilesDir(), "myTempFile.txt");
-
 
             BufferedReader reader = new BufferedReader(new FileReader(myDataBase));
             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
@@ -127,6 +134,7 @@ public class CreateDB {
             tempFile.delete();
 
         }
+        //if not RecipeDB.txt then compare the string to the line and delete away!
         else{
             File tempFile = new File(context.getFilesDir(), "myTempFile.txt");
 
@@ -152,6 +160,12 @@ public class CreateDB {
         return successful;
     }
 
+
+    /*
+        Returns an ArrayList of strings that correspond to categories that are used by
+        active existing recipes. It is used to check if a category is allowed to be removed
+        from the UI or not.
+     */
     public ArrayList<String> getCategoriesUsedInRecipes(){
 
         if(dbName!="RecipeDB.txt"){
@@ -185,6 +199,11 @@ public class CreateDB {
     }
 
 
+    /*
+        Returns an ArrayList of strings that correspond to types that are used by
+        active existing recipes. It is used to check if a type is allowed to be removed
+        from the UI or not.
+     */
     public ArrayList<String> getTypesUsedInRecipes(){
 
         if(dbName!="RecipeDB.txt"){
@@ -217,6 +236,11 @@ public class CreateDB {
     }
 
 
+    /*
+        Returns an ArrayList of strings that correspond to ingredients that are used by
+        active existing recipes. It is used to check if an ingredient is allowed to be removed
+        from the UI or not.
+     */
     public ArrayList<String> getIngredientsUsedInRecipes(){
 
         if(dbName!="RecipeDB.txt"){
@@ -250,6 +274,36 @@ public class CreateDB {
 
     }
 
+
+    /*
+        Used to check whether a string with a given value already exists in the database
+        or not before adding it.
+     */
+    public boolean alreadyExsistsInDB(String stringToCheck) throws IOException {
+
+        boolean existsInDB = false;
+        try  {
+            InputStream input = new FileInputStream(this.myDataBase);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(input, "UTF-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if(line.equals(stringToCheck)){
+                    existsInDB = true;
+                    break;
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return existsInDB;
+    }
+
+
+    /*
+        Used to check whether a recipe with a given name already exists in the database
+        or not before adding it.
+     */
     public boolean alreadyExsistsInRecipeDB(String stringToCheck) throws IOException {
 
         boolean existsInDB = false;
@@ -272,9 +326,9 @@ public class CreateDB {
         return existsInDB;
     }
 
+
     /*
-        Added by Keenan.
-        Get Recipe line of database (i.e. recipe posting) by recipe name.
+        Returns Recipe line of database (i.e. recipe posting) by recipe name.
      */
     public String getRecipeListingFromName(String recipeName) throws IOException {
         try  {
@@ -295,47 +349,10 @@ public class CreateDB {
         return null;
     }
 
-    public boolean alreadyExsistsInDB(String stringToCheck) throws IOException {
 
-        boolean existsInDB = false;
-        try  {
-            InputStream input = new FileInputStream(this.myDataBase);
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(input, "UTF-8"));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if(line.equals(stringToCheck)){
-                    existsInDB = true;
-                    break;
-                }
-            }
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        return existsInDB;
-    }
-
-
-    public String readContents() throws IOException {
-
-        StringBuilder builder = new StringBuilder();
-
-        try  {
-            InputStream input = new FileInputStream(myDataBase);
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(input, "UTF-8"));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        System.out.println(builder.toString());
-        return builder.toString();
-    }
-
-
+    /*
+        Returns all lines in the database as an ArrayList of strings.
+     */
     public ArrayList<String> getAsArrayList(){
 
         ArrayList<String> dbAsAL = new ArrayList<>(size);
@@ -359,12 +376,17 @@ public class CreateDB {
     }
 
 
-
-
+    /*
+        Getter method for the File that is the database
+     */
     public File getMyDataBase(){
         return myDataBase;
     }
 
+
+    /*
+        Delete the File that is the database from the local directory
+     */
     public void destroyDataBase(){
         myDataBase.delete();
         dbName = null;
@@ -372,7 +394,10 @@ public class CreateDB {
         context = null;
     }
 
-    public String toString(){ return dbName;}
 
+    /*
+        returns the name of the database as a string
+     */
+    public String toString(){ return dbName;}
 
 }
