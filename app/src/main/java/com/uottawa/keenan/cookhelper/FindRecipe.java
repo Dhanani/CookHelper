@@ -401,11 +401,11 @@ public class FindRecipe extends AppCompatActivity {
         ArrayList<ArrayList<String>> userInput = new ArrayList<>();
 
         for(int i=0; i<stringAndInput.length; i++){
-            andIngredients.add(stringAndInput[i]);
+            andIngredients.add(stringAndInput[i].trim());
         }
 
         for (int i=0; i<stringNotInput.length; i++){
-            notIngredients.add(stringNotInput[i]);
+            notIngredients.add(stringNotInput[i].trim());
         }
 
 //        for (int i = 0; i<stringInput.length; i++){

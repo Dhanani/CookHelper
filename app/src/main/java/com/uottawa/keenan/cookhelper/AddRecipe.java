@@ -487,8 +487,8 @@ public class AddRecipe extends AppCompatActivity {
         ArrayList<String> dbCats = recipeDB.getCategoriesUsedInRecipes();
         ArrayList<String> dbTypes = recipeDB.getTypesUsedInRecipes();
 
-        ArrayList<String> tempCats = new ArrayList<>();
-        ArrayList<String> tempTypes = new ArrayList<>();
+        final ArrayList<String> tempCats = new ArrayList<>();
+        final ArrayList<String> tempTypes = new ArrayList<>();
 
 
         if (category_entries.size() > 0) {
@@ -525,10 +525,10 @@ public class AddRecipe extends AppCompatActivity {
             public void onClick(View v) {
                 Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
 
-                if (category_entries.size() > 0) {
-                    if ((category_entries.size() == 1)) {
+                if (tempCats.size() > 0) {
+                    if ((tempCats.size() == 1)) {
                         RecipeCategory selected_item = new RecipeCategory(category_spinner.getSelectedItem().toString());
-                        category_entries.clear();
+                        tempCats.clear();
                         category_spinner.setAdapter(null);
                         try {
                             categoryDB.removeFromDB(selected_item.getRecipeCategory());
@@ -571,10 +571,10 @@ public class AddRecipe extends AppCompatActivity {
             public void onClick(View v) {
                 Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
-                if (type_entries.size() > 0) {
-                    if ((type_entries.size() == 1)) {
+                if (tempTypes.size() > 0) {
+                    if ((tempTypes.size() == 1)) {
                         RecipeType selected_item = new RecipeType(type_spinner.getSelectedItem().toString());
-                        type_entries.clear();
+                        tempTypes.clear();
                         type_spinner.setAdapter(null);
                         try {
                             typeDB.removeFromDB(selected_item.getRecipeType());
