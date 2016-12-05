@@ -23,28 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:text="@string/And"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/AND_btn"
-                android:layout_weight="1"
-                android:onClick="OnAnd"
-                android:theme="@style/PurpleButton"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp"/>
-
-            <Button
-                android:text="@string/Not"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/NOT_btn"
-                android:layout_weight="1"
-                android:onClick="OnNot"
-                android:theme="@style/PurpleButton"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -86,14 +64,6 @@
                 android:id="@+id/type_spinner"
                 android:layout_weight="1" />
         </LinearLayout>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/ingredients_editText"
-            android:hint="@string/HintFindRecipeIngredients" />
 
         <EditText
             android:layout_width="match_parent"

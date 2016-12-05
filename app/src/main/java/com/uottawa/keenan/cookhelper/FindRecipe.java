@@ -16,6 +16,9 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Hasnain
@@ -67,29 +70,29 @@ public class FindRecipe extends AppCompatActivity {
         updateTypeSpinner();
     }
 
-    /*
-        adds boolean operator from button
-     */
-    private void add_boolean_operator(String operator){
-        EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
-        String current_text = ingredients_editText.getText().toString().trim().toLowerCase();
-        ingredients_editText.setText(current_text + " " + operator);
-        ingredients_editText.setSelection(ingredients_editText.getText().length());
-    }
-
-    /*
-        when "AND" is clicked, "and" is added
-     */
-    public void OnAnd(View view) {
-        add_boolean_operator("and");
-    }
-
-    /*
-        when "NOT" is clicked, "not" is added
-     */
-    public void OnNot(View view) {
-        add_boolean_operator("not");
-    }
+//    /*
+//        adds boolean operator from button
+//     */
+//    private void add_boolean_operator(String operator){
+//        EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
+//        String current_text = ingredients_editText.getText().toString().trim().toLowerCase();
+//        ingredients_editText.setText(current_text + " " + operator);
+//        ingredients_editText.setSelection(ingredients_editText.getText().length());
+//    }
+//
+//    /*
+//        when "AND" is clicked, "and" is added
+//     */
+//    public void OnAnd(View view) {
+//        add_boolean_operator("and");
+//    }
+//
+//    /*
+//        when "NOT" is clicked, "not" is added
+//     */
+//    public void OnNot(View view) {
+//        add_boolean_operator("not");
+//    }
 
     /*
        updates category entries from db
@@ -159,8 +162,34 @@ public class FindRecipe extends AppCompatActivity {
             Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
             Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
+            String trimmedNotInput = notIngredients_editText.getText().toString().trim().replaceAll(",\\s+",",");
+            String trimmedAndInput = andIngredients_editText.getText().toString().trim().replaceAll(",\\s+",",");
+            String[] stringNotInput = trimmedNotInput.split(",");
+            String[] stringAndInput = trimmedAndInput.split(",");
+            System.out.println(Arrays.toString(stringAndInput));
+            System.out.println(Arrays.toString(stringNotInput));
+            boolean invalidInput = false;
+
+            for (int i=0; i<stringAndInput.length; i++){
+                for (int j=0; j<stringNotInput.length; j++){
+                    if (stringAndInput[i].equals(stringNotInput[j])) {
+                        System.out.println("true");
+                        invalidInput = true;
+                        break;
+                    }
+                }
+            }
+
             if (true){
-                if (category_spinner.getSelectedItem().toString().isEmpty() &&
+                if (invalidInput){
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(this, "Cannot enter same ingredient in both search boxes", duration);
+
+                    toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                    toast.show();
+                }
+
+                else if (category_spinner.getSelectedItem().toString().isEmpty() &&
                         type_spinner.getSelectedItem().toString().isEmpty() &&
                         andIngredients_editText.getText().toString().trim().isEmpty() &&
                         notIngredients_editText.getText().toString().trim().isEmpty()){
@@ -369,7 +398,6 @@ public class FindRecipe extends AppCompatActivity {
 
         for(int i=0; i<stringAndInput.length; i++){
             andIngredients.add(stringAndInput[i]);
-            System.out.println(stringAndInput[i]);
         }
 
         for (int i=0; i<stringNotInput.length; i++){
@@ -390,11 +418,9 @@ public class FindRecipe extends AppCompatActivity {
 //                notIngredients.add(stringInput[i+1].trim());
 //            }
 //        }
+
         userInput.add(andIngredients);
         userInput.add(notIngredients);
-        System.out.println(andIngredients);
-        System.out.println(notIngredients);
-        System.out.println(userInput);
         return userInput;
     }
 
