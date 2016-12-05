@@ -95,6 +95,22 @@
             android:id="@+id/ingredients_editText"
             android:hint="@string/HintFindRecipeIngredients" />
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/and_ingredients_editText"
+            android:hint="@string/andIngredients" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/not_ingredients_editText"
+            android:hint="@string/not_ingredients" />
+
         <Button
             android:text="@string/Search"
             android:layout_width="match_parent"
