@@ -170,12 +170,15 @@ public class FindRecipe extends AppCompatActivity {
             System.out.println(Arrays.toString(stringNotInput));
             boolean invalidInput = false;
 
-            for (int i=0; i<stringAndInput.length; i++){
-                for (int j=0; j<stringNotInput.length; j++){
-                    if (stringAndInput[i].equals(stringNotInput[j])) {
-                        System.out.println("true");
-                        invalidInput = true;
-                        break;
+            if (!andIngredients_editText.getText().toString().trim().isEmpty() ||
+                    !notIngredients_editText.getText().toString().trim().isEmpty()) {
+                for (int i = 0; i < stringAndInput.length; i++) {
+                    for (int j = 0; j < stringNotInput.length; j++) {
+                        if (stringAndInput[i].equals(stringNotInput[j])) {
+                            System.out.println("true");
+                            invalidInput = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -389,6 +392,7 @@ public class FindRecipe extends AppCompatActivity {
 
         String trimmedNotInput = notInput.trim().replaceAll(",\\s+",",");
         String trimmedAndInput = andInput.trim().replaceAll(",\\s+",",");
+
         String[] stringNotInput = trimmedNotInput.split(",");
         String[] stringAndInput = trimmedAndInput.split(",");
 
