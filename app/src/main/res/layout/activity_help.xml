@@ -26,19 +26,13 @@
             android:layout_height="match_parent">
 
             <ImageView
-                app:srcCompat="@drawable/add_page"
-                android:id="@+id/imageView2"
-                android:layout_marginTop="69dp"
-                android:adjustViewBounds="false"
-                android:cropToPadding="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
+                android:layout_height="250dp"
+                app:srcCompat="@drawable/add_page"
+                android:id="@+id/imageView5" />
 
             <TextView
-                android:text="This page is where you can edit a new recipe or edit an exisitng recipe.in order to make a recipe you must add at least one ingredient, add at least 1 step and the the category of the meal (I.e breakfast,lunch,brunch,etc) and you must state the type of the dinner.In order to add an ingredient, you type the ingredient that you want in the enter ingredients box, and after typing your desired ingredient press on add ingredients option. If you would like to add a step you simply type it in the textbox that says add step and when you're done typing the first step simply press add step. For the category and type options, previous options will be saved from different recipes, so if you're repeating something in the category you can press on the drop down to get the category or type. If not then type the category or type in the category/type box and depending on what is it add category will store it in category or add type will store in type. Whenever you're done you can press save recipe, if you made a mistake at all you can always press edit recipe to correct whatever you added, and you have the option of deleting the current recipe that you're on "
+                android:text="This page is where you can edit a new recipe or edit an existing recipe.in order to make a recipe you must add at least one ingredient, add at least 1 step and then the category of the meal (I.e. breakfast,lunch,brunch,etc) and you must state the type of dinner. In order to add an ingredient, you must type the ingredient that you want in the enter ingredients box, and after typing your desired ingredient press on add ingredients option. If you would like to add a step you simply type it in the textbox that says add step and when you're done typing simply press add step. For the category and type options, previous options will be saved from different recipes, so if you're repeating something in the category you can press on the drop down to get the category or type. If not then type the category or type in the category/type box and depending on what is it add category will store it in category or add type will store in type. Whenever you're done you can press save recipe, if you made a mistake at all you can always press edit recipe to correct whatever you added, and you have the option of deleting the current recipe that you're on."
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2"
@@ -46,18 +40,13 @@
                 android:textColor="@color/colorPrimary" />
 
             <ImageView
-                app:srcCompat="@drawable/all_recipes_page"
-                android:id="@+id/imageView3"
                 android:layout_width="match_parent"
-                android:layout_marginTop="69dp"
-                android:adjustViewBounds="true"
                 android:layout_height="250dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                app:srcCompat="@drawable/all_recipes_page"
+                android:id="@+id/imageView6" />
 
             <TextView
-                android:text="If you press on the all recipes buttons this is the page that comes up as seen above, if you press on the recipe above it will take you to the page on the bottom."
+                android:text="If you press on the all recipes button, this is the page that will come up as seen above, if you press on a recipe it will take you to the next page that will be discussed below."
                 android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,20 +54,13 @@
                 android:textColor="@color/colorPrimary" />
 
             <ImageView
-                app:srcCompat="@drawable/onclick_all_recipes"
-                android:id="@+id/imageView6"
-                android:layout_height="250dp"
-                android:layout_marginTop="12dp"
-                android:layout_below="@+id/imageView3"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:adjustViewBounds="false"
-                android:cropToPadding="false"
                 android:layout_width="match_parent"
-                android:layout_weight="0.66" />
+                android:layout_height="250dp"
+                app:srcCompat="@drawable/onclick_all_recipes"
+                android:id="@+id/imageView7" />
 
             <TextView
-                android:text="If you press on any recipe in all recipes this is the screen that will appear, if you press on edit recipe button it will take you to the page under which is the edit recipe page if you need further instructions on the edit recipe page please visit the first page for help"
+                android:text="If you press on any recipe in all recipes this is the screen that will appear, if you press on edit recipe button it will take you to the first screen discussed in the beginning of the page. if there are any issues/clarification please scroll up to the first screen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView3"
@@ -88,8 +70,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                app:srcCompat="@drawable/search_recipes_page"
-                android:id="@+id/imageView9" />
+                app:srcCompat="@drawable/search_recipes"
+                android:id="@+id/imageView8" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -97,7 +79,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="This is the page that will appear if you press on the find a recipe button,in order to find a recipe you press the category and type and what ingredients are in the recipe in the enter ingredients textbox, you can press on the add button to state another ingredient in the recipe or you can type it in and if you want to make sure that a certain ingredient is not in the recipe you're searching for you can press on the not button or type in not.After that the results will show up as you can see in the above screen "
+                    android:text="This is the page that will appear if you press on the Search recipe button,in order to find a recipe type the ingredients that the recipe contains in the And textbox with a comma or an and serparting them,if there are any unwanted ingredients type them in the not textbox, then press search. All resutls will be displayed under the search button, or if you want a specific category or category of recipes choose on one and press search "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView4"
