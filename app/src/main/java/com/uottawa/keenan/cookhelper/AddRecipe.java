@@ -611,6 +611,11 @@ public class AddRecipe extends AppCompatActivity {
 
 
         final LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+
+        for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+            ((CheckBox)ingredients_layout.getChildAt(i)).setChecked(false);
+        }
+
         for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
             CheckBox ingCB = (CheckBox)ingredients_layout.getChildAt(i);
             String ingCBText = ingCB.getText().toString();
@@ -663,6 +668,8 @@ public class AddRecipe extends AppCompatActivity {
         delete_ingredient_btn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+
+
                 for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
                     if(((CheckBox)ingredients_layout.getChildAt(i)).isChecked()) {
                         ((CheckBox)ingredients_layout.getChildAt(i)).setChecked(false);

@@ -695,6 +695,11 @@ public class EditRecipe extends AppCompatActivity {
         });
 
         final LinearLayout ingredients_layout = (LinearLayout) findViewById(R.id.ingredients_layout);
+
+        for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
+            ((CheckBox)ingredients_layout.getChildAt(i)).setChecked(false);
+        }
+        
         for (int i = 0; i < ingredients_layout.getChildCount(); i++) {
             CheckBox ingCB = (CheckBox)ingredients_layout.getChildAt(i);
             String ingCBText = ingCB.getText().toString();
