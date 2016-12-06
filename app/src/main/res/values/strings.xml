@@ -85,7 +85,9 @@
     <string name="Placeholder">Placeholder</string>
     <string name="CategoryColon">Category:</string>
     <string name="TypeColon">Type:</string>
-    <string name="allreceipesonclickpic" />/>
+    <string name="allreceipesonclickpic" />
+    <string name="andIngredients">AND Ingredients</string>
+    <string name="not_ingredients">NOT Ingredients</string>/>
 
 
 </resources>

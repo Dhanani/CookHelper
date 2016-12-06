@@ -16,6 +16,9 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Hasnain
@@ -67,29 +70,29 @@ public class FindRecipe extends AppCompatActivity {
         updateTypeSpinner();
     }
 
-    /*
-        adds boolean operator from button
-     */
-    private void add_boolean_operator(String operator){
-        EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
-        String current_text = ingredients_editText.getText().toString().trim().toLowerCase();
-        ingredients_editText.setText(current_text + " " + operator);
-        ingredients_editText.setSelection(ingredients_editText.getText().length());
-    }
-
-    /*
-        when "AND" is clicked, "and" is added
-     */
-    public void OnAnd(View view) {
-        add_boolean_operator("and");
-    }
-
-    /*
-        when "NOT" is clicked, "not" is added
-     */
-    public void OnNot(View view) {
-        add_boolean_operator("not");
-    }
+//    /*
+//        adds boolean operator from button
+//     */
+//    private void add_boolean_operator(String operator){
+//        EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
+//        String current_text = ingredients_editText.getText().toString().trim().toLowerCase();
+//        ingredients_editText.setText(current_text + " " + operator);
+//        ingredients_editText.setSelection(ingredients_editText.getText().length());
+//    }
+//
+//    /*
+//        when "AND" is clicked, "and" is added
+//     */
+//    public void OnAnd(View view) {
+//        add_boolean_operator("and");
+//    }
+//
+//    /*
+//        when "NOT" is clicked, "not" is added
+//     */
+//    public void OnNot(View view) {
+//        add_boolean_operator("not");
+//    }
 
     /*
        updates category entries from db
@@ -152,16 +155,47 @@ public class FindRecipe extends AppCompatActivity {
         Executed when search button is pressed.
     */
     public void OnSearch(View view) {
-        EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
+        EditText andIngredients_editText = (EditText) findViewById(R.id.and_ingredients_editText);
+        EditText notIngredients_editText = (EditText) findViewById(R.id.not_ingredients_editText);
 
         try {
             Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
             Spinner type_spinner = (Spinner) findViewById(R.id.type_spinner);
 
+            String trimmedNotInput = notIngredients_editText.getText().toString().trim().replaceAll(",\\s+",",");
+            String trimmedAndInput = andIngredients_editText.getText().toString().trim().replaceAll(",\\s+",",");
+            String[] stringNotInput = trimmedNotInput.split(",");
+            String[] stringAndInput = trimmedAndInput.split(",");
+            System.out.println(Arrays.toString(stringAndInput));
+            System.out.println(Arrays.toString(stringNotInput));
+            boolean invalidInput = false;
+
+            if (!andIngredients_editText.getText().toString().trim().isEmpty() ||
+                    !notIngredients_editText.getText().toString().trim().isEmpty()) {
+                for (int i = 0; i < stringAndInput.length; i++) {
+                    for (int j = 0; j < stringNotInput.length; j++) {
+                        if (stringAndInput[i].equals(stringNotInput[j])) {
+                            System.out.println("true");
+                            invalidInput = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             if (true){
-                if (category_spinner.getSelectedItem().toString().isEmpty() &&
+                if (invalidInput){
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(this, "Cannot enter same ingredient in both search boxes", duration);
+
+                    toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+                    toast.show();
+                }
+
+                else if (category_spinner.getSelectedItem().toString().isEmpty() &&
                         type_spinner.getSelectedItem().toString().isEmpty() &&
-                        ingredients_editText.getText().toString().trim().isEmpty()) {
+                        andIngredients_editText.getText().toString().trim().isEmpty() &&
+                        notIngredients_editText.getText().toString().trim().isEmpty()){
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(this, "You need to select category/type or choose ingredients", duration);
 
@@ -169,24 +203,16 @@ public class FindRecipe extends AppCompatActivity {
                     toast.show();
                 }
 
-                else if (!ingredients_editText.getText().toString().trim().isEmpty()){
+                else if (!andIngredients_editText.getText().toString().trim().isEmpty() ||
+                        !notIngredients_editText.getText().toString().trim().isEmpty()){
 
-                    if (ingredients_editText.getText().toString().trim().equals("and") ||
-                            ingredients_editText.getText().toString().trim().equals("not")) {
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(this, "Not valid input!", duration);
-
-                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-                        toast.show();
-
-                    }
-                    else  {
-                        ArrayList<Recipe> orderedRecipes =
-                                findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
+                    ArrayList<Recipe> orderedRecipes =
+                                findRelevantRecipes(andIngredients_editText.getText().toString(),
+                                        notIngredients_editText.getText().toString(),recipeDB);
 
                         if (orderedRecipes.size() == 0){
                             int duration = Toast.LENGTH_SHORT;
-                            Toast toast = Toast.makeText(this, "No Recipes Found!", duration);
+                            Toast toast = Toast.makeText(this, "No Recipes Found!!!!!!", duration);
 
                             toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
                             toast.show();
@@ -194,7 +220,31 @@ public class FindRecipe extends AppCompatActivity {
                             // Recipes found > 0
                             setupListView(orderedRecipes);
                         }
-                    }
+
+////                    if (ingredients_editText.getText().toString().trim().equals("and") ||
+////                            ingredients_editText.getText().toString().trim().equals("not")) {
+////                        int duration = Toast.LENGTH_SHORT;
+////                        Toast toast = Toast.makeText(this, "Not valid input!", duration);
+////
+////                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+////                        toast.show();
+////
+////                    }
+//                    else  {
+//                        ArrayList<Recipe> orderedRecipes =
+//                                findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
+//
+//                        if (orderedRecipes.size() == 0){
+//                            int duration = Toast.LENGTH_SHORT;
+//                            Toast toast = Toast.makeText(this, "No Recipes Found!", duration);
+//
+//                            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
+//                            toast.show();
+//                        } else {
+//                            // Recipes found > 0
+//                            setupListView(orderedRecipes);
+//                        }
+//                    }
                 }
                 else if (!category_spinner.getSelectedItem().toString().isEmpty() ||
                         !type_spinner.getSelectedItem().toString().isEmpty()) {
@@ -326,7 +376,7 @@ public class FindRecipe extends AppCompatActivity {
      */
     public static String getName(String recipe) throws IOException{
 
-        String[] name =  recipe.split("\\|")[0].split("`");
+        String[] name = recipe.split("\\|")[0].split("`");
         return name[0] ;
     }
 
@@ -334,31 +384,45 @@ public class FindRecipe extends AppCompatActivity {
     /**
      * Formats user input ingredients into a list of two arrayLists (index 0 is all wanted
      * ingredients, index 1 is not wanted ingredients)
-     * @param input
+     * @param andInput
+     * @param notInput
      * @return
      */
-    public ArrayList<ArrayList<String>> setUserInput (String input){
+    public ArrayList<ArrayList<String>> setUserInput (String andInput, String notInput){
 
-        String trimmedInput = input.trim().replaceAll(" +", " ");
-        String[] stringInput = trimmedInput.split(" ");
+        String trimmedNotInput = notInput.trim().replaceAll(",\\s+",",");
+        String trimmedAndInput = andInput.trim().replaceAll(",\\s+",",");
+
+        String[] stringNotInput = trimmedNotInput.split(",");
+        String[] stringAndInput = trimmedAndInput.split(",");
+
         ArrayList<String> andIngredients = new ArrayList<String>();
         ArrayList<String> notIngredients = new ArrayList<String>();
         ArrayList<ArrayList<String>> userInput = new ArrayList<>();
 
-        for (int i = 0; i<stringInput.length; i++){
-            if (!stringInput[i].equals("and") && !stringInput[i].equals("not") ){
-                try{
-                    if (!stringInput[i-1].equals("not")){
-                        andIngredients.add(stringInput[i].trim());
-                    }
-                }catch (ArrayIndexOutOfBoundsException e){
-                    andIngredients.add(stringInput[i].trim());
-                }
-            }
-            if (stringInput[i].equals("not") && !stringInput[stringInput.length-1].equals("not")){
-                notIngredients.add(stringInput[i+1].trim());
-            }
+        for(int i=0; i<stringAndInput.length; i++){
+            andIngredients.add(stringAndInput[i].trim());
         }
+
+        for (int i=0; i<stringNotInput.length; i++){
+            notIngredients.add(stringNotInput[i].trim());
+        }
+
+//        for (int i = 0; i<stringInput.length; i++){
+//            if (!stringInput[i].equals("and") && !stringInput[i].equals("not") ){
+//                try{
+//                    if (!stringInput[i-1].equals("not")){
+//                        andIngredients.add(stringInput[i].trim());
+//                    }
+//                }catch (ArrayIndexOutOfBoundsException e){
+//                    andIngredients.add(stringInput[i].trim());
+//                }
+//            }
+//            if (stringInput[i].equals("not") && !stringInput[stringInput.length-1].equals("not")){
+//                notIngredients.add(stringInput[i+1].trim());
+//            }
+//        }
+
         userInput.add(andIngredients);
         userInput.add(notIngredients);
         return userInput;
@@ -399,17 +463,17 @@ public class FindRecipe extends AppCompatActivity {
 
     /**
      * Takes in user input and finds relevant recipes in the database
-     * @param userInput
+     * @param userNotInput
      * @param database
      * @throws IOException
      */
-    public ArrayList<Recipe> findRelevantRecipes (String userInput, CreateDB database)
+    public ArrayList<Recipe> findRelevantRecipes (String userAndInput, String userNotInput, CreateDB database)
             throws IOException{
 
         ArrayList<String> databaseRecipes = database.getAsArrayList();
         ArrayList<String> relevance = new ArrayList<>();
         ArrayList<String> relevantRecipes = new ArrayList<String>();
-        ArrayList<ArrayList<String>> userIngredients = setUserInput(userInput);
+        ArrayList<ArrayList<String>> userIngredients = setUserInput(userAndInput, userNotInput);
         ArrayList<ArrayList<String>> indexedRecipes = new ArrayList<ArrayList<String>>();
 
         Spinner category_spinner = (Spinner) findViewById(R.id.category_spinner);
