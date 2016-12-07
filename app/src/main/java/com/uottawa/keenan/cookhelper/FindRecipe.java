@@ -70,30 +70,7 @@ public class FindRecipe extends AppCompatActivity {
         updateTypeSpinner();
     }
 
-//    /*
-//        adds boolean operator from button
-//     */
-//    private void add_boolean_operator(String operator){
-//        EditText ingredients_editText = (EditText) findViewById(R.id.ingredients_editText);
-//        String current_text = ingredients_editText.getText().toString().trim().toLowerCase();
-//        ingredients_editText.setText(current_text + " " + operator);
-//        ingredients_editText.setSelection(ingredients_editText.getText().length());
-//    }
-//
-//    /*
-//        when "AND" is clicked, "and" is added
-//     */
-//    public void OnAnd(View view) {
-//        add_boolean_operator("and");
-//    }
-//
-//    /*
-//        when "NOT" is clicked, "not" is added
-//     */
-//    public void OnNot(View view) {
-//        add_boolean_operator("not");
-//    }
-
+    
     /*
        updates category entries from db
      */
@@ -221,30 +198,6 @@ public class FindRecipe extends AppCompatActivity {
                             setupListView(orderedRecipes);
                         }
 
-////                    if (ingredients_editText.getText().toString().trim().equals("and") ||
-////                            ingredients_editText.getText().toString().trim().equals("not")) {
-////                        int duration = Toast.LENGTH_SHORT;
-////                        Toast toast = Toast.makeText(this, "Not valid input!", duration);
-////
-////                        toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-////                        toast.show();
-////
-////                    }
-//                    else  {
-//                        ArrayList<Recipe> orderedRecipes =
-//                                findRelevantRecipes(ingredients_editText.getText().toString(), recipeDB);
-//
-//                        if (orderedRecipes.size() == 0){
-//                            int duration = Toast.LENGTH_SHORT;
-//                            Toast toast = Toast.makeText(this, "No Recipes Found!", duration);
-//
-//                            toast.setGravity(Gravity.TOP|Gravity.LEFT, 450, 430);
-//                            toast.show();
-//                        } else {
-//                            // Recipes found > 0
-//                            setupListView(orderedRecipes);
-//                        }
-//                    }
                 }
                 else if (!category_spinner.getSelectedItem().toString().isEmpty() ||
                         !type_spinner.getSelectedItem().toString().isEmpty()) {
