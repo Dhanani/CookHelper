@@ -1,6 +1,3 @@
 # CookHelper
 
-An Android application.
-
-## Coding Standards
-1. No broken shit in `master`.
+An Android application that helps you decide what to cook based on available ingredients.
